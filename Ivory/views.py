@@ -1,0 +1,115 @@
+import logging
+
+from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib import messages
+from .models import Client, ContactMessage, Project, AboutCompany, TeamMember
+from .models import PopupAd, Service
+from .emails import send_contact_confirmation
+
+logger = logging.getLogger(__name__)
+
+
+
+def home(request):
+
+    featured_projects = Project.objects.filter(
+        featured=True
+    ).order_by("-year")[:6]
+
+    popups = PopupAd.objects.filter(
+        is_active=True
+    )
+
+    clients = Client.objects.filter(is_active=True).order_by("order", "pk")
+
+    return render(
+        request,
+        "homepage/home.html",
+        {
+            "featured_projects": featured_projects,
+            "popups": popups,
+            "clients": clients,
+        }
+    )
+
+#contact page
+def contact(request):
+
+    if request.method == "POST":
+
+        name = request.POST.get("name")
+        email = request.POST.get("email")
+        contact_number = request.POST.get("contact")
+        message = request.POST.get("message")
+
+        # Save contact message to database
+        enquiry = ContactMessage.objects.create(
+            name=name,
+            email=email,
+            contact=contact_number,
+            message=message
+        )
+
+        # Email is an additional side effect: an outage must not undo a saved
+        # enquiry or encourage the visitor to submit the same form again.
+        try:
+            if send_contact_confirmation(enquiry) != 1:
+                logger.error("Contact confirmation was not sent for enquiry %s.", enquiry.pk)
+        except Exception as exc:
+            # Keep visitor details, SMTP responses and credentials out of logs.
+            logger.error(
+                "Contact confirmation failed for enquiry %s (%s).",
+                enquiry.pk, type(exc).__name__,
+            )
+
+        # Success message
+        messages.success(
+            request,
+            "Thank you for contacting Ivory Design Studio. "
+            "Your message has been successfully submitted. "
+            "We will get back to you soon."
+        )
+
+        # Redirect to homepage
+        return redirect("home")
+
+    return render(request, "homepage/contact.html")
+
+#projects page
+
+def projects(request):
+    all_projects = Project.objects.all().order_by('-created_at')
+
+    return render(request, 'homepage/projects.html', {
+        'projects': all_projects
+    })
+#About us page
+def about(request):
+
+    company = AboutCompany.objects.first()
+
+    team_members = TeamMember.objects.filter(
+        is_active=True
+    )
+
+    context = {
+        "company": company,
+        "team_members": team_members,
+    }
+
+    return render(
+        request,"homepage/about.html",context)
+
+
+def services(request):
+    return render(request, "homepage/services.html", {
+        "services": Service.objects.filter(is_active=True),
+    })
+
+
+def team_portfolio(request, pk):
+    member = get_object_or_404(TeamMember, pk=pk, is_active=True)
+    return render(request, "homepage/team_portfolio.html", {
+        "member": member,
+        "portfolio": member.portfolio.filter(is_active=True),
+    })

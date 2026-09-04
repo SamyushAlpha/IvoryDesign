@@ -1,0 +1,15 @@
+# Gmail and OpenAI credentials must never be committed.
+.env
+.env.*
+!.env.example
+backups/
+private_support/
+.vercel/
+.venv/
+venv/
+staticfiles/
+__pycache__/
+*.py[cod]
+.DS_Store
+*.sqlite3-journal
+db.sqlite3

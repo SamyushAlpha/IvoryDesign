@@ -1,0 +1,15 @@
+<defs>
+    <clipPath id="cab-window-{{ entry }}"><rect x="{{ clipx }}" y="{{ clipy }}" width="{{ clipw }}" height="{{ cliph }}" rx="2"/></clipPath>
+    <linearGradient id="cab-glass-{{ entry }}" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#e0eeea" stop-opacity=".2"/><stop offset="1" stop-color="#506e66" stop-opacity=".06"/></linearGradient>
+</defs>
+<g clip-path="url(#cab-window-{{ entry }})">
+    <rect x="{{ clipx }}" y="{{ clipy }}" width="{{ clipw }}" height="{{ cliph }}" fill="#526c63" fill-opacity=".65" stroke="none"/>
+    <g transform="translate({{ cx }} {{ cy }}) scale({{ driver_scale }})">{% include 'components/seated_driver.html' %}</g>
+    <rect x="{{ clipx }}" y="{{ clipy }}" width="{{ clipw }}" height="{{ cliph }}" fill="url(#cab-glass-{{ entry }})" stroke="none"/>
+</g>
+<!-- Door opens at this hinge before anyone enters or leaves. -->
+<g class="vehicle-door" data-hinge-x="{{ hinge_x }}" data-hinge-y="{{ hinge_y }}" transform="translate({{ hinge_x }} {{ hinge_y }})">
+    <rect width="{{ door_width }}" height="{{ door_height }}" rx="2" fill="#a6c8bc" fill-opacity=".12" stroke="#52675d" stroke-width="1.8"/>
+    <path d="M4 4L12 4L4 19" fill="#edf4e9" fill-opacity=".4" stroke="none"/>
+    <path d="M5 {{ handle_y }}H12" stroke="#eae7d4" stroke-width="2"/>
+</g>

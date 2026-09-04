@@ -1,0 +1,3200 @@
+/* =========================================================
+   IVORY DESIGN STUDIO
+   MAIN WEBSITE STYLES
+========================================================= */
+
+
+/* =========================================================
+   GLOBAL
+========================================================= */
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+    font-family: 'DM Sans', sans-serif;
+    background: #f4f1e9;
+    color: #1c1c19;
+}
+
+
+/* =========================================================
+   PAGE LOCK WHEN POPUP IS OPEN
+========================================================= */
+
+body.popup-open {
+    overflow: hidden !important;
+}
+
+
+/* =========================================================
+   OLD LOGO SUPPORT
+========================================================= */
+
+.logo-text {
+    background: linear-gradient(
+        90deg,
+        #4CAF50,
+        #8BC34A,
+        #FFC107,
+        #FF5722
+    );
+
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+
+/* =========================================================
+   IVORY DESIGN PREMIUM HERO
+========================================================= */
+
+.ivory-hero {
+    position: relative;
+    width: 100%;
+    min-height: 100vh;
+    overflow: hidden;
+    background: #e9e5dc;
+    color: #f8f6f0;
+}
+
+
+/* =========================================================
+   HERO BACKGROUND
+========================================================= */
+
+.ivory-hero-bg {
+    position: absolute;
+    inset: 0;
+
+    background-image:
+        url("{% static 'images/interior-hero.jpg' %}");
+
+    background-size: cover;
+    background-position: center;
+
+    transform: scale(1.03);
+
+    animation:
+        ivoryBackground
+        18s
+        ease-in-out
+        infinite
+        alternate;
+}
+
+
+@keyframes ivoryBackground {
+
+    from {
+        transform: scale(1.03);
+    }
+
+    to {
+        transform: scale(1.08);
+    }
+
+}
+
+
+/* =========================================================
+   HERO DARK OVERLAY
+========================================================= */
+
+.ivory-hero-overlay {
+    position: absolute;
+    inset: 0;
+
+    background:
+        linear-gradient(
+            90deg,
+            rgba(15,15,13,0.78) 0%,
+            rgba(15,15,13,0.50) 45%,
+            rgba(15,15,13,0.20) 100%
+        );
+}
+
+
+/* =========================================================
+   NAVIGATION
+========================================================= */
+
+.ivory-nav {
+    position: absolute;
+
+    top: 0;
+    left: 0;
+    right: 0;
+
+    height: 100px;
+
+    padding: 0 5%;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    z-index: 20;
+}
+
+
+/* =========================================================
+   IVORY LOGO
+========================================================= */
+
+.ivory-logo {
+    display: flex;
+    align-items: center;
+
+    gap: 14px;
+
+    text-decoration: none;
+    color: white;
+}
+
+
+.logo-mark {
+    width: 44px;
+    height: 44px;
+
+    border: 1px solid rgba(255,255,255,0.75);
+
+    border-radius: 50%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-family: 'Playfair Display', serif;
+
+    font-size: 21px;
+}
+
+
+.logo-name {
+    display: flex;
+    flex-direction: column;
+
+    line-height: 1;
+}
+
+
+.logo-name span {
+    font-size: 15px;
+
+    letter-spacing: 0.30em;
+
+    font-weight: 500;
+}
+
+
+.logo-name small {
+    margin-top: 7px;
+
+    font-size: 7px;
+
+    letter-spacing: 0.35em;
+
+    opacity: 0.65;
+}
+
+
+/* =========================================================
+   DESKTOP NAVIGATION
+========================================================= */
+
+.ivory-nav-links {
+    display: flex;
+    align-items: center;
+
+    gap: 42px;
+}
+
+
+.ivory-nav-links a {
+    position: relative;
+
+    color: white;
+
+    text-decoration: none;
+
+    font-size: 10px;
+
+    letter-spacing: 0.20em;
+
+    opacity: 0.80;
+
+    transition: 0.3s ease;
+}
+
+
+.ivory-nav-links a:hover {
+    opacity: 1;
+}
+
+
+.ivory-nav-links a::after {
+    content: "";
+
+    position: absolute;
+
+    left: 0;
+    bottom: -8px;
+
+    width: 0;
+    height: 1px;
+
+    background: white;
+
+    transition: width 0.3s ease;
+}
+
+
+.ivory-nav-links a:hover::after {
+    width: 100%;
+}
+
+
+/* =========================================================
+   MOBILE MENU BUTTON
+========================================================= */
+
+.ivory-menu-btn {
+    display: none;
+
+    width: 42px;
+    height: 42px;
+
+    background: transparent;
+
+    border: 1px solid rgba(255,255,255,0.5);
+
+    border-radius: 50%;
+
+    cursor: pointer;
+
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    gap: 6px;
+}
+
+
+.ivory-menu-btn span {
+    width: 16px;
+    height: 1px;
+
+    background: white;
+}
+
+
+/* =========================================================
+   MOBILE MENU
+========================================================= */
+
+.ivory-mobile-menu {
+    display: none;
+
+    position: absolute;
+
+    top: 90px;
+
+    left: 5%;
+    right: 5%;
+
+    padding: 25px;
+
+    background: rgba(20,20,18,0.96);
+
+    backdrop-filter: blur(15px);
+
+    z-index: 30;
+}
+
+
+.ivory-mobile-menu a {
+    display: block;
+
+    color: white;
+
+    text-decoration: none;
+
+    padding: 15px 0;
+
+    border-bottom:
+        1px solid rgba(255,255,255,0.1);
+
+    font-size: 11px;
+
+    letter-spacing: 0.20em;
+}
+
+
+.ivory-mobile-menu.active {
+    display: block;
+}
+
+
+/* =========================================================
+   HERO CONTENT
+========================================================= */
+
+.ivory-hero-content {
+    position: relative;
+
+    z-index: 5;
+
+    min-height: 100vh;
+
+    display: flex;
+
+    flex-direction: column;
+
+    justify-content: center;
+
+    align-items: flex-start;
+
+    padding-left: 9%;
+    padding-right: 9%;
+
+    max-width: 1100px;
+}
+
+
+/* =========================================================
+   HERO SMALL LABEL
+========================================================= */
+
+.hero-small-label {
+    margin-bottom: 25px;
+
+    font-size: 9px;
+
+    letter-spacing: 0.35em;
+
+    font-weight: 400;
+
+    opacity: 0.72;
+}
+
+
+/* =========================================================
+   TYPEWRITER
+========================================================= */
+
+.ivory-title {
+    margin: 0;
+
+    min-height: 1.1em;
+
+    font-family: 'Playfair Display', serif;
+
+    font-size: clamp(52px, 8vw, 125px);
+
+    font-weight: 400;
+
+    line-height: 0.95;
+
+    letter-spacing: -0.03em;
+
+    text-transform: uppercase;
+
+    color: #f5f1e8;
+}
+
+
+.typewriter-cursor {
+    display: inline-block;
+
+    margin-left: 5px;
+
+    font-family: 'DM Sans', sans-serif;
+
+    font-size: 0.65em;
+
+    font-weight: 300;
+
+    animation:
+        ivoryCursor
+        0.8s
+        infinite;
+}
+
+
+@keyframes ivoryCursor {
+
+    0%,
+    45% {
+        opacity: 1;
+    }
+
+    50%,
+    100% {
+        opacity: 0;
+    }
+
+}
+
+
+/* =========================================================
+   HERO SUBTITLE
+========================================================= */
+
+.ivory-subtitle {
+    max-width: 480px;
+
+    margin-top: 30px;
+
+    font-size: 15px;
+
+    line-height: 1.8;
+
+    font-weight: 300;
+
+    color: rgba(255,255,255,0.78);
+}
+
+
+.ivory-subtitle span {
+    color: white;
+
+    font-style: italic;
+}
+
+
+/* =========================================================
+   HERO BUTTONS
+========================================================= */
+
+.ivory-buttons {
+    display: flex;
+
+    gap: 15px;
+
+    margin-top: 42px;
+}
+
+
+.ivory-btn {
+    display: flex;
+
+    align-items: center;
+
+    gap: 22px;
+
+    padding: 15px 22px;
+
+    font-size: 9px;
+
+    letter-spacing: 0.18em;
+
+    text-decoration: none;
+
+    transition: all 0.35s ease;
+}
+
+
+.ivory-btn-primary {
+    background: #f2efe7;
+
+    color: #1c1c19;
+}
+
+
+.ivory-btn-primary span {
+    font-size: 16px;
+}
+
+
+.ivory-btn-primary:hover {
+    background: white;
+
+    transform: translateY(-2px);
+}
+
+
+.ivory-btn-outline {
+    border: 1px solid rgba(255,255,255,0.45);
+
+    color: white;
+}
+
+
+.ivory-btn-outline:hover {
+    background: rgba(255,255,255,0.10);
+
+    border-color: white;
+}
+
+
+/* =========================================================
+   HERO BOTTOM
+========================================================= */
+
+.ivory-hero-bottom {
+    position: absolute;
+
+    bottom: 35px;
+
+    left: 5%;
+    right: 5%;
+
+    z-index: 10;
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    font-size: 8px;
+
+    letter-spacing: 0.25em;
+
+    opacity: 0.70;
+}
+
+
+.hero-location {
+    display: flex;
+
+    align-items: center;
+
+    gap: 9px;
+}
+
+
+.dot {
+    width: 5px;
+    height: 5px;
+
+    border-radius: 50%;
+
+    background: #d7d2c7;
+}
+
+
+.hero-scroll {
+    display: flex;
+
+    align-items: center;
+
+    gap: 14px;
+}
+
+
+.scroll-line {
+    width: 45px;
+    height: 1px;
+
+    background: rgba(255,255,255,0.6);
+}
+
+
+/* =========================================================
+   =========================================================
+   IVORY POPUP ADVERTISEMENT
+   COMPATIBLE WITH OLD + NEW HTML
+   =========================================================
+========================================================= */
+
+
+/* =========================================================
+   POPUP BODY LOCK
+========================================================= */
+
+body.popup-open {
+    overflow: hidden !important;
+}
+
+
+/* =========================================================
+   NEW IVORY POPUP OVERLAY
+========================================================= */
+
+.ivory-popup-overlay {
+
+    position: fixed !important;
+
+    inset: 0 !important;
+
+    width: 100vw;
+    height: 100vh;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    padding: 30px;
+
+    box-sizing: border-box;
+
+    background:
+        rgba(0, 0, 0, 0.68);
+
+    backdrop-filter: blur(7px);
+
+    -webkit-backdrop-filter: blur(7px);
+
+    z-index: 2147483000 !important;
+
+    opacity: 0;
+
+    visibility: hidden;
+
+    pointer-events: none;
+
+    overflow: auto;
+
+    transition:
+        opacity 0.35s ease,
+        visibility 0.35s ease;
+}
+
+
+/* =========================================================
+   NEW POPUP VISIBLE
+========================================================= */
+
+.ivory-popup-overlay.ivory-popup-visible {
+
+    opacity: 1 !important;
+
+    visibility: visible !important;
+
+    pointer-events: auto !important;
+}
+
+
+/* =========================================================
+   SUPPORT CLOSED STATE
+========================================================= */
+
+.ivory-popup-overlay.ivory-popup-closed {
+
+    opacity: 0 !important;
+
+    visibility: hidden !important;
+
+    pointer-events: none !important;
+}
+
+
+/* =========================================================
+   OLD POPUP OVERLAY SUPPORT
+========================================================= */
+
+.popup-overlay {
+
+    position: fixed !important;
+
+    inset: 0 !important;
+
+    width: 100vw;
+
+    height: 100vh;
+
+    background:
+        rgba(0,0,0,0.68);
+
+    backdrop-filter: blur(7px);
+
+    -webkit-backdrop-filter: blur(7px);
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding: 30px;
+
+    box-sizing: border-box;
+
+    z-index: 2147483000 !important;
+
+    opacity: 1;
+
+    visibility: visible;
+
+    pointer-events: auto;
+
+    overflow: auto;
+}
+
+
+/* =========================================================
+   OLD POPUP HIDDEN
+========================================================= */
+
+.popup-overlay.hidden {
+
+    display: none !important;
+
+    opacity: 0 !important;
+
+    visibility: hidden !important;
+
+    pointer-events: none !important;
+}
+
+
+/* =========================================================
+   OLD POPUP CLOSING
+========================================================= */
+
+.popup-overlay.popup-closing {
+
+    opacity: 0 !important;
+
+    visibility: hidden !important;
+
+    pointer-events: none !important;
+
+    transition:
+        opacity 0.25s ease,
+        visibility 0.25s ease;
+}
+
+
+/* =========================================================
+   IVORY POPUP BOX
+========================================================= */
+
+.ivory-popup-box {
+
+    position: relative;
+
+    width: min(760px, 92vw);
+
+    max-height: 88vh;
+
+    overflow: hidden;
+
+    border-radius: 16px;
+
+    background: #f3eee5;
+
+    box-shadow:
+        0 30px 100px rgba(0,0,0,0.45);
+
+    transform: scale(0.88);
+
+    transition:
+        transform 0.4s
+        cubic-bezier(.2,.8,.2,1);
+
+    z-index: 2147483001;
+
+    pointer-events: auto;
+}
+
+
+/* =========================================================
+   IVORY POPUP BOX ACTIVE
+========================================================= */
+
+.ivory-popup-visible .ivory-popup-box {
+
+    transform: scale(1);
+}
+
+
+/* =========================================================
+   OLD POPUP WRAPPER
+========================================================= */
+
+.popup-wrapper {
+
+    position: relative;
+
+    width: min(760px, 92vw);
+
+    max-height: 88vh;
+
+    display: block;
+
+    z-index: 2147483001;
+
+    pointer-events: auto;
+}
+
+
+/* =========================================================
+   OLD POPUP CONTAINER
+========================================================= */
+
+.popup-container {
+
+    position: relative;
+
+    width: 100%;
+
+    max-height: 88vh;
+
+    overflow: hidden;
+
+    border-radius: 16px;
+
+    background: #f3eee5;
+
+    box-shadow:
+        0 30px 100px rgba(0,0,0,0.45);
+
+    animation:
+        popupZoom
+        0.4s
+        ease-out;
+
+    pointer-events: auto;
+}
+
+
+/* =========================================================
+   IVORY IMAGE WRAPPER
+========================================================= */
+
+.ivory-popup-image-wrapper {
+
+    position: relative;
+
+    width: 100%;
+
+    max-height: 88vh;
+
+    overflow: hidden;
+}
+
+
+/* =========================================================
+   OLD IMAGE WRAPPER
+========================================================= */
+
+.popup-image-wrapper {
+
+    position: relative;
+
+    width: 100%;
+
+    max-height: 88vh;
+
+    overflow: hidden;
+
+    pointer-events: auto;
+}
+
+
+/* =========================================================
+   IVORY POPUP IMAGE
+========================================================= */
+
+.ivory-popup-image {
+
+    display: block;
+
+    width: 100%;
+
+    max-height: 88vh;
+
+    object-fit: cover;
+
+    pointer-events: none;
+
+    user-select: none;
+}
+
+
+/* =========================================================
+   OLD POPUP IMAGE
+========================================================= */
+
+.popup-image {
+
+    display: block;
+
+    width: 100%;
+
+    max-height: 88vh;
+
+    object-fit: cover;
+
+    pointer-events: none;
+
+    user-select: none;
+}
+
+
+/* =========================================================
+   IVORY IMAGE GRADIENT
+========================================================= */
+
+.ivory-popup-gradient {
+
+    position: absolute;
+
+    inset: 0;
+
+    pointer-events: none;
+
+    z-index: 2;
+
+    background:
+        linear-gradient(
+            to top,
+            rgba(0,0,0,0.88) 0%,
+            rgba(0,0,0,0.55) 30%,
+            rgba(0,0,0,0.08) 65%,
+            transparent 100%
+        );
+}
+
+
+/* =========================================================
+   OLD IMAGE GRADIENT
+========================================================= */
+
+.popup-image-wrapper::before {
+
+    content: "";
+
+    position: absolute;
+
+    inset: 0;
+
+    background:
+        linear-gradient(
+            to bottom,
+            rgba(0,0,0,0.05),
+            rgba(0,0,0,0.10) 45%,
+            rgba(0,0,0,0.78) 100%
+        );
+
+    z-index: 1;
+
+    pointer-events: none;
+}
+
+
+/* =========================================================
+   IVORY POPUP CONTENT
+========================================================= */
+
+.ivory-popup-content {
+
+    position: absolute;
+
+    left: 0;
+    right: 0;
+    bottom: 0;
+
+    z-index: 5;
+
+    padding:
+        100px
+        45px
+        38px;
+
+    color: white;
+
+    pointer-events: none;
+
+    text-shadow:
+        0 2px 10px rgba(0,0,0,0.65);
+}
+
+
+/* =========================================================
+   IVORY POPUP TITLE
+========================================================= */
+
+.ivory-popup-content h2 {
+
+    margin:
+        0 0 12px;
+
+    font-family:
+        'Playfair Display',
+        serif;
+
+    font-size:
+        clamp(28px, 5vw, 48px);
+
+    font-weight: 400;
+
+    line-height: 1.05;
+
+    color: white;
+}
+
+
+/* =========================================================
+   IVORY POPUP DESCRIPTION
+========================================================= */
+
+.ivory-popup-content p {
+
+    max-width: 620px;
+
+    margin: 0;
+
+    font-family:
+        'DM Sans',
+        sans-serif;
+
+    font-size: 14px;
+
+    line-height: 1.7;
+
+    color:
+        rgba(255,255,255,0.90);
+}
+
+
+/* =========================================================
+   OLD POPUP CONTENT
+========================================================= */
+
+.popup-content-bottom {
+
+    position: absolute;
+
+    left: 0;
+    right: 0;
+    bottom: 0;
+
+    padding:
+        100px
+        35px
+        30px;
+
+    color: white;
+
+    z-index: 5;
+
+    pointer-events: none;
+
+    text-shadow:
+        0 2px 10px rgba(0,0,0,0.65);
+}
+
+
+/* =========================================================
+   OLD POPUP HEADING
+========================================================= */
+
+.popup-heading-overlay {
+
+    margin:
+        0 0 10px;
+
+    font-family:
+        'Playfair Display',
+        serif;
+
+    font-size:
+        clamp(24px, 4vw, 42px);
+
+    font-weight: 400;
+
+    line-height: 1.1;
+
+    color: white;
+}
+
+
+/* =========================================================
+   OLD POPUP DESCRIPTION
+========================================================= */
+
+.popup-description-overlay {
+
+    margin: 0;
+
+    max-width: 600px;
+
+    font-family:
+        'DM Sans',
+        sans-serif;
+
+    font-size: 14px;
+
+    line-height: 1.7;
+
+    color:
+        rgba(255,255,255,0.92);
+}
+
+
+/* =========================================================
+   IVORY TEXT ONLY POPUP
+========================================================= */
+
+.ivory-popup-text-only {
+
+    padding:
+        60px
+        45px;
+
+    text-align: center;
+}
+
+
+/* =========================================================
+   IVORY TEXT ONLY TITLE
+========================================================= */
+
+.ivory-popup-text-only h2 {
+
+    margin:
+        0 0 18px;
+
+    font-family:
+        'Playfair Display',
+        serif;
+
+    font-size: 40px;
+
+    font-weight: 400;
+
+    color: #29251f;
+}
+
+
+/* =========================================================
+   IVORY TEXT ONLY DESCRIPTION
+========================================================= */
+
+.ivory-popup-text-only p {
+
+    max-width: 600px;
+
+    margin: auto;
+
+    font-family:
+        'DM Sans',
+        sans-serif;
+
+    font-size: 15px;
+
+    line-height: 1.8;
+
+    color: #5f5a52;
+}
+
+
+/* =========================================================
+   OLD TEXT ONLY POPUP
+========================================================= */
+
+.popup-text-only {
+
+    padding:
+        60px
+        45px;
+
+    text-align: center;
+}
+
+
+.popup-text-only h2 {
+
+    margin:
+        0 0 18px;
+
+    font-family:
+        'Playfair Display',
+        serif;
+
+    font-size: 40px;
+
+    font-weight: 400;
+
+    color: #29251f;
+}
+
+
+.popup-text-only p {
+
+    max-width: 600px;
+
+    margin: auto;
+
+    font-family:
+        'DM Sans',
+        sans-serif;
+
+    font-size: 15px;
+
+    line-height: 1.8;
+
+    color: #5f5a52;
+}
+
+
+/* =========================================================
+   IVORY CLOSE BUTTON
+========================================================= */
+
+.ivory-popup-close {
+
+    position: absolute !important;
+
+    top: 15px !important;
+
+    right: 15px !important;
+
+    width: 44px !important;
+
+    height: 44px !important;
+
+    padding: 0 !important;
+
+    margin: 0 !important;
+
+    border: none !important;
+
+    border-radius: 50% !important;
+
+    background:
+        rgba(20,20,18,0.90) !important;
+
+    color: white !important;
+
+    display: flex !important;
+
+    align-items: center !important;
+
+    justify-content: center !important;
+
+    cursor: pointer !important;
+
+    z-index: 2147483647 !important;
+
+    font-family:
+        Arial,
+        sans-serif;
+
+    font-size: 30px !important;
+
+    line-height: 1 !important;
+
+    pointer-events: auto !important;
+
+    appearance: none;
+
+    -webkit-appearance: none;
+
+    touch-action: manipulation;
+
+    transition:
+        background 0.25s ease,
+        transform 0.25s ease;
+}
+
+
+/* =========================================================
+   OLD CLOSE BUTTON
+========================================================= */
+
+.popup-close {
+
+    position: absolute !important;
+
+    top: 15px !important;
+
+    right: 15px !important;
+
+    width: 44px !important;
+
+    height: 44px !important;
+
+    padding: 0 !important;
+
+    margin: 0 !important;
+
+    border: none !important;
+
+    border-radius: 50% !important;
+
+    background:
+        rgba(20,20,18,0.90) !important;
+
+    color: white !important;
+
+    display: flex !important;
+
+    align-items: center !important;
+
+    justify-content: center !important;
+
+    cursor: pointer !important;
+
+    z-index: 2147483647 !important;
+
+    font-family:
+        Arial,
+        sans-serif;
+
+    font-size: 30px !important;
+
+    line-height: 1 !important;
+
+    pointer-events: auto !important;
+
+    appearance: none;
+
+    -webkit-appearance: none;
+
+    touch-action: manipulation;
+
+    transition:
+        background 0.25s ease,
+        transform 0.25s ease;
+}
+
+
+/* =========================================================
+   CLOSE BUTTON SPAN
+========================================================= */
+
+.ivory-popup-close span,
+.popup-close span {
+
+    display: block;
+
+    pointer-events: none;
+
+    transform:
+        translateY(-1px);
+}
+
+
+/* =========================================================
+   CLOSE HOVER
+========================================================= */
+
+.ivory-popup-close:hover,
+.popup-close:hover {
+
+    background:
+        #000000 !important;
+
+    transform:
+        scale(1.08);
+}
+
+
+/* =========================================================
+   CLOSE ACTIVE
+========================================================= */
+
+.ivory-popup-close:active,
+.popup-close:active {
+
+    transform:
+        scale(0.94);
+}
+
+
+/* =========================================================
+   CLOSE FOCUS
+========================================================= */
+
+.ivory-popup-close:focus,
+.popup-close:focus {
+
+    outline: none;
+}
+
+
+/* =========================================================
+   POPUP ANIMATION
+========================================================= */
+
+@keyframes popupZoom {
+
+    from {
+
+        transform:
+            scale(0.85);
+
+        opacity: 0;
+    }
+
+    to {
+
+        transform:
+            scale(1);
+
+        opacity: 1;
+    }
+
+}
+
+
+/* =========================================================
+   CHAT ICON
+========================================================= */
+
+.chat-icon {
+
+    position: fixed;
+
+    bottom: 30px;
+
+    left: 30px;
+
+    z-index: 50;
+}
+
+
+/* =========================================================
+   PAGE 2 — SELECTED WORKS
+========================================================= */
+
+.ivory-works-section {
+
+    min-height: 100vh;
+
+    padding:
+        120px
+        7%
+        80px;
+
+    background:
+        #f4f1e9;
+
+    color:
+        #1c1c19;
+
+    overflow:
+        hidden;
+}
+
+
+/* =========================================================
+   WORKS HEADER
+========================================================= */
+
+.works-header {
+
+    display:
+        flex;
+
+    justify-content:
+        space-between;
+
+    align-items:
+        flex-end;
+
+    margin-bottom:
+        65px;
+}
+
+
+.section-eyebrow {
+
+    display:
+        block;
+
+    margin-bottom:
+        20px;
+
+    font-size:
+        9px;
+
+    letter-spacing:
+        .35em;
+
+    color:
+        #77736b;
+}
+
+
+.works-header h2,
+.clients-intro h2 {
+
+    margin:
+        0;
+
+    font-family:
+        'Playfair Display',
+        serif;
+
+    font-size:
+        clamp(48px, 6vw, 85px);
+
+    font-weight:
+        400;
+
+    line-height:
+        .95;
+
+    letter-spacing:
+        -.035em;
+}
+
+
+.works-header h2 em,
+.clients-intro h2 em {
+
+    font-weight:
+        400;
+
+    color:
+        #888278;
+}
+
+
+.works-header > p {
+
+    max-width:
+        340px;
+
+    margin:
+        0;
+
+    font-size:
+        13px;
+
+    line-height:
+        1.8;
+
+    color:
+        #77736b;
+}
+
+
+/* =========================================================
+   PROJECT GRID
+========================================================= */
+
+.works-grid {
+
+    display:
+        grid;
+
+    grid-template-columns:
+        1.4fr
+        1fr
+        1fr;
+
+    grid-auto-rows:
+        330px;
+
+    gap:
+        18px;
+}
+
+
+.work-card {
+
+    position:
+        relative;
+
+    overflow:
+        hidden;
+
+    display:
+        block;
+
+    text-decoration:
+        none;
+
+    background:
+        #d8d4ca;
+}
+
+
+.work-large {
+
+    grid-row:
+        span 2;
+}
+
+
+.work-wide {
+
+    grid-column:
+        span 2;
+}
+
+
+.work-card img {
+
+    width:
+        100%;
+
+    height:
+        100%;
+
+    object-fit:
+        cover;
+
+    transition:
+        transform .9s cubic-bezier(.2,.7,.2,1),
+        filter .6s ease;
+}
+
+
+.work-card:hover img {
+
+    transform:
+        scale(1.07);
+
+    filter:
+        brightness(.75);
+}
+
+
+/* =========================================================
+   PROJECT OVERLAY
+========================================================= */
+
+.work-overlay {
+
+    position:
+        absolute;
+
+    inset:
+        0;
+
+    padding:
+        25px;
+
+    display:
+        flex;
+
+    align-items:
+        flex-end;
+
+    justify-content:
+        space-between;
+
+    color:
+        white;
+
+    background:
+        linear-gradient(
+            to top,
+            rgba(0,0,0,.65),
+            transparent 55%
+        );
+
+    opacity:
+        .9;
+}
+
+
+.work-overlay span {
+
+    font-size:
+        8px;
+
+    letter-spacing:
+        .2em;
+
+    opacity:
+        .7;
+}
+
+
+.work-overlay h3 {
+
+    margin:
+        7px 0 4px;
+
+    font-family:
+        'Playfair Display',
+        serif;
+
+    font-size:
+        27px;
+
+    font-weight:
+        400;
+}
+
+
+.work-overlay p {
+
+    margin:
+        0;
+
+    font-size:
+        9px;
+
+    letter-spacing:
+        .15em;
+
+    opacity:
+        .7;
+}
+
+
+.work-arrow {
+
+    width:
+        42px;
+
+    height:
+        42px;
+
+    border:
+        1px solid rgba(255,255,255,.5);
+
+    border-radius:
+        50%;
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    font-size:
+        16px !important;
+
+    opacity:
+        0 !important;
+
+    transform:
+        translateY(10px);
+
+    transition:
+        .4s ease;
+}
+
+
+.work-card:hover .work-arrow {
+
+    opacity:
+        1 !important;
+
+    transform:
+        translateY(0);
+}
+
+
+/* =========================================================
+   WORK FOOTER
+========================================================= */
+
+.works-footer {
+
+    display:
+        flex;
+
+    justify-content:
+        space-between;
+
+    margin-top:
+        25px;
+
+    padding-top:
+        20px;
+
+    border-top:
+        1px solid #d6d1c6;
+
+    font-size:
+        8px;
+
+    letter-spacing:
+        .25em;
+
+    color:
+        #77736b;
+}
+
+
+.works-footer a {
+
+    color:
+        #1c1c19;
+
+    text-decoration:
+        none;
+}
+
+
+.works-footer a span {
+
+    margin-left:
+        10px;
+
+    font-size:
+        15px;
+}
+
+
+/* =========================================================
+   PAGE 3 — CLIENTS
+========================================================= */
+
+.ivory-clients-section {
+
+    min-height:
+        100vh;
+
+    position:
+        relative;
+
+    overflow:
+        hidden;
+
+    padding:
+        130px 0 60px;
+
+    background:
+        #dedbd2;
+
+    color:
+        #1c1c19;
+}
+
+
+.clients-intro {
+
+    width:
+        86%;
+
+    margin:
+        auto;
+}
+
+
+.clients-intro .dark {
+
+    color:
+        #77736b;
+}
+
+
+.clients-intro p {
+
+    max-width:
+        390px;
+
+    margin-top:
+        30px;
+
+    font-size:
+        13px;
+
+    line-height:
+        1.8;
+
+    color:
+        #77736b;
+}
+
+
+/* =========================================================
+   CLIENT MARQUEE
+========================================================= */
+
+.clients-marquee {
+
+    position:
+        relative;
+
+    width:
+        100%;
+
+    height:
+        370px;
+
+    margin-top:
+        70px;
+
+    overflow:
+        hidden;
+}
+
+
+.clients-marquee::before {
+
+    content:
+        "";
+
+    position:
+        absolute;
+
+    left:
+        -10%;
+
+    right:
+        -10%;
+
+    top:
+        45%;
+
+    height:
+        300px;
+
+    border-top:
+        1px solid rgba(28,28,25,.08);
+
+    border-radius:
+        50% 50% 0 0;
+}
+
+
+.clients-track {
+
+    position:
+        absolute;
+
+    left:
+        0;
+
+    top:
+        50%;
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    gap:
+        70px;
+
+    width:
+        max-content;
+
+    animation:
+        clientMarquee
+        28s
+        linear
+        infinite;
+}
+
+
+/* =========================================================
+   CLIENT LOGO
+========================================================= */
+
+.client-logo {
+
+    width:
+        150px;
+
+    height:
+        90px;
+
+    flex-shrink:
+        0;
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    opacity:
+        .55;
+
+    transition:
+        opacity .3s ease,
+        transform .3s ease;
+}
+
+
+.client-logo img {
+
+    max-width:
+        120px;
+
+    max-height:
+        55px;
+
+    width:
+        auto;
+
+    height:
+        auto;
+
+    object-fit:
+        contain;
+
+    filter:
+        grayscale(100%)
+        contrast(.8);
+}
+
+
+.client-logo:hover {
+
+    opacity:
+        1;
+
+    transform:
+        scale(1.08);
+}
+
+
+/* =========================================================
+   CLIENT CURVE
+========================================================= */
+
+.logo-1 {
+
+    transform:
+        translateY(70px)
+        rotate(7deg);
+}
+
+
+.logo-2 {
+
+    transform:
+        translateY(30px)
+        rotate(4deg);
+}
+
+
+.logo-3 {
+
+    transform:
+        translateY(0)
+        rotate(0deg);
+}
+
+
+.logo-4 {
+
+    transform:
+        translateY(-30px)
+        rotate(-4deg);
+}
+
+
+.logo-5 {
+
+    transform:
+        translateY(-55px)
+        rotate(-7deg);
+}
+
+
+.logo-6 {
+
+    transform:
+        translateY(-30px)
+        rotate(-4deg);
+}
+
+
+/* =========================================================
+   MARQUEE ANIMATION
+========================================================= */
+
+@keyframes clientMarquee {
+
+    0% {
+
+        transform:
+            translateX(0);
+    }
+
+    100% {
+
+        transform:
+            translateX(-50%);
+    }
+
+}
+
+
+/* =========================================================
+   CLIENT FOOTER
+========================================================= */
+
+.clients-bottom {
+
+    width:
+        86%;
+
+    margin:
+        30px auto 0;
+
+    padding-top:
+        20px;
+
+    border-top:
+        1px solid rgba(28,28,25,.15);
+
+    display:
+        flex;
+
+    justify-content:
+        space-between;
+
+    font-size:
+        8px;
+
+    letter-spacing:
+        .25em;
+
+    color:
+        #77736b;
+}
+
+
+/* =========================================================
+   RESPONSIVE — TABLET
+========================================================= */
+
+@media (max-width: 900px) {
+
+    .works-header {
+
+        align-items:
+            flex-start;
+
+        flex-direction:
+            column;
+
+        gap:
+            25px;
+    }
+
+
+    .works-grid {
+
+        grid-template-columns:
+            1fr 1fr;
+
+        grid-auto-rows:
+            280px;
+    }
+
+
+    .work-large {
+
+        grid-row:
+            span 1;
+    }
+
+
+    .work-wide {
+
+        grid-column:
+            span 2;
+    }
+
+}
+
+
+/* =========================================================
+   RESPONSIVE — MOBILE
+========================================================= */
+
+@media (max-width: 768px) {
+
+    /* NAVIGATION */
+
+    .ivory-nav {
+
+        height:
+            80px;
+
+        padding:
+            0 6%;
+    }
+
+
+    .ivory-nav-links {
+
+        display:
+            none;
+    }
+
+
+    .ivory-menu-btn {
+
+        display:
+            flex;
+    }
+
+
+    /* HERO */
+
+    .ivory-hero-content {
+
+        padding-left:
+            7%;
+
+        padding-right:
+            7%;
+
+        justify-content:
+            center;
+    }
+
+
+    .hero-small-label {
+
+        font-size:
+            7px;
+
+        letter-spacing:
+            .25em;
+    }
+
+
+    .ivory-title {
+
+        font-size:
+            clamp(
+                43px,
+                13vw,
+                80px
+            );
+    }
+
+
+    .ivory-subtitle {
+
+        font-size:
+            13px;
+
+        max-width:
+            320px;
+    }
+
+
+    .ivory-buttons {
+
+        flex-direction:
+            column;
+
+        width:
+            100%;
+    }
+
+
+    .ivory-btn {
+
+        justify-content:
+            space-between;
+
+        width:
+            230px;
+    }
+
+
+    .hero-scroll {
+
+        display:
+            none;
+    }
+
+
+    .hero-year {
+
+        margin-left:
+            auto;
+    }
+
+
+    /* WORKS */
+
+    .ivory-works-section {
+
+        padding:
+            90px
+            6%
+            60px;
+    }
+
+
+    .works-header h2,
+    .clients-intro h2 {
+
+        font-size:
+            48px;
+    }
+
+
+    .works-grid {
+
+        grid-template-columns:
+            1fr;
+
+        grid-auto-rows:
+            300px;
+    }
+
+
+    .work-large {
+
+        grid-row:
+            span 1;
+    }
+
+
+    .work-wide {
+
+        grid-column:
+            span 1;
+    }
+
+
+    .works-footer {
+
+        flex-direction:
+            column;
+
+        gap:
+            15px;
+    }
+
+
+    /* CLIENTS */
+
+    .ivory-clients-section {
+
+        padding-top:
+            90px;
+    }
+
+
+    .clients-marquee {
+
+        height:
+            300px;
+    }
+
+
+    .clients-track {
+
+        gap:
+            30px;
+    }
+
+
+    .client-logo {
+
+        width:
+            120px;
+    }
+
+
+    .client-logo img {
+
+        max-width:
+            95px;
+    }
+
+
+    .clients-bottom {
+
+        flex-direction:
+            column;
+
+        gap:
+            15px;
+    }
+
+
+    /* =====================================================
+       POPUP MOBILE
+    ===================================================== */
+
+    .ivory-popup-overlay,
+    .popup-overlay {
+
+        padding:
+            18px;
+    }
+
+
+    .ivory-popup-box,
+    .popup-wrapper {
+
+        width:
+            92vw;
+
+        max-height:
+            86vh;
+    }
+
+
+    .popup-container {
+
+        max-height:
+            86vh;
+    }
+
+
+    .ivory-popup-image-wrapper,
+    .popup-image-wrapper {
+
+        max-height:
+            86vh;
+    }
+
+
+    .ivory-popup-image,
+    .popup-image {
+
+        max-height:
+            86vh;
+
+        object-fit:
+            cover;
+    }
+
+
+    .ivory-popup-close,
+    .popup-close {
+
+        top:
+            10px !important;
+
+        right:
+            10px !important;
+
+        width:
+            38px !important;
+
+        height:
+            38px !important;
+
+        font-size:
+            25px !important;
+    }
+
+
+    .ivory-popup-content,
+    .popup-content-bottom {
+
+        padding:
+            80px
+            22px
+            24px;
+    }
+
+
+    .ivory-popup-content h2,
+    .popup-heading-overlay {
+
+        font-size:
+            27px;
+    }
+
+
+    .ivory-popup-content p,
+    .popup-description-overlay {
+
+        font-size:
+            12px;
+
+        line-height:
+            1.6;
+    }
+
+
+    .ivory-popup-text-only,
+    .popup-text-only {
+
+        padding:
+            45px
+            22px;
+    }
+
+
+    .ivory-popup-text-only h2,
+    .popup-text-only h2 {
+
+        font-size:
+            30px;
+    }
+
+
+    .ivory-popup-text-only p,
+    .popup-text-only p {
+
+        font-size:
+            13px;
+    }
+
+}
+
+
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
+
+@media (max-width: 480px) {
+
+    .logo-mark {
+
+        width:
+            38px;
+
+        height:
+            38px;
+    }
+
+
+    .logo-name span {
+
+        font-size:
+            12px;
+    }
+
+
+    .logo-name small {
+
+        font-size:
+            6px;
+    }
+
+
+    .ivory-title {
+
+        font-size:
+            42px;
+
+        letter-spacing:
+            -.02em;
+    }
+
+
+    .hero-small-label {
+
+        font-size:
+            6px;
+    }
+
+
+    /* POPUP */
+
+    .ivory-popup-overlay,
+    .popup-overlay {
+
+        padding:
+            15px;
+    }
+
+
+    .ivory-popup-box,
+    .popup-wrapper {
+
+        width:
+            90vw;
+
+        max-height:
+            86vh;
+    }
+
+
+    .popup-container {
+
+        max-height:
+            86vh;
+    }
+
+
+    .ivory-popup-close,
+    .popup-close {
+
+        top:
+            8px !important;
+
+        right:
+            8px !important;
+
+        width:
+            38px !important;
+
+        height:
+            38px !important;
+
+        font-size:
+            23px !important;
+    }
+
+
+    .ivory-popup-content,
+    .popup-content-bottom {
+
+        padding:
+            60px
+            16px
+            18px;
+    }
+
+
+    .ivory-popup-content h2,
+    .popup-heading-overlay {
+
+        font-size:
+            22px;
+    }
+
+
+    .ivory-popup-content p,
+    .popup-description-overlay {
+
+        font-size:
+            11px;
+
+        line-height:
+            1.5;
+    }
+
+
+    .ivory-popup-text-only,
+    .popup-text-only {
+
+        padding:
+            40px
+            18px;
+    }
+
+
+    .ivory-popup-text-only h2,
+    .popup-text-only h2 {
+
+        font-size:
+            27px;
+    }
+
+
+    .ivory-popup-text-only p,
+    .popup-text-only p {
+
+        font-size:
+            12px;
+
+        line-height:
+            1.6;
+    }
+
+}
+/* =========================================================
+   IVORY DESIGN — POPUP ADVERTISEMENT
+   FINAL OVERRIDE
+========================================================= */
+
+
+/* ---------------------------------------------------------
+   LOCK PAGE WHEN POPUP IS OPEN
+--------------------------------------------------------- */
+
+body.popup-open {
+    overflow: hidden !important;
+}
+
+
+/* ---------------------------------------------------------
+   POPUP OVERLAY
+--------------------------------------------------------- */
+
+.ivory-popup-overlay {
+    position: fixed !important;
+
+    top: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    left: 0 !important;
+
+    width: 100vw !important;
+    height: 100vh !important;
+
+    display: flex !important;
+
+    align-items: center !important;
+    justify-content: center !important;
+
+    padding: 20px !important;
+
+    box-sizing: border-box !important;
+
+    background: rgba(0, 0, 0, 0.72) !important;
+
+    backdrop-filter: blur(8px) !important;
+    -webkit-backdrop-filter: blur(8px) !important;
+
+    z-index: 2147483000 !important;
+
+    opacity: 0 !important;
+
+    visibility: hidden !important;
+
+    pointer-events: none !important;
+
+    transition:
+        opacity 0.35s ease,
+        visibility 0.35s ease !important;
+}
+
+
+/* ---------------------------------------------------------
+   POPUP OPEN
+--------------------------------------------------------- */
+
+.ivory-popup-overlay.ivory-popup-visible {
+    opacity: 1 !important;
+
+    visibility: visible !important;
+
+    pointer-events: auto !important;
+}
+
+
+/* ---------------------------------------------------------
+   POPUP CLOSED
+--------------------------------------------------------- */
+
+.ivory-popup-overlay.ivory-popup-closed {
+    opacity: 0 !important;
+
+    visibility: hidden !important;
+
+    pointer-events: none !important;
+}
+
+
+/* ---------------------------------------------------------
+   POPUP BOX
+--------------------------------------------------------- */
+
+.ivory-popup-box {
+    position: relative !important;
+
+    display: block !important;
+
+    width: min(760px, 92vw) !important;
+
+    max-width: 760px !important;
+
+    max-height: 88vh !important;
+
+    margin: 0 !important;
+
+    padding: 0 !important;
+
+    overflow: hidden !important;
+
+    background: #f3eee5 !important;
+
+    border-radius: 16px !important;
+
+    box-shadow:
+        0 30px 100px rgba(0, 0, 0, 0.55) !important;
+
+    transform: scale(0.88) !important;
+
+    transition:
+        transform 0.4s cubic-bezier(.2,.8,.2,1) !important;
+}
+
+
+/* ---------------------------------------------------------
+   POPUP BOX OPEN ANIMATION
+--------------------------------------------------------- */
+
+.ivory-popup-overlay.ivory-popup-visible
+.ivory-popup-box {
+    transform: scale(1) !important;
+}
+
+
+/* ---------------------------------------------------------
+   CLOSE BUTTON
+--------------------------------------------------------- */
+
+.ivory-popup-close {
+    position: absolute !important;
+
+    top: 15px !important;
+
+    right: 15px !important;
+
+    width: 44px !important;
+
+    height: 44px !important;
+
+    margin: 0 !important;
+
+    padding: 0 !important;
+
+    border: none !important;
+
+    border-radius: 50% !important;
+
+    background: rgba(15, 15, 13, 0.85) !important;
+
+    color: white !important;
+
+    display: flex !important;
+
+    align-items: center !important;
+
+    justify-content: center !important;
+
+    z-index: 2147483647 !important;
+
+    cursor: pointer !important;
+
+    font-family: Arial, sans-serif !important;
+
+    font-size: 30px !important;
+
+    line-height: 1 !important;
+
+    appearance: none !important;
+
+    -webkit-appearance: none !important;
+
+    box-shadow:
+        0 5px 20px rgba(0,0,0,0.3) !important;
+
+    transition:
+        transform .25s ease,
+        background .25s ease !important;
+}
+
+
+.ivory-popup-close span {
+    display: block !important;
+
+    pointer-events: none !important;
+
+    transform: translateY(-1px) !important;
+}
+
+
+.ivory-popup-close:hover {
+    background: #000 !important;
+
+    transform: scale(1.08) !important;
+}
+
+
+.ivory-popup-close:active {
+    transform: scale(.94) !important;
+}
+
+
+/* ---------------------------------------------------------
+   IMAGE WRAPPER
+--------------------------------------------------------- */
+
+.ivory-popup-image-wrapper {
+    position: relative !important;
+
+    width: 100% !important;
+
+    max-height: 88vh !important;
+
+    overflow: hidden !important;
+}
+
+
+/* ---------------------------------------------------------
+   POPUP IMAGE
+--------------------------------------------------------- */
+
+.ivory-popup-image {
+    display: block !important;
+
+    width: 100% !important;
+
+    height: auto !important;
+
+    max-height: 88vh !important;
+
+    object-fit: cover !important;
+
+    margin: 0 !important;
+
+    padding: 0 !important;
+}
+
+
+/* ---------------------------------------------------------
+   IMAGE GRADIENT
+--------------------------------------------------------- */
+
+.ivory-popup-gradient {
+    position: absolute !important;
+
+    top: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    left: 0 !important;
+
+    pointer-events: none !important;
+
+    background:
+        linear-gradient(
+            to top,
+            rgba(0,0,0,.90) 0%,
+            rgba(0,0,0,.60) 28%,
+            rgba(0,0,0,.12) 65%,
+            transparent 100%
+        ) !important;
+}
+
+
+/* ---------------------------------------------------------
+   POPUP CONTENT
+--------------------------------------------------------- */
+
+.ivory-popup-content {
+    position: absolute !important;
+
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+
+    z-index: 10 !important;
+
+    padding:
+        100px
+        45px
+        38px !important;
+
+    box-sizing: border-box !important;
+
+    color: white !important;
+}
+
+
+.ivory-popup-content h2 {
+    margin:
+        0 0 12px !important;
+
+    font-family:
+        'Playfair Display',
+        serif !important;
+
+    font-size:
+        clamp(28px, 5vw, 48px) !important;
+
+    font-weight: 400 !important;
+
+    line-height: 1.05 !important;
+
+    color: white !important;
+}
+
+
+.ivory-popup-content p {
+    max-width: 620px !important;
+
+    margin: 0 !important;
+
+    font-family:
+        'DM Sans',
+        sans-serif !important;
+
+    font-size: 14px !important;
+
+    line-height: 1.7 !important;
+
+    color:
+        rgba(255,255,255,.90) !important;
+}
+
+
+/* ---------------------------------------------------------
+   TEXT ONLY POPUP
+--------------------------------------------------------- */
+
+.ivory-popup-text-only {
+    padding:
+        60px 45px !important;
+
+    box-sizing: border-box !important;
+
+    text-align: center !important;
+
+    background: #f3eee5 !important;
+}
+
+
+.ivory-popup-text-only h2 {
+    margin:
+        0 0 18px !important;
+
+    font-family:
+        'Playfair Display',
+        serif !important;
+
+    font-size: 40px !important;
+
+    font-weight: 400 !important;
+
+    color: #29251f !important;
+}
+
+
+.ivory-popup-text-only p {
+    max-width: 600px !important;
+
+    margin: auto !important;
+
+    font-family:
+        'DM Sans',
+        sans-serif !important;
+
+    font-size: 15px !important;
+
+    line-height: 1.8 !important;
+
+    color: #5f5a52 !important;
+}
+
+
+/* =========================================================
+   MOBILE POPUP
+========================================================= */
+
+@media (max-width: 768px) {
+
+    .ivory-popup-overlay {
+        padding: 15px !important;
+    }
+
+    .ivory-popup-box {
+        width: 92vw !important;
+
+        max-width: 92vw !important;
+
+        max-height: 86vh !important;
+
+        border-radius: 13px !important;
+    }
+
+    .ivory-popup-image-wrapper {
+        max-height: 86vh !important;
+    }
+
+    .ivory-popup-image {
+        max-height: 86vh !important;
+
+        object-fit: cover !important;
+    }
+
+    .ivory-popup-close {
+        top: 10px !important;
+
+        right: 10px !important;
+
+        width: 40px !important;
+
+        height: 40px !important;
+
+        font-size: 25px !important;
+    }
+
+    .ivory-popup-content {
+        padding:
+            80px
+            22px
+            24px !important;
+    }
+
+    .ivory-popup-content h2 {
+        font-size: 27px !important;
+    }
+
+    .ivory-popup-content p {
+        font-size: 12px !important;
+
+        line-height: 1.6 !important;
+    }
+
+    .ivory-popup-text-only {
+        padding:
+            45px 22px !important;
+    }
+
+    .ivory-popup-text-only h2 {
+        font-size: 30px !important;
+    }
+
+    .ivory-popup-text-only p {
+        font-size: 13px !important;
+    }
+}
+
+
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
+
+@media (max-width: 480px) {
+
+    .ivory-popup-box {
+        width: 94vw !important;
+
+        max-width: 94vw !important;
+    }
+
+    .ivory-popup-close {
+        top: 8px !important;
+
+        right: 8px !important;
+
+        width: 38px !important;
+
+        height: 38px !important;
+
+        font-size: 23px !important;
+    }
+
+    .ivory-popup-content {
+        padding:
+            65px 16px 18px !important;
+    }
+
+    .ivory-popup-content h2 {
+        font-size: 22px !important;
+    }
+
+    .ivory-popup-content p {
+        font-size: 11px !important;
+    }
+
+}
+
+/* Keep the client section's divider and labels at its bottom edge. */
+.ivory-clients-section { display: flex; flex-direction: column; box-sizing: border-box; }
+.ivory-clients-section > .clients-intro { margin: 0 auto; flex-shrink: 0; }
+.ivory-clients-section > .clients-marquee { flex-shrink: 0; margin-bottom: 30px; }
+.ivory-clients-section > .clients-bottom { margin: auto auto 0; flex-shrink: 0; }
+
+/* Straight, continuous client logos. Equal groups make the loop seamless. */
+.clients-marquee { height: auto; margin-top: clamp(80px, 12vh, 140px); padding: 24px 0; overflow: hidden; }
+.clients-marquee::before { content: none; }
+.clients-track { position: relative; top: auto; left: auto; display: flex; gap: 0; width: max-content; animation: clientMarqueeLeft 28s linear infinite; }
+.clients-group { display: flex; flex: 0 0 auto; align-items: center; gap: 48px; padding-right: 48px; }
+.client-logo { width: 180px; height: 100px; flex: 0 0 180px; opacity: 1; transform: none; }
+.client-logo img { width: 160px; height: 80px; max-width: 160px; max-height: 80px; object-fit: contain; filter: none; }
+.client-logo:hover { transform: none; }
+@keyframes clientMarqueeLeft { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+@media (prefers-reduced-motion: reduce) {
+    .clients-track { animation: none; width: 100%; }
+    .clients-group { min-width: 0; flex-wrap: wrap; justify-content: center; width: 100%; padding-right: 0; gap: 24px; }
+    .clients-group[aria-hidden="true"], .clients-group [aria-hidden="true"] { display: none; }
+}

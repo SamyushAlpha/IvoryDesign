@@ -1,0 +1,28 @@
+{% extends 'homepage/content_base.html' %}
+{% block title %}{{ member.name }} — Portfolio | Ivory Design Studio{% endblock %}
+{% block content %}
+<a class="content-link" href="{% url 'about' %}#team">&larr; Meet our team</a>
+<header class="member-profile">
+    {% if member.photo %}<img class="member-portrait" src="{{ member.photo.url }}" alt="{{ member.name }}">{% endif %}
+    <div class="content-heading">
+        <p class="content-eyebrow">{{ member.designation }}</p>
+        <h1>{{ member.name }}</h1>
+        <div class="content-copy">{{ member.bio|linebreaks }}</div>
+    </div>
+</header>
+<h2 class="portfolio-heading">Selected <em>work.</em></h2>
+<div class="content-grid">
+{% for entry in portfolio %}
+    <article class="content-card">
+        <img class="content-image" src="{{ entry.image.url }}" alt="{{ entry.title }}" loading="lazy">
+        <div class="content-card-body">
+            {% if entry.location or entry.year %}<p class="content-eyebrow">{{ entry.location }}{% if entry.location and entry.year %} · {% endif %}{{ entry.year|default_if_none:'' }}</p>{% endif %}
+            <h2>{{ entry.title }}</h2>
+            <div class="content-copy">{{ entry.description|linebreaks }}</div>
+        </div>
+    </article>
+{% empty %}
+    <p class="content-empty">Portfolio projects will be shared soon.</p>
+{% endfor %}
+</div>
+{% endblock %}

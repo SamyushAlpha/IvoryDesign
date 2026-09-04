@@ -1,0 +1,162 @@
+<!-- =====================================================
+     NAVIGATION
+====================================================== -->
+{% load static %}
+<nav class="ivory-nav">
+
+
+    <!-- Logo -->
+
+    <a href="/" class="ivory-logo">
+
+        <span class="logo-mark">
+            <img src="{% static 'images/a.svg' %}" 
+             alt="Ivory Design Studio Logo">
+        </span>
+
+        <div class="logo-name">
+
+            <span>
+                IVORY
+            </span>
+
+            <small>
+                DESIGN STUDIO
+            </small>
+
+        </div>
+
+    </a>
+
+
+    <!-- Desktop Navigation -->
+
+    <div class="ivory-nav-links">
+
+        <a href="/about/">
+            ABOUT
+        </a>
+
+        <a href="/projects/">
+            PROJECTS
+        </a>
+
+        <a href="{% url 'services' %}">
+            SERVICES
+        </a>
+
+        <a href="/contact/">
+            CONTACT
+        </a>
+
+    </div>
+
+
+    <!-- Mobile Menu -->
+
+    <button
+        class="ivory-menu-btn"
+        type="button" aria-label="Toggle navigation" aria-controls="ivory-mobile-menu" aria-expanded="false"
+        onclick="this.setAttribute('aria-expanded', document.getElementById('ivory-mobile-menu').classList.toggle('active'))">
+
+        <span></span>
+        <span></span>
+
+    </button>
+
+
+</nav>
+
+
+<!-- =====================================================
+     MOBILE MENU
+====================================================== -->
+
+<div
+    id="ivory-mobile-menu"
+    class="ivory-mobile-menu">
+
+    <a href="/about/">
+        ABOUT
+    </a>
+
+    <a href="/projects/">
+        PROJECTS
+    </a>
+
+    <a href="{% url 'services' %}">
+        SERVICES
+    </a>
+
+    <a href="/contact/">
+        CONTACT
+    </a>
+
+</div>
+
+
+<!-- =====================================================
+     NAVBAR BLACK TEXT
+====================================================== -->
+
+<style>
+
+    /* Desktop navigation text */
+
+    .ivory-nav-links a {
+        color: #000000 !important;
+    }
+
+
+    /* Hover */
+
+    .ivory-nav-links a:hover {
+        color: #000000 !important;
+    }
+
+
+    /* Mobile navigation text sits on a dark menu panel. */
+
+    .ivory-mobile-menu a,
+    .ivory-mobile-menu a:visited {
+        color: #f6f1e7 !important;
+    }
+
+
+    .ivory-mobile-menu a:hover,
+    .ivory-mobile-menu a:focus-visible {
+        color: #e0b84f !important;
+    }
+
+
+    /* Mobile hamburger */
+
+    .ivory-menu-btn span {
+        background: #000000 !important;
+    }
+
+
+    /* Logo text */
+
+    .ivory-logo {
+        color: #000000 !important;
+    }
+
+
+    .logo-name span,
+    .logo-name small,
+    .logo-mark {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.logo-mark img {
+    width: 45px;
+    height: 45px;
+    object-fit: contain;
+    display: block;
+}
+    
+
+</style>

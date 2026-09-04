@@ -1,0 +1,1441 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Ivory Design | Interior Design Studio</title>
+
+    <!-- =====================================================
+         TAILWIND
+    ====================================================== -->
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+
+    <!-- =====================================================
+         FONT AWESOME
+    ====================================================== -->
+
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    >
+
+
+    <!-- =====================================================
+         CUSTOM CSS
+    ====================================================== -->
+
+    <link
+        rel="stylesheet"
+        href="{% static 'style.css' %}?v=20260903-marquee4">
+    <link rel="stylesheet" href="{% static 'hero-drawing.css' %}?v=20260903-23">
+    <link rel="stylesheet" href="{% static 'chat.css' %}?v=20260903-media2">
+    <link rel="stylesheet" href="{% static 'support-media.css' %}?v=20260903-media2">
+    
+    <style>
+/* =========================================================
+   IVORY POPUP — FORCE OVERLAY
+========================================================= */
+
+.ivory-popup-overlay {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+
+    width: 100vw !important;
+    height: 100vh !important;
+
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    padding: 20px !important;
+    box-sizing: border-box !important;
+
+    background: rgba(0, 0, 0, 0.72) !important;
+
+    backdrop-filter: blur(8px) !important;
+    -webkit-backdrop-filter: blur(8px) !important;
+
+    z-index: 2147483647 !important;
+
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+
+    transition:
+        opacity 0.3s ease,
+        visibility 0.3s ease !important;
+}
+
+.ivory-popup-overlay.ivory-popup-visible {
+    opacity: 1 !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
+}
+
+.ivory-popup-overlay.ivory-popup-closed {
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+}
+
+.ivory-popup-box {
+    position: relative !important;
+
+    width: min(760px, 92vw) !important;
+    max-width: 760px !important;
+    max-height: 88vh !important;
+
+    overflow: hidden !important;
+
+    background: #f3eee5 !important;
+
+    border-radius: 16px !important;
+
+    box-shadow:
+        0 30px 100px rgba(0,0,0,0.55) !important;
+
+    transform: scale(0.85) !important;
+
+    transition:
+        transform 0.35s ease !important;
+}
+
+.ivory-popup-visible .ivory-popup-box {
+    transform: scale(1) !important;
+}
+
+.ivory-popup-close {
+    position: absolute !important;
+
+    top: 15px !important;
+    right: 15px !important;
+
+    width: 44px !important;
+    height: 44px !important;
+
+    border: none !important;
+    border-radius: 50% !important;
+
+    background: rgba(0,0,0,0.8) !important;
+
+    color: white !important;
+
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    font-size: 30px !important;
+    line-height: 1 !important;
+
+    cursor: pointer !important;
+
+    z-index: 2147483647 !important;
+}
+
+.ivory-popup-close:hover {
+    background: black !important;
+    transform: scale(1.08);
+}
+
+.ivory-popup-image-wrapper {
+    position: relative !important;
+
+    width: 100% !important;
+    max-height: 88vh !important;
+
+    overflow: hidden !important;
+}
+
+.ivory-popup-image {
+    display: block !important;
+
+    width: 100% !important;
+    max-width: 100% !important;
+
+    max-height: 88vh !important;
+
+    object-fit: cover !important;
+}
+
+.ivory-popup-gradient {
+    position: absolute !important;
+
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+
+    pointer-events: none !important;
+
+    background:
+        linear-gradient(
+            to top,
+            rgba(0,0,0,0.9),
+            rgba(0,0,0,0.1) 70%,
+            transparent
+        ) !important;
+}
+
+.ivory-popup-content {
+    position: absolute !important;
+
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+
+    padding: 80px 40px 35px !important;
+
+    color: white !important;
+
+    z-index: 5 !important;
+}
+
+.ivory-popup-content h2 {
+    margin: 0 0 10px !important;
+
+    font-family: 'Playfair Display', serif !important;
+
+    font-size: clamp(28px, 5vw, 48px) !important;
+
+    font-weight: 400 !important;
+
+    color: white !important;
+}
+
+.ivory-popup-content p {
+    margin: 0 !important;
+
+    max-width: 620px !important;
+
+    font-size: 14px !important;
+
+    line-height: 1.7 !important;
+
+    color: rgba(255,255,255,0.9) !important;
+}
+
+.ivory-popup-text-only {
+    padding: 60px 45px !important;
+
+    text-align: center !important;
+}
+
+.ivory-popup-text-only h2 {
+    margin: 0 0 18px !important;
+
+    font-family: 'Playfair Display', serif !important;
+
+    font-size: 40px !important;
+
+    font-weight: 400 !important;
+
+    color: #29251f !important;
+}
+
+.ivory-popup-text-only p {
+    max-width: 600px !important;
+
+    margin: auto !important;
+
+    font-size: 15px !important;
+
+    line-height: 1.8 !important;
+
+    color: #5f5a52 !important;
+}
+
+body.popup-open {
+    overflow: hidden !important;
+}
+
+@media (max-width: 768px) {
+
+    .ivory-popup-overlay {
+        padding: 15px !important;
+    }
+
+    .ivory-popup-box {
+        width: 92vw !important;
+        max-height: 86vh !important;
+    }
+
+    .ivory-popup-image {
+        max-height: 86vh !important;
+    }
+
+    .ivory-popup-close {
+        top: 10px !important;
+        right: 10px !important;
+
+        width: 38px !important;
+        height: 38px !important;
+
+        font-size: 24px !important;
+    }
+
+    .ivory-popup-content {
+        padding: 70px 22px 25px !important;
+    }
+
+    .ivory-popup-content h2 {
+        font-size: 27px !important;
+    }
+
+    .ivory-popup-content p {
+        font-size: 12px !important;
+    }
+}
+</style>
+
+
+    <!-- =====================================================
+         CUSTOM JAVASCRIPT
+    ====================================================== -->
+
+    <script src="{% static 'chat-transport.js' %}" defer></script>
+    <script src="{% static 'support-media.js' %}?v=20260903-media2" defer></script>
+    <script
+        src="{% static 'chat.js' %}?v=20260903-media2"
+        defer>
+    </script>
+
+
+    <!-- =====================================================
+         FAVICON
+    ====================================================== -->
+
+    <link
+        rel="icon"
+        type="image/png"
+        href="{% static 'images/b.svg' %}"
+    >
+
+
+    <!-- =====================================================
+         GOOGLE FONTS
+    ====================================================== -->
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+
+    <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin
+    >
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=Playfair+Display:wght@400;500&display=swap"
+        rel="stylesheet"
+    >
+
+</head>
+
+
+<body>
+{% include 'navbarfooter/navbar.html' %}
+
+<!-- =========================================================
+     IVORY DESIGN HERO
+========================================================= -->
+
+<section class="ivory-hero">
+
+
+    <!-- BACKGROUND -->
+
+    <div class="ivory-hero-bg"></div>
+
+
+    <!-- OVERLAY -->
+
+    <div class="ivory-hero-overlay"></div>
+
+    {% include 'components/hero_drawing.html' %}
+    <noscript><style>.hero-drawing .drawing-strokes { visibility: visible; }</style></noscript>
+
+
+
+    <!-- =====================================================
+         HERO CONTENT
+    ====================================================== -->
+
+    <div class="ivory-hero-content">
+
+
+        <div class="hero-small-label">
+
+            INTERIOR ARCHITECTURE
+            ·
+            DESIGN
+            ·
+            ART
+
+        </div>
+
+
+
+        <!-- TYPEWRITER -->
+
+        <h1 class="ivory-title">
+
+            <span id="ivory-text"></span>
+
+            <span class="typewriter-cursor">
+                |
+            </span>
+
+        </h1>
+
+
+
+        <!-- SUBTITLE -->
+
+        <p class="ivory-subtitle">
+
+            We create timeless spaces where
+
+            <span>
+                form meets feeling.
+            </span>
+
+        </p>
+
+
+
+        <!-- BUTTONS -->
+
+        <div class="ivory-buttons">
+
+
+            <a
+                href="/projects/"
+                class="ivory-btn ivory-btn-primary">
+
+                EXPLORE OUR WORK
+
+                <span>
+                    ↗
+                </span>
+
+            </a>
+
+
+            <a
+                href="/contact/"
+                class="ivory-btn ivory-btn-outline">
+
+                START A PROJECT
+
+            </a>
+
+
+        </div>
+
+
+    </div>
+
+
+
+    <!-- =====================================================
+         HERO BOTTOM
+    ====================================================== -->
+
+    <div class="ivory-hero-bottom">
+
+
+        <div class="hero-location">
+
+            <span class="dot"></span>
+
+            KATHMANDU · NEPAL
+
+        </div>
+
+
+        <div class="hero-scroll">
+
+            SCROLL TO EXPLORE
+
+            <span class="scroll-line"></span>
+
+        </div>
+
+
+        <div class="hero-year">
+
+            © 2026
+
+        </div>
+
+
+    </div>
+
+
+</section>
+
+
+
+<!-- =========================================================
+     PAGE 2 — SELECTED WORKS
+========================================================= -->
+
+<section
+    id="projects"
+    class="ivory-works-section"
+>
+
+
+    <div class="works-header">
+
+
+        <div>
+
+
+            <span class="section-eyebrow">
+
+                SELECTED WORKS
+
+            </span>
+
+
+            <h2>
+
+                Spaces with<br>
+
+                <em>
+                    intention.
+                </em>
+
+            </h2>
+
+
+        </div>
+
+
+
+        <p>
+
+            A collection of interiors designed around
+            material, light, proportion and the people
+            who inhabit them.
+
+        </p>
+
+
+    </div>
+
+
+
+    <!-- =====================================================
+         PROJECT SHOWCASE
+    ====================================================== -->
+
+    <div class="works-grid">
+
+
+        {% for project in featured_projects %}
+
+
+        <a
+            href="#"
+            class="work-card {% if forloop.first %}work-large{% endif %}"
+        >
+
+
+            {% if project.image %}
+
+
+            <img
+                src="{{ project.image.url }}"
+                alt="{{ project.name }}"
+            >
+
+
+            {% endif %}
+
+
+
+            <div class="work-overlay">
+
+
+                <div>
+
+
+                    <span>
+
+                        {{ forloop.counter|stringformat:"02d" }}
+
+                    </span>
+
+
+                    <h3>
+
+                        {{ project.name }}
+
+                    </h3>
+
+
+                    <p>
+
+                        {{ project.location }}
+
+                        ·
+
+                        {{ project.category }}
+
+                    </p>
+
+
+                </div>
+
+
+
+                <span class="work-arrow">
+
+                    ↗
+
+                </span>
+
+
+            </div>
+
+
+        </a>
+
+
+        {% empty %}
+
+        {% endfor %}
+
+
+    </div>
+
+
+
+    <div class="works-footer">
+
+
+        <span>
+
+            {{ featured_projects|length|stringformat:"02d" }}
+
+            — SELECTED PROJECTS
+
+        </span>
+
+
+
+        <a href="/projects/">
+
+            VIEW ALL PROJECTS
+
+            <span>
+                ↗
+            </span>
+
+        </a>
+
+
+    </div>
+
+
+</section>
+
+
+<!-- =========================================================
+     PAGE 3 — CLIENTS
+========================================================= -->
+
+<section
+    id="clients"
+    class="ivory-clients-section"
+>
+
+
+    <div class="clients-intro">
+
+
+        <span class="section-eyebrow dark">
+
+            OUR CLIENTS
+
+        </span>
+
+
+
+        <h2>
+
+            Designed for<br>
+
+            <em>
+                those who dream.
+            </em>
+
+        </h2>
+
+
+
+        <p>
+
+            We collaborate with people and brands who
+            believe that a space should feel as good
+            as it looks.
+
+        </p>
+
+
+    </div>
+
+
+
+    <!-- =====================================================
+         CLIENT MARQUEE
+    ====================================================== -->
+{% if clients %}
+<div class="clients-marquee" aria-label="Our clients">
+    <div class="clients-track">
+        <div class="clients-group">
+            {% for client in clients %}
+            <div class="client-logo"><img src="{{ client.logo.url }}" alt="{{ client.name }}" width="160" height="80"></div>
+            {% endfor %}
+        </div>
+        <div class="clients-group" aria-hidden="true">
+            {% for client in clients %}
+            <div class="client-logo"><img src="{{ client.logo.url }}" alt="" width="160" height="80"></div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endif %}
+
+    <div class="clients-bottom">
+
+
+        <span>
+
+            TRUSTED COLLABORATIONS
+
+        </span>
+
+
+        <span>
+
+            KATHMANDU · NEPAL
+
+        </span>
+
+
+    </div>
+
+
+</section>
+
+
+<!-- =========================================================
+     MAIN CONTENT
+========================================================= -->
+
+{% include 'components/chatbox.html' %}
+
+<!-- =========================================================
+     IVORY POPUP ADVERTISEMENT
+========================================================= -->
+
+{% for popup in popups %}
+
+<div
+    id="popup-{{ popup.id }}"
+    class="ivory-popup-overlay"
+    data-popup-id="{{ popup.id }}"
+    role="dialog"
+    aria-modal="true"
+    aria-label="{{ popup.title }}"
+>
+
+    <div class="ivory-popup-box">
+
+        <!-- CLOSE BUTTON -->
+        <button
+            type="button"
+            class="ivory-popup-close"
+            data-popup-close="{{ popup.id }}"
+            aria-label="Close advertisement"
+        >
+            <span>×</span>
+        </button>
+
+
+        {% if popup.image %}
+
+            <!-- IMAGE POPUP -->
+
+            <div class="ivory-popup-image-wrapper">
+
+                <img
+                    src="{{ popup.image.url }}"
+                    alt="{{ popup.title }}"
+                    class="ivory-popup-image"
+                >
+
+                <div class="ivory-popup-gradient"></div>
+
+                <div class="ivory-popup-content">
+
+                    <h2>
+                        {{ popup.title }}
+                    </h2>
+
+                    {% if popup.content %}
+
+                        <p>
+                            {{ popup.content|striptags }}
+                        </p>
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+        {% else %}
+
+            <!-- TEXT ONLY POPUP -->
+
+            <div class="ivory-popup-text-only">
+
+                <h2>
+                    {{ popup.title }}
+                </h2>
+
+                {% if popup.content %}
+
+                    <p>
+                        {{ popup.content|striptags }}
+                    </p>
+
+                {% endif %}
+
+            </div>
+
+        {% endif %}
+
+    </div>
+
+</div>
+
+{% endfor %}
+
+
+
+<!-- =========================================================
+     JAVASCRIPT
+========================================================= -->
+
+<script>
+
+
+/* =========================================================
+   IVORY TYPEWRITER
+========================================================= */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function () {
+
+
+        const ivoryText =
+            document.getElementById(
+                "ivory-text"
+            );
+
+
+        const ivoryWords = [
+
+            "IVORY",
+
+            "IVORY DESIGN",
+
+            "IVORY INTERIOR"
+
+        ];
+
+
+        let wordIndex = 0;
+
+        let characterIndex = 0;
+
+        let deleting = false;
+
+
+
+        function ivoryTypewriter() {
+
+
+            if (!ivoryText) {
+
+                return;
+
+            }
+
+
+            const currentWord =
+                ivoryWords[wordIndex];
+
+
+            if (!deleting) {
+
+
+                ivoryText.textContent =
+                    currentWord.substring(
+                        0,
+                        characterIndex + 1
+                    );
+
+
+                characterIndex++;
+
+
+                if (
+                    characterIndex ===
+                    currentWord.length
+                ) {
+
+
+                    setTimeout(
+                        function () {
+
+                            deleting = true;
+
+                            ivoryTypewriter();
+
+                        },
+                        1800
+                    );
+
+
+                    return;
+
+                }
+
+
+                setTimeout(
+                    ivoryTypewriter,
+                    120
+                );
+
+            }
+
+
+            else {
+
+
+                ivoryText.textContent =
+                    currentWord.substring(
+                        0,
+                        characterIndex - 1
+                    );
+
+
+                characterIndex--;
+
+
+                if (characterIndex === 0) {
+
+
+                    deleting = false;
+
+                    wordIndex++;
+
+
+                    if (
+                        wordIndex >=
+                        ivoryWords.length
+                    ) {
+
+                        wordIndex = 0;
+
+                    }
+
+
+                    setTimeout(
+                        ivoryTypewriter,
+                        500
+                    );
+
+
+                    return;
+
+                }
+
+
+                setTimeout(
+                    ivoryTypewriter,
+                    70
+                );
+
+            }
+
+        }
+
+
+        ivoryTypewriter();
+
+    }
+);
+
+
+
+/* =========================================================
+   MOBILE MENU
+========================================================= */
+
+function toggleIvoryMenu() {
+
+
+    const menu =
+        document.getElementById(
+            "ivory-mobile-menu"
+        );
+
+
+    if (!menu) {
+
+        return;
+
+    }
+
+
+    menu.classList.toggle(
+        "active"
+    );
+
+}
+
+
+
+/* =========================================================
+   POPUP AD SYSTEM
+   FINAL VERSION
+========================================================= */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function () {
+
+
+        const popupOverlays =
+            document.querySelectorAll(
+                ".ivory-popup-overlay"
+            );
+
+
+        if (!popupOverlays.length) {
+
+            return;
+
+        }
+
+
+
+        /* =================================================
+           SHOW POPUPS
+        ================================================== */
+
+        popupOverlays.forEach(
+            function (popup) {
+
+
+                setTimeout(
+                    function () {
+
+
+                        popup.classList.add(
+                            "ivory-popup-visible"
+                        );
+
+
+                        document.body.classList.add(
+                            "popup-open"
+                        );
+
+
+                    },
+                    800
+                );
+
+            }
+        );
+
+
+
+        /* =================================================
+           CLOSE BUTTONS
+        ================================================== */
+
+        const closeButtons =
+            document.querySelectorAll(
+                ".ivory-popup-close"
+            );
+
+
+        closeButtons.forEach(
+            function (button) {
+
+
+                button.addEventListener(
+                    "click",
+                    function (event) {
+
+
+                        event.preventDefault();
+
+                        event.stopPropagation();
+
+
+                        const popupId =
+                            this.getAttribute(
+                                "data-popup-close"
+                            );
+
+
+                        closeIvoryPopup(
+                            popupId
+                        );
+
+                    }
+                );
+
+            }
+        );
+
+
+
+        /* =================================================
+           CLICK OUTSIDE
+        ================================================== */
+
+        popupOverlays.forEach(
+            function (popup) {
+
+
+                popup.addEventListener(
+                    "click",
+                    function (event) {
+
+
+                        if (
+                            event.target ===
+                            popup
+                        ) {
+
+
+                            closeIvoryPopup(
+                                popup.dataset.popupId
+                            );
+
+                        }
+
+                    }
+                );
+
+            }
+        );
+
+    }
+);
+
+
+
+/* =========================================================
+   CLOSE POPUP FUNCTION
+========================================================= */
+
+function closeIvoryPopup(id) {
+
+
+    const popup =
+        document.getElementById(
+            "popup-" + id
+        );
+
+
+    if (!popup) {
+
+        return;
+
+    }
+
+
+    popup.classList.remove(
+        "ivory-popup-visible"
+    );
+
+
+    popup.classList.add(
+        "ivory-popup-closed"
+    );
+
+
+    /* Restore page scrolling */
+
+    const remainingPopup =
+        document.querySelector(
+            ".ivory-popup-overlay.ivory-popup-visible"
+        );
+
+
+    if (!remainingPopup) {
+
+
+        document.body.classList.remove(
+            "popup-open"
+        );
+
+    }
+
+}
+
+
+
+/* =========================================================
+   ESCAPE KEY
+========================================================= */
+
+document.addEventListener(
+    "keydown",
+    function (event) {
+
+
+        if (
+            event.key !==
+            "Escape"
+        ) {
+
+            return;
+
+        }
+
+
+        const openPopups =
+            document.querySelectorAll(
+                ".ivory-popup-overlay.ivory-popup-visible"
+            );
+
+
+        openPopups.forEach(
+            function (popup) {
+
+
+                closeIvoryPopup(
+                    popup.dataset.popupId
+                );
+
+            }
+        );
+
+    }
+);
+
+
+
+/* =========================================================
+   SUCCESS POPUP
+========================================================= */
+
+function closeSuccessPopup() {
+
+
+    const popup =
+        document.getElementById(
+            "success-popup"
+        );
+
+
+    if (!popup) {
+
+        return;
+
+    }
+
+
+    popup.style.display =
+        "none";
+
+}
+
+
+
+/* =========================================================
+   AUTO CLOSE SUCCESS POPUP
+========================================================= */
+
+setTimeout(
+    function () {
+
+
+        const popup =
+            document.getElementById(
+                "success-popup"
+            );
+
+
+        if (popup) {
+
+
+            popup.style.display =
+                "none";
+
+        }
+
+
+    },
+    5000
+);
+
+
+</script>
+
+
+
+<!-- =========================================================
+     SUCCESS MESSAGE POPUP
+========================================================= -->
+
+{% if messages %}
+
+
+    {% for message in messages %}
+
+
+        <div
+            id="success-popup"
+            class="fixed inset-0
+                   z-[99999]
+                   flex items-center
+                   justify-center
+                   bg-black/40
+                   backdrop-blur-sm"
+        >
+
+
+            <div
+                class="bg-[#f3eee5]
+                       rounded-2xl
+                       shadow-2xl
+                       p-8
+                       text-center
+                       max-w-md
+                       mx-4"
+            >
+
+
+                <!-- ICON -->
+
+                <div class="flex justify-center mb-5">
+
+
+                    <div
+                        class="w-16 h-16
+                               rounded-full
+                               bg-green-100
+                               flex items-center
+                               justify-center"
+                    >
+
+                        <span
+                            class="text-green-600
+                                   text-4xl"
+                        >
+
+                            ✓
+
+                        </span>
+
+
+                    </div>
+
+
+                </div>
+
+
+
+                <!-- TITLE -->
+
+                <h2
+                    class="text-2xl
+                           font-semibold
+                           text-[#29251f]
+                           mb-3"
+                >
+
+                    Message Sent!
+
+                </h2>
+
+
+
+                <!-- MESSAGE -->
+
+                <p
+                    class="text-gray-600
+                           leading-relaxed
+                           mb-6"
+                >
+
+                    {{ message }}
+
+                </p>
+
+
+
+                <!-- CLOSE -->
+
+                <button
+                    type="button"
+                    onclick="closeSuccessPopup()"
+                    class="bg-[#29251f]
+                           text-white
+                           px-8
+                           py-3
+                           rounded-sm
+                           tracking-wider
+                           text-sm
+                           hover:bg-[#4a443b]
+                           transition"
+                >
+
+                    OK
+
+                </button>
+
+
+            </div>
+
+
+        </div>
+
+
+    {% endfor %}
+
+
+{% endif %}
+
+{% include 'navbarfooter/footer.html' %}
+
+<script src="{% static 'hero-drawing.js' %}?v=20260903-23" defer></script>
+<script src="{% static 'clients-marquee.js' %}?v=20260903-marquee2" defer></script>
+</body>
+
+
+
+
+</html>

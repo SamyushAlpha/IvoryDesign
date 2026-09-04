@@ -1,0 +1,78 @@
+<g class="scene-vehicle" data-entry="{{ entry }}" data-kind="{{ kind }}" opacity="0" stroke="#4b5146" stroke-width="1.4" stroke-linejoin="round" stroke-linecap="round">
+    <ellipse cx="0" cy="4" rx="{% if kind == 'truck' %}32{% else %}82{% endif %}" ry="7" fill="#262f26" opacity=".15" stroke="none"/>
+    <g class="vehicle-body">
+    {% if kind == 'loader' %}
+        <!-- Loader truck: rubber tyres, open cab, and a front loading bucket. -->
+        <path d="M-79-52H-37V-61H29L61-41V-23H-79Z" fill="#cea351"/>
+        <path d="M-79-52H-42V-29H-79Z" fill="#e6bd65"/>
+        <path d="M-69-45V-34 M-62-45V-34 M-55-45V-34" stroke="#8d793f" stroke-width="2"/>
+        <path d="M-37-58V-113H21L33-58" fill="#a4c4be" fill-opacity=".38" stroke="#57675a" stroke-width="3"/>
+        <path d="M-44-114H27L31-108H-44Z" fill="#f1d187"/>
+        <path d="M-33-78V-60H18V-78" fill="#626b5a"/>
+        <path d="M21-54L72-49L94-23 M15-44L67-39L90-16" fill="none" stroke="#c3943e" stroke-width="8"/>
+        <path d="M25-52L71-47" stroke="#dce1d4" stroke-width="3"/>
+        <path d="M86-37L92-13H119L128-23L105-23L99-42Z" fill="#b49355"/>
+        <path d="M93-13H119" stroke="#645d45" stroke-width="3"/>
+        <path d="M-20-36H7V-27H-20 M-16-25H11" fill="none" stroke="#7d795e" stroke-width="3"/>
+        <g transform="translate(-49 -18)"><g class="vehicle-wheel"><circle r="22" fill="#3b423b"/><circle r="12" fill="#d6af61"/><path d="M-9 0H9 M0-9V9" stroke="#96834e" stroke-width="2"/><circle r="4" fill="#f1d38e"/></g></g>
+        <g transform="translate(43 -18)"><g class="vehicle-wheel"><circle r="22" fill="#3b423b"/><circle r="12" fill="#d6af61"/><path d="M-9 0H9 M0-9V9" stroke="#96834e" stroke-width="2"/><circle r="4" fill="#f1d38e"/></g></g>
+        <rect x="-75" y="-56" width="11" height="6" rx="2" fill="#f3eac6"/>
+        <path d="M-64-62V-77" stroke="#656b5b" stroke-width="4"/>
+    {% elif kind == 'excavator' %}
+        <!-- Tracked excavator with a folded hydraulic boom. -->
+        <rect x="-73" y="-30" width="130" height="32" rx="16" fill="#3e463e"/>
+        <rect class="vehicle-track" x="-69" y="-26" width="122" height="24" rx="12" fill="none" stroke="#7d8372" stroke-width="4" stroke-dasharray="5 5"/>
+        <g transform="translate(-50 -14)"><g class="vehicle-wheel"><circle r="8" fill="#a9ac91"/><path d="M-6 0H6 M0-6V6" stroke="#606a56"/></g></g>
+        <g transform="translate(33 -14)"><g class="vehicle-wheel"><circle r="8" fill="#a9ac91"/><path d="M-6 0H6 M0-6V6" stroke="#606a56"/></g></g>
+        <path d="M-69-61H32L48-44V-32H-69Z" fill="#d6ac51"/>
+        <path d="M-68-61H-40V-37H-68Z" fill="#e9c36b"/>
+        <path d="M-37-59V-110H7L22-61Z" fill="#a4c4be" fill-opacity=".4" stroke="#57675a" stroke-width="3"/>
+        <path d="M-42-112H10L15-105H-42Z" fill="#f1d187"/>
+        <path d="M-32-77V-59H8V-74" fill="#626b5a"/>
+        <path d="M26-55L56-119L86-119L114-55" fill="none" stroke="#d2a345" stroke-width="13"/>
+        <path d="M32-65L57-107 M82-110L103-63" stroke="#e3e3cf" stroke-width="4"/>
+        <path d="M108-60L104-33Q116-18 137-28L145-40L121-42L119-61Z" fill="#a89768"/>
+        <circle cx="27" cy="-56" r="6" fill="#a0823f"/><circle cx="84" cy="-118" r="5" fill="#a0823f"/>
+    {% else %}
+        <!-- Compact pickup truck, rear view on arrival and front view on departure. -->
+        <rect x="-43" y="-79" width="13" height="24" rx="4" fill="#39433e"/>
+        <rect x="30" y="-79" width="13" height="24" rx="4" fill="#39433e"/>
+        <rect x="-43" y="-23" width="13" height="26" rx="4" fill="#39433e"/>
+        <rect x="30" y="-23" width="13" height="26" rx="4" fill="#39433e"/>
+        <path d="M-35-83L-29-109H29L35-83V-4H-35Z" fill="#819b92"/>
+        <path d="M-26-105H26L30-83H-30Z" fill="#b9cec5"/>
+        <path d="M-30-82V-13H30V-82" fill="#50665f" stroke-width="3"/>
+        <path d="M-24-72H24V-20H-24Z" fill="#b7c2ab"/>
+        <path d="M-16-67V-25 M-5-67V-25 M6-67V-25 M17-67V-25" stroke="#8e9f8b"/>
+        <path d="M-36-89H-48 M36-89H48" stroke="#c6ccba" stroke-width="3"/>
+        <rect x="-53" y="-96" width="8" height="13" rx="2" fill="#c5d3c7"/>
+        <rect x="45" y="-96" width="8" height="13" rx="2" fill="#c5d3c7"/>
+        <g class="truck-rear">
+            <path d="M-35-17H35V-3H-35Z" fill="#819b92"/>
+            <rect x="-32" y="-14" width="8" height="8" rx="1" fill="#be7059"/>
+            <rect x="24" y="-14" width="8" height="8" rx="1" fill="#be7059"/>
+            <path d="M-38 0H38" stroke="#d4d3be" stroke-width="4"/>
+        </g>
+        <g class="truck-front" opacity="0">
+            <path d="M-30-80H30L34-19H-34Z" fill="#93aaa0"/>
+            <path d="M-27-79H27L23-53H-23Z" fill="#c2d7ce"/>
+            <path d="M-33-19H33V-3H-33Z" fill="#6e877e"/>
+            <rect x="-29" y="-15" width="12" height="8" rx="2" fill="#fff0bc"/>
+            <rect x="17" y="-15" width="12" height="8" rx="2" fill="#fff0bc"/>
+            <path d="M-10-13H10 M-10-8H10" stroke="#3d5048" stroke-width="2"/>
+            <path d="M-37 0H37" stroke="#d4d3be" stroke-width="4"/>
+        </g>
+        <rect x="-9" y="-2" width="18" height="6" rx="1" fill="#efe9d3"/>
+    {% endif %}
+    {% if kind == 'loader' %}
+        {% include 'components/vehicle_cab.html' with cx="-8" cy="-82" driver_scale="1" clipx="-34" clipy="-108" clipw="55" cliph="48" hinge_x="-35" hinge_y="-108" door_width="41" door_height="49" handle_y="36" %}
+        <g transform="translate(-5 -45)">{% include 'components/vehicle_brand.html' with brand_width="56" brand_size="8" %}</g>
+    {% elif kind == 'excavator' %}
+        {% include 'components/vehicle_cab.html' with cx="-16" cy="-81" driver_scale="1" clipx="-34" clipy="-106" clipw="45" cliph="46" hinge_x="-35" hinge_y="-106" door_width="37" door_height="47" handle_y="34" %}
+        <g transform="translate(-10 -43)">{% include 'components/vehicle_brand.html' with brand_width="68" brand_size="8" %}</g>
+    {% else %}
+        {% include 'components/vehicle_cab.html' with cx="-4" cy="-89" driver_scale=".7" clipx="-26" clipy="-104" clipw="52" cliph="23" hinge_x="-33" hinge_y="-103" door_width="21" door_height="28" handle_y="21" %}
+        <g transform="translate(0 -31)">{% include 'components/vehicle_brand.html' with brand_width="58" brand_size="8" %}</g>
+    {% endif %}
+    </g>
+</g>

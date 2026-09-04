@@ -1,0 +1,77 @@
+{% extends "admin/base_site.html" %}
+{% load static %}
+
+{% block extrastyle %}
+{{ block.super }}
+<link rel="stylesheet" href="{% static 'admin/support-inbox.css' %}?v=20260903-media2">
+<link rel="stylesheet" href="{% static 'support-media.css' %}?v=20260903-media2">
+{% endblock %}
+
+{% block extrahead %}
+{{ block.super }}
+<script src="{% static 'support-media.js' %}?v=20260903-media2" defer></script>
+<script src="{% static 'admin/support-inbox.js' %}?v=20260903-media2" defer></script>
+{% endblock %}
+
+{% block content %}
+<div class="support-inbox" data-can-change="{{ can_change_support|yesno:'true,false' }}">
+  <header class="support-inbox__header">
+    <div>
+      <p class="support-inbox__eyebrow">IVORY DESIGN · CLIENT CARE</p>
+      <h1>Live support</h1>
+      <p>A thoughtful conversation, from first question to next step.</p>
+      <a href="/admin/Ivory/customfaq/">Edit assistant FAQs</a>
+    </div>
+    <p id="support-connection" class="support-inbox__connection" role="status">Connecting…</p>
+  </header>
+
+  <nav class="support-inbox__filters" aria-label="Conversation filters">
+    <button type="button" data-support-filter="active" aria-pressed="true">Active</button>
+    <button type="button" data-support-filter="waiting" aria-pressed="false">Waiting</button>
+    <button type="button" data-support-filter="bot_handled" aria-pressed="false">Automated</button>
+    <button type="button" data-support-filter="human_active" aria-pressed="false">Staff handling</button>
+    <button type="button" data-support-filter="resolved" aria-pressed="false">Resolved</button>
+  </nav>
+
+  <div class="support-inbox__layout">
+    <section class="support-inbox__list-panel" aria-labelledby="support-list-title">
+      <h2 id="support-list-title">Conversations</h2>
+      <div id="support-conversation-list" class="support-inbox__list" role="list"></div>
+    </section>
+
+    <section id="support-detail" class="support-inbox__detail" aria-labelledby="support-detail-title">
+      <div class="support-inbox__empty" id="support-empty">
+        <h2 id="support-detail-title">Select a conversation</h2>
+        <p>New visitor messages will appear automatically.</p>
+      </div>
+      <div id="support-active-detail" hidden>
+        <header class="support-inbox__conversation-header">
+          <div>
+            <h2 id="support-visitor-name">Visitor</h2>
+            <p id="support-conversation-status"></p>
+            <p id="support-visitor-phone"></p>
+          </div>
+          {% if can_change_support %}
+          <div class="support-inbox__actions">
+            <button id="support-assistant" type="button">Assign to assistant</button>
+            <button id="support-claim" type="button">Take over as staff</button>
+            <button id="support-resolve" type="button" class="support-inbox__secondary">Resolve</button>
+          </div>
+          {% endif %}
+        </header>
+        <div id="support-message-list" class="support-inbox__messages" role="log" aria-live="polite"></div>
+        {% if can_change_support %}
+        <form id="support-reply-form" class="support-inbox__reply">
+          {% csrf_token %}
+          <label for="support-reply">Reply as a team member</label>
+          <textarea id="support-reply" maxlength="1800" rows="3" placeholder="Write a thoughtful reply…" aria-describedby="support-compose-hint support-action-status"></textarea>
+          <small id="support-compose-hint">Enter to send · Shift+Enter for a new line · Files up to 5 MB · Voice notes up to 2 minutes</small>
+          <button type="submit">Send reply</button>
+        </form>
+        {% endif %}
+        <p id="support-action-status" role="status"></p>
+      </div>
+    </section>
+  </div>
+</div>
+{% endblock %}

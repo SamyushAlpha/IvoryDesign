@@ -1,0 +1,120 @@
+[
+{
+  "model": "Ivory.project",
+  "pk": 3,
+  "fields": {
+    "name": "Interior Design",
+    "category": null,
+    "description": "Just recent Project",
+    "image": "projects/4_G6wSbJx.avif",
+    "location": "Tikathali",
+    "year": 2026,
+    "featured": true,
+    "created_at": "2026-08-14T17:16:24.132Z",
+    "updated_at": "2026-08-14T17:16:24.132Z"
+  }
+},
+{
+  "model": "Ivory.teammember",
+  "pk": 6,
+  "fields": {
+    "name": "Samyush Gautam",
+    "designation": "CEO",
+    "photo": "team/IMG_9886_2.JPG",
+    "bio": "Founder and Developer of Ivory Design Studio",
+    "order": 1,
+    "is_active": true,
+    "created_at": "2026-09-02T16:52:12.077Z",
+    "updated_at": "2026-09-02T16:55:31.388Z"
+  }
+},
+{
+  "model": "Ivory.teammember",
+  "pk": 8,
+  "fields": {
+    "name": "Aparna Thapa",
+    "designation": "Architect",
+    "photo": "team/Screenshot_2026-05-22_at_2_XbM1Lrv.32.49PM.png",
+    "bio": "Co-Founder of Ivory Design Studio and specialized on interior Design and construction work",
+    "order": 2,
+    "is_active": true,
+    "created_at": "2026-09-02T16:57:11.249Z",
+    "updated_at": "2026-09-02T17:08:02.026Z"
+  }
+},
+{
+  "model": "Ivory.teammember",
+  "pk": 9,
+  "fields": {
+    "name": "Purna Bikram Shahi",
+    "designation": "MD( Engineer)",
+    "photo": "team/purna.jpg",
+    "bio": "Managing Director of Ivory Design",
+    "order": 3,
+    "is_active": true,
+    "created_at": "2026-09-02T17:05:45.440Z",
+    "updated_at": "2026-09-03T15:00:57.350Z"
+  }
+},
+{
+  "model": "Ivory.client",
+  "pk": 4,
+  "fields": {
+    "name": "Gyan Niketan",
+    "logo": "clients/9_EylbfM8.jpeg",
+    "order": 1,
+    "is_active": true,
+    "created_at": "2026-09-03T09:13:40.028Z"
+  }
+},
+{
+  "model": "Ivory.client",
+  "pk": 5,
+  "fields": {
+    "name": "Arambha",
+    "logo": "clients/7.jpg",
+    "order": 2,
+    "is_active": true,
+    "created_at": "2026-09-03T09:14:33.395Z"
+  }
+},
+{
+  "model": "Ivory.client",
+  "pk": 6,
+  "fields": {
+    "name": "Archihub",
+    "logo": "clients/Ivory_Design.png",
+    "order": 3,
+    "is_active": true,
+    "created_at": "2026-09-03T09:16:01.160Z"
+  }
+},
+{
+  "model": "Ivory.businessinformation",
+  "pk": 1,
+  "fields": {
+    "pricing_mode": "quote_only",
+    "pricing_guidance": "Pricing depends on the project scope and specifications. Please use the Contact form for a tailored quote.",
+    "currency": "",
+    "rate_per_sq_ft": null,
+    "pricing_scope": "",
+    "location": "Kathmandu, Nepal",
+    "nearby_landmark": "",
+    "appointment_instructions": "Use the Contact form with your name, email, phone number, and project details to request a consultation. The team will confirm availability.",
+    "appointment_url": "",
+    "updated_at": "2026-08-30T18:58:03.863Z"
+  }
+},
+{
+  "model": "Ivory.customfaq",
+  "pk": 1,
+  "fields": {
+    "question": "Rate",
+    "answer": "224",
+    "aliases": "What is the Rate per Sqr feet",
+    "category": "",
+    "is_active": true,
+    "order": 1
+  }
+}
+]

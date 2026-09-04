@@ -1,0 +1,482 @@
+/* ==========================================================
+   IVORY DESIGN STUDIO ADMIN
+   ========================================================== */
+
+
+/* ==========================================================
+   GLOBAL
+   ========================================================== */
+
+body {
+    font-family: "DM Sans", Arial, sans-serif;
+}
+
+
+/* ==========================================================
+   BRAND / TOP NAVBAR
+   ========================================================== */
+
+.main-header .brand-link {
+    background: #f3eee5 !important;
+    color: #29251f !important;
+
+    font-family: Georgia, serif;
+    letter-spacing: 4px;
+
+    font-size: 20px;
+    font-weight: 400;
+}
+
+.main-header {
+    border-bottom: 1px solid #ddd5c8 !important;
+}
+
+.main-header .navbar {
+    background: #f3eee5 !important;
+}
+
+
+/* ==========================================================
+   SIDEBAR
+   ========================================================== */
+
+.main-sidebar {
+    background: #29251f !important;
+}
+
+.nav-sidebar .nav-link {
+    color: #e8e0d4 !important;
+
+    border-radius: 6px;
+    margin: 3px 10px;
+
+    transition: all 0.2s ease;
+}
+
+.nav-sidebar .nav-link:hover {
+    background: #4a443b !important;
+    color: #ffffff !important;
+}
+
+.nav-sidebar .nav-link.active {
+    background: #d8cbb9 !important;
+    color: #29251f !important;
+}
+
+
+/* ==========================================================
+   SIDEBAR ICONS
+   ========================================================== */
+
+.nav-sidebar .nav-icon {
+    color: #cfc1ae !important;
+}
+
+
+/* ==========================================================
+   SIDEBAR BRAND
+   ========================================================== */
+
+.main-sidebar .brand-link {
+    height: 70px !important;
+
+    display: flex !important;
+    align-items: center !important;
+
+    padding: 8px 12px !important;
+
+    overflow: hidden !important;
+
+    background: #f3eee5 !important;
+}
+
+
+/* Sidebar logo image */
+
+.main-sidebar .brand-link .brand-image {
+    width: 48px !important;
+    height: 48px !important;
+
+    max-width: 48px !important;
+    max-height: 48px !important;
+
+    object-fit: contain !important;
+
+    opacity: 1 !important;
+
+    margin: 0 10px 0 0 !important;
+
+    border-radius: 0 !important;
+}
+
+
+/* Sidebar brand text */
+
+.main-sidebar .brand-link .brand-text {
+    color: #29251f !important;
+
+    font-family: Georgia, serif !important;
+
+    letter-spacing: 3px !important;
+}
+
+
+/* ==========================================================
+   PAGE BACKGROUND
+   ========================================================== */
+
+.content-wrapper {
+    background: #f3eee5 !important;
+}
+
+
+/* ==========================================================
+   PAGE HEADER
+   ========================================================== */
+
+.content-header h1 {
+    color: #29251f !important;
+
+    font-family: Georgia, serif !important;
+
+    font-weight: 400 !important;
+}
+
+
+/* ==========================================================
+   CARDS
+   ========================================================== */
+
+.card {
+    border: 1px solid #ded5c7 !important;
+
+    border-radius: 10px !important;
+
+    box-shadow:
+        0 4px 20px rgba(41, 37, 31, 0.05) !important;
+
+    overflow: hidden;
+}
+
+.card-header {
+    background: #ebe4d8 !important;
+
+    border-bottom: 1px solid #ded5c7 !important;
+}
+
+
+/* ==========================================================
+   TABLE
+   ========================================================== */
+
+.table {
+    background: #ffffff;
+}
+
+.table thead th {
+    background: #29251f !important;
+
+    color: #ffffff !important;
+
+    border: none !important;
+
+    font-size: 13px;
+
+    letter-spacing: 0.05em;
+}
+
+.table tbody tr:hover {
+    background: #f3eee5 !important;
+}
+
+
+/* ==========================================================
+   BUTTONS
+   ========================================================== */
+
+.btn-primary {
+    background: #29251f !important;
+
+    border-color: #29251f !important;
+}
+
+.btn-primary:hover {
+    background: #4a443b !important;
+
+    border-color: #4a443b !important;
+}
+
+
+/* ==========================================================
+   FORM INPUTS
+   ========================================================== */
+
+.form-control,
+select,
+textarea {
+    border: 1px solid #d5cabb !important;
+
+    border-radius: 6px !important;
+}
+
+.form-control:focus,
+select:focus,
+textarea:focus {
+    border-color: #29251f !important;
+
+    box-shadow:
+        0 0 0 0.15rem rgba(41, 37, 31, 0.08) !important;
+}
+
+
+/* ==========================================================
+   BREADCRUMB
+   ========================================================== */
+
+.breadcrumb {
+    background: transparent !important;
+}
+
+.breadcrumb-item a {
+    color: #6d655b !important;
+}
+
+
+/* ==========================================================
+   FOOTER
+   ========================================================== */
+
+.main-footer {
+    background: #ebe4d8 !important;
+
+    border-top: 1px solid #ddd5c8 !important;
+
+    color: #6d655b !important;
+}
+
+
+/* ==========================================================
+   LOGIN PAGE
+   ========================================================== */
+
+.login-page {
+    background: #f3eee5 !important;
+}
+
+
+/* ==========================================================
+   LOGIN CARD
+   ========================================================== */
+
+.login-box {
+    margin-top: 20px !important;
+}
+
+.login-box .card {
+    background: #ffffff !important;
+
+    border-radius: 14px !important;
+
+    border: none !important;
+}
+
+
+/* ==========================================================
+   LOGIN LOGO
+   ========================================================== */
+
+/*
+   IMPORTANT:
+   We use Jazzmin's REAL login logo.
+
+   Do NOT create a second logo using ::before.
+*/
+
+
+body.login-page .login-logo {
+    width: 280px !important;
+    height: 100px !important;
+
+    margin: 0 auto 20px auto !important;
+
+    padding: 0 !important;
+
+    display: flex !important;
+
+    align-items: center !important;
+
+    justify-content: center !important;
+
+    overflow: hidden !important;
+}
+
+
+/* Logo link */
+
+body.login-page .login-logo a {
+    width: 280px !important;
+    height: 100px !important;
+
+    padding: 0 !important;
+
+    margin: 0 !important;
+
+    display: flex !important;
+
+    align-items: center !important;
+
+    justify-content: center !important;
+
+    font-size: 0 !important;
+
+    line-height: 0 !important;
+
+    background: transparent !important;
+}
+
+
+/* Actual Ivory SVG */
+
+body.login-page .login-logo img {
+    width: 250px !important;
+    height: 90px !important;
+
+    max-width: 250px !important;
+    max-height: 90px !important;
+
+    min-width: 0 !important;
+    min-height: 0 !important;
+
+    object-fit: contain !important;
+
+    display: block !important;
+
+    margin: 0 auto !important;
+
+    padding: 0 !important;
+
+    border: none !important;
+
+    border-radius: 0 !important;
+
+    box-shadow: none !important;
+}
+
+
+/* ==========================================================
+   IMPORTANT — REMOVE SECOND/DARK JAZZMIN LOGO
+   ========================================================== */
+
+/*
+   If Jazzmin creates a second logo, hide the dark-version
+   image while keeping the normal Ivory logo.
+*/
+
+body.login-page .login-logo img[src*="dark"] {
+    display: none !important;
+}
+
+
+/*
+   Hide duplicate images if Jazzmin outputs more than one
+   image inside the login logo container.
+
+   The first image is kept.
+*/
+
+body.login-page .login-logo img:nth-of-type(n+2) {
+    display: none !important;
+}
+
+
+/* ==========================================================
+   LOGIN WELCOME TEXT
+   ========================================================== */
+
+.login-box .login-card-body p {
+    color: #514a41 !important;
+}
+
+
+/* ==========================================================
+   LOGIN BUTTON
+   ========================================================== */
+
+.login-box .btn-primary {
+    background: #29251f !important;
+
+    border-color: #29251f !important;
+}
+
+.login-box .btn-primary:hover {
+    background: #4a443b !important;
+
+    border-color: #4a443b !important;
+}
+
+
+/* ==========================================================
+   CHECKBOXES
+   ========================================================== */
+
+input[type="checkbox"] {
+    accent-color: #29251f;
+}
+
+
+/* ==========================================================
+   LINKS
+   ========================================================== */
+
+a {
+    color: #514a41;
+}
+
+a:hover {
+    color: #29251f;
+}
+
+
+/* ==========================================================
+   RESPONSIVE LOGIN
+   ========================================================== */
+
+@media (max-width: 480px) {
+
+    body.login-page .login-logo {
+        width: 230px !important;
+        height: 85px !important;
+    }
+
+    body.login-page .login-logo a {
+        width: 230px !important;
+        height: 85px !important;
+    }
+
+    body.login-page .login-logo img {
+        width: 210px !important;
+        height: 78px !important;
+
+        max-width: 210px !important;
+        max-height: 78px !important;
+    }
+
+}
+
+
+/* ==========================================================
+   FINAL SAFETY — NEVER CREATE AN EXTRA LOGIN LOGO
+   ========================================================== */
+
+/*
+   We explicitly disable pseudo-element logos.
+*/
+
+body.login-page .login-logo::before,
+body.login-page .login-logo::after,
+body.login-page .login-box::before,
+body.login-page .login-box::after {
+    content: none !important;
+
+    display: none !important;
+}

@@ -1,0 +1,475 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Our Projects | Ivory Design</title>
+
+    <!-- Tailwind -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet"
+          href="{% static 'style.css' %}">
+
+    <!-- Google Fonts -->
+
+    <link rel="preconnect"
+          href="https://fonts.googleapis.com">
+
+    <link rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=Playfair+Display:wght@400;500&display=swap"
+          rel="stylesheet">
+
+    <!-- Favicon -->
+
+    <link rel="icon"
+          type="image/png"
+          href="{% static 'images/b.svg' %}">
+
+</head>
+
+
+<body>
+
+
+<!-- =========================================================
+     NAVBAR
+========================================================= -->
+
+{% include 'navbarfooter/navbar.html' %}
+
+
+
+<!-- =========================================================
+     PROJECT HERO
+========================================================= -->
+
+<section class="pt-32 pb-20 px-6 md:px-12 lg:px-20">
+
+    <div class="max-w-7xl mx-auto">
+
+        <div class="grid lg:grid-cols-2 gap-12 items-end">
+
+            <!-- LEFT -->
+
+            <div>
+
+                <span class="text-xs tracking-[0.3em] text-[#777065]">
+                    IVORY DESIGN
+                </span>
+
+                <h1 class="mt-6 text-5xl md:text-6xl lg:text-7xl
+                           font-serif text-[#292621] leading-tight">
+
+                    Our
+                    <em class="font-normal">
+                        Projects.
+                    </em>
+
+                </h1>
+
+            </div>
+
+
+         
+
+
+        <!-- DIVIDER -->
+
+        <div class="mt-16 border-t border-[#d8d0c2]"></div>
+
+
+        <!-- PROJECT COUNT -->
+
+        <div class="flex justify-between items-center mt-6">
+
+            <span class="text-xs tracking-[0.2em] text-[#777065]">
+
+                SELECTED WORKS
+
+            </span>
+
+
+            <span class="text-xs tracking-[0.2em] text-[#777065]">
+
+                {{ projects|length }} PROJECTS
+
+            </span>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     PROJECTS
+========================================================= -->
+
+<section class="px-6 md:px-12 lg:px-20 pb-24">
+
+    <div class="max-w-7xl mx-auto">
+
+
+        {% if projects %}
+
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-16">
+
+
+            {% for project in projects %}
+
+
+            <!-- =================================================
+                 PROJECT CARD
+            ================================================== -->
+
+            <a href="#"
+               class="group block">
+
+
+                <!-- IMAGE -->
+
+                <div class="relative overflow-hidden
+                            bg-[#e9e3d8]
+                            aspect-[4/3]">
+
+
+                    {% if project.image %}
+
+                        <img
+                            src="{{ project.image.url }}"
+                            alt="{{ project.name }}"
+                            class="w-full h-full object-cover
+                                   transition-transform
+                                   duration-700
+                                   group-hover:scale-105">
+
+                    {% else %}
+
+                        <div class="w-full h-full
+                                    flex items-center
+                                    justify-center
+                                    text-[#999185]">
+
+                            <div class="text-center">
+
+                                <i class="fas fa-image text-3xl mb-3"></i>
+
+                                <p class="text-xs tracking-widest">
+                                    NO IMAGE
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                    {% endif %}
+
+
+                    <!-- FEATURED BADGE -->
+
+                    {% if project.featured %}
+
+                    <div class="absolute top-5 left-5">
+
+                        <span class="bg-[#f4f0e8]
+                                     text-[#292621]
+                                     px-4 py-2
+                                     text-[10px]
+                                     tracking-[0.2em]">
+
+                            FEATURED
+
+                        </span>
+
+                    </div>
+
+                    {% endif %}
+
+
+                    <!-- HOVER ARROW -->
+
+                    <div class="absolute bottom-5 right-5
+                                w-12 h-12
+                                rounded-full
+                                bg-[#f4f0e8]
+                                text-[#292621]
+                                flex items-center
+                                justify-center
+                                opacity-0
+                                translate-y-3
+                                group-hover:opacity-100
+                                group-hover:translate-y-0
+                                transition-all
+                                duration-500">
+
+                        <span class="text-lg">
+                            ↗
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- PROJECT INFORMATION -->
+
+                <div class="mt-6">
+
+
+                    <!-- NUMBER + CATEGORY -->
+
+                    <div class="flex justify-between
+                                items-center mb-3">
+
+                        <span class="text-[10px]
+                                     tracking-[0.25em]
+                                     text-[#8a8378]">
+
+                            {{ forloop.counter|stringformat:"02d" }}
+
+                        </span>
+
+
+                        {% if project.category %}
+
+                        <span class="text-[10px]
+                                     tracking-[0.2em]
+                                     text-[#8a8378]">
+
+                            {{ project.category }}
+
+                        </span>
+
+                        {% endif %}
+
+                    </div>
+
+
+                    <!-- NAME -->
+
+                    <h2 class="text-2xl md:text-3xl
+                               font-serif
+                               text-[#292621]
+                               group-hover:italic
+                               transition-all
+                               duration-300">
+
+                        {{ project.name }}
+
+                    </h2>
+
+
+                    <!-- DESCRIPTION -->
+
+                    {% if project.description %}
+
+                    <p class="mt-3
+                              text-sm
+                              leading-relaxed
+                              text-[#777065]
+                              max-w-xl">
+
+                        {{ project.description }}
+
+                    </p>
+
+                    {% endif %}
+
+
+                    <!-- LOCATION + YEAR -->
+
+                    <div class="flex gap-5 mt-5">
+
+                        {% if project.location %}
+
+                        <span class="text-[10px]
+                                     tracking-[0.15em]
+                                     text-[#999185]">
+
+                            {{ project.location }}
+
+                        </span>
+
+                        {% endif %}
+
+
+                        {% if project.year %}
+
+                        <span class="text-[10px]
+                                     tracking-[0.15em]
+                                     text-[#999185]">
+
+                            {{ project.year }}
+
+                        </span>
+
+                        {% endif %}
+
+                    </div>
+
+
+                </div>
+
+
+            </a>
+
+
+            {% endfor %}
+
+
+        </div>
+
+
+        {% else %}
+
+
+        <!-- =================================================
+             NO PROJECTS
+        ================================================== -->
+
+        <div class="py-32 text-center">
+
+            <div class="w-16 h-16
+                        rounded-full
+                        border border-[#d8d0c2]
+                        flex items-center
+                        justify-center
+                        mx-auto mb-6">
+
+                <i class="fas fa-building text-[#777065]"></i>
+
+            </div>
+
+
+            <h2 class="text-3xl
+                       font-serif
+                       text-[#292621]">
+
+                No projects yet.
+
+            </h2>
+
+
+            <p class="mt-4
+                      text-sm
+                      text-[#777065]">
+
+                Projects added through the admin panel
+                will appear here.
+
+            </p>
+
+        </div>
+
+
+        {% endif %}
+
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     CTA
+========================================================= -->
+
+<section class="px-6 md:px-12 lg:px-20 pb-32">
+
+    <div class="max-w-7xl mx-auto
+                bg-[#eae4d8]
+                px-8 md:px-16
+                py-16 md:py-20">
+
+        <div class="grid md:grid-cols-2
+                    gap-10 items-center">
+
+
+            <div>
+
+                <span class="text-[10px]
+                             tracking-[0.3em]
+                             text-[#777065]">
+
+                    HAVE A SPACE IN MIND?
+
+                </span>
+
+
+                <h2 class="mt-5
+                           text-4xl md:text-5xl
+                           font-serif
+                           text-[#292621]">
+
+                    Let's create
+                    <em>something beautiful.</em>
+
+                </h2>
+
+            </div>
+
+
+            <div class="md:text-right">
+
+                <a href="/contact/"
+                   class="inline-flex
+                          items-center
+                          gap-4
+                          bg-[#292621]
+                          text-[#f4f0e8]
+                          px-7 py-4
+                          text-xs
+                          tracking-[0.2em]
+                          hover:bg-[#4a443b]
+                          transition">
+
+                    START A PROJECT
+
+                    <span class="text-lg">
+                        ↗
+                    </span>
+
+                </a>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     FOOTER
+========================================================= -->
+
+{% include 'navbarfooter/footer.html' %}
+
+
+</body>
+
+</html>

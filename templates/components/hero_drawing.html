@@ -1,0 +1,60 @@
+<div class="hero-drawing" aria-hidden="true">
+    <svg class="house-sketch" viewBox="0 0 820 640" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <g data-interior-scene="loft">
+            {% include 'components/interior_drawing.html' %}
+            {% include 'components/interior_paint.html' %}
+        </g>
+        <g data-interior-scene="residence" style="display:none">
+            {% include 'components/residence_drawing.html' %}
+            {% include 'components/residence_paint.html' %}
+        </g>
+        <g data-interior-scene="apartment" style="display:none">
+            {% include 'components/apartment_drawing.html' %}
+            {% include 'components/apartment_paint.html' %}
+        </g>
+        <g class="drawing-pencil" opacity="0">
+            <g transform="rotate(32) scale(.4)">
+                {% include 'components/drawing_pencil.html' %}
+            </g>
+        </g>
+        <g class="painter-vehicles">
+            {% include 'components/painter_vehicle.html' with entry="left" kind="loader" %}
+            {% include 'components/painter_vehicle.html' with entry="right" kind="excavator" %}
+            {% include 'components/painter_vehicle.html' with entry="bottom" kind="truck" %}
+        </g>
+        <g class="painter-team">
+            {% include 'components/painter.html' with entry="left" x="187" y="484" colour="#b69159" %}
+            {% include 'components/painter.html' with entry="bottom" x="367" y="558" colour="#b69159" %}
+            {% include 'components/painter.html' with entry="right" x="650" y="480" colour="#b69159" %}
+        </g>
+        <g class="paint-sparkles" opacity="0" stroke="#ffdf57" stroke-width="2" stroke-linecap="round">
+            <path d="M142 264V242 M131 253H153 M717 246V224 M706 235H728 M495 88V70 M486 79H504"/>
+        </g>
+    </svg>
+    <svg class="signature-sketch" viewBox="0 0 450 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <g class="drawing-strokes signature-strokes" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <!-- Handwritten Ivory Design, drawn as actual pencil strokes. -->
+            <path data-draw d="M18 31Q47 14 68 22"/>
+            <path data-draw d="M49 23L31 79"/>
+            <path data-draw d="M13 83Q36 73 54 77"/>
+            <path data-draw d="M58 52Q52 89 66 74L84 49"/>
+            <path data-draw d="M99 51C80 43 77 82 92 78C108 74 113 45 99 51Q107 59 117 53"/>
+            <path data-draw d="M112 78L122 50L118 65Q141 39 139 55"/>
+            <path data-draw d="M145 51Q132 85 149 76L167 51L151 91Q137 118 128 107C120 94 161 79 181 72"/>
+            <path data-draw d="M195 80L212 25"/>
+            <path data-draw d="M196 31C250 0 262 35 244 62Q229 84 193 80"/>
+            <path data-draw d="M260 65Q287 50 274 49C258 47 249 78 264 79Q276 80 286 69"/>
+            <path data-draw d="M310 51Q295 43 289 57Q285 63 300 66C314 76 287 88 283 76"/>
+            <path data-draw d="M318 51Q305 88 327 74"/>
+            <path data-draw d="M323 38L324 36"/>
+            <path data-draw d="M350 53C335 39 322 79 339 78L355 54L342 95C331 119 309 108 323 96L366 73"/>
+            <path data-draw d="M363 79L373 50L367 68Q392 40 386 60Q374 88 398 74L414 64"/>
+            <path data-draw class="signature-flourish" d="M17 100Q162 79 309 91Q372 96 418 83"/>
+        </g>
+        <g class="drawing-pencil" opacity="0">
+            <g transform="rotate(32) scale(.3)">
+                {% include 'components/drawing_pencil.html' %}
+            </g>
+        </g>
+    </svg>
+</div>

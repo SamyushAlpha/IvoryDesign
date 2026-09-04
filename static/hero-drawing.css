@@ -1,0 +1,55 @@
+/* The original warm hero background, with a living architectural sketch. */
+.ivory-hero-bg { background: #e9e5dc; transform: none; animation: none; }
+.hero-drawing { position: absolute; inset: 0; z-index: 2; pointer-events: none; }
+.house-sketch { position: absolute; right: 1%; top: 18%; width: 57%; height: 68%; color: #393a32; overflow: visible; transform: scale(.94); transform-origin: center; }
+.sketch-guides { opacity: .14; }
+.sketch-detail { opacity: .45; stroke-width: 1; }
+.signature-sketch { position: absolute; bottom: 88px; left: auto; right: 7%; width: 245px; height: 76px; color: #ffdf57; overflow: visible; }
+.signature-flourish { opacity: .65; stroke-width: 1.2; }
+.hero-drawing:not(.is-ready) .drawing-strokes { visibility: hidden; }
+.hero-drawing.is-animating [data-draw] { stroke-dasharray: var(--stroke-length); stroke-dashoffset: var(--stroke-length); }
+.drawing-pencil { filter: drop-shadow(1px 2px 1px #0002); }
+.ivory-hero-content { max-width: none; width: 53%; padding-right: 0; }
+.ivory-title { font-size: clamp(48px, 7vw, 106px); min-height: 1.9em; }
+.ivory-subtitle { max-width: 380px; }
+@media (max-width: 900px) {
+    .ivory-hero-content { width: 58%; padding-left: 7%; }
+    .house-sketch { right: -6%; width: 57%; }
+    .ivory-buttons { flex-wrap: wrap; }
+    .signature-sketch { right: 7%; width: 210px; }
+}
+@media (max-width: 600px) {
+    .ivory-hero { min-height: 900px; min-height: max(900px, 100svh); }
+    .ivory-hero-content { min-height: 0; width: 100%; padding: 140px 7% 0; justify-content: flex-start; }
+    .ivory-title { font-size: clamp(46px, 11vw, 64px); }
+    .ivory-subtitle { margin-top: 22px; max-width: 310px; }
+    .ivory-buttons { margin-top: 26px; gap: 10px; }
+    .ivory-btn { padding: 13px 15px; }
+    .house-sketch { top: 470px; right: 1%; width: 94%; height: 260px; color: #e5ddce; }
+    .signature-sketch { bottom: 88px; width: 195px; height: 58px; }
+    .sketch-guides { opacity: .12; }
+}
+@media (prefers-reduced-motion: reduce) {
+    .hero-drawing .drawing-strokes { visibility: visible; }
+    .hero-drawing [data-draw] { stroke-dashoffset: 0 !important; }
+    .drawing-pencil { display: none; }
+}
+
+/* Tiny, friendly decorators remain behind the page's interactive content. */
+.scene-painter { pointer-events: none; }
+.house-paint { opacity: 1; }
+.house-sketch .drawing-strokes { stroke: #45483c; }
+@media (max-width: 600px) {
+    .house-sketch .drawing-strokes { stroke: #e5ddce; }
+}
+@media (prefers-reduced-motion: reduce) {
+    .scene-painter, .paint-sparkles { display: none; }
+}
+
+.painter-head-view { transition: opacity .25s ease; }
+.painter-head { transition: transform .25s ease; }
+
+.scene-vehicle { pointer-events: none; }
+@media (prefers-reduced-motion: reduce) {
+    .scene-vehicle { display: none; }
+}

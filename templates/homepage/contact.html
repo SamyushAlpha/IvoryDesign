@@ -1,0 +1,301 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Contact | Ivory Design Studio</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Your CSS -->
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+
+</head>
+
+
+<body class="bg-[#f3eee5] text-[#29251f]">
+
+
+    <!-- =====================================================
+         NAVIGATION
+    ====================================================== -->
+
+    {% include 'navbarfooter/navbar.html' %}
+
+
+
+    <!-- =====================================================
+         CONTACT SECTION
+    ====================================================== -->
+
+    <section class="min-h-screen flex items-center justify-center px-6 py-20">
+
+        <div class="w-full max-w-3xl">
+
+
+            <!-- =================================================
+                 PAGE HEADING
+            ================================================== -->
+
+            <div class="text-center mb-12">
+
+                <p class="text-sm tracking-[0.35em] uppercase mb-4">
+                    Get In Touch
+                </p>
+
+                <h1 class="text-4xl md:text-5xl font-light">
+                    Let's Create Something Beautiful
+                </h1>
+
+                <p class="mt-4 text-gray-600">
+                    Tell us about your project and we'll get back to you.
+                </p>
+
+            </div>
+
+
+
+            <!-- =================================================
+                 CONTACT FORM CARD
+            ================================================== -->
+
+            <div class="bg-[#ebe4d8] p-8 md:p-12 rounded-sm shadow-sm">
+
+
+                <!-- =================================================
+                     IVORY LOGO
+                ================================================== -->
+
+                <div class="flex justify-center mb-10">
+
+                    <a href="/" class="text-center">
+
+                        <div class="text-4xl font-light tracking-[0.25em]">
+                            IVORY
+                        </div>
+
+                        <div class="text-[10px] tracking-[0.4em] mt-1">
+                            DESIGN STUDIO
+                        </div>
+
+                    </a>
+
+                </div>
+
+
+
+                <!-- =================================================
+                     CONTACT FORM
+                ================================================== -->
+
+                <form method="POST" action="/contact/">
+
+                    {% csrf_token %}
+
+
+                    <!-- =============================================
+                         NAME
+                    ============================================== -->
+
+                    <div class="mb-6">
+
+                        <label
+                            for="name"
+                            class="block text-sm tracking-wide mb-2">
+
+                            NAME
+
+                        </label>
+
+                        <input
+                            type="text"
+                            id="name"
+                            name="name"
+                            required
+                            autocomplete="name"
+                            class="w-full bg-transparent border-b border-[#8c8478] py-3 outline-none focus:border-black transition"
+                            placeholder="Your name">
+
+                    </div>
+
+
+
+                    <!-- =============================================
+                         EMAIL
+                    ============================================== -->
+
+                    <div class="mb-6">
+
+                        <label
+                            for="email"
+                            class="block text-sm tracking-wide mb-2">
+
+                            EMAIL
+
+                        </label>
+
+                        <input
+                            type="email"
+                            id="email"
+                            name="email"
+                            required
+                            autocomplete="email"
+                            class="w-full bg-transparent border-b border-[#8c8478] py-3 outline-none focus:border-black transition"
+                            placeholder="your@email.com">
+
+                    </div>
+
+
+
+                    <!-- =============================================
+                         CONTACT NUMBER
+                    ============================================== -->
+
+                    <div class="mb-6">
+
+                        <label
+                            for="contact"
+                            class="block text-sm tracking-wide mb-2">
+
+                            CONTACT
+
+                        </label>
+
+                        <input
+                            type="tel"
+                            id="contact"
+                            name="contact"
+                            required
+                            autocomplete="tel"
+                            class="w-full bg-transparent border-b border-[#8c8478] py-3 outline-none focus:border-black transition"
+                            placeholder="Your phone number">
+
+                    </div>
+
+
+
+                    <!-- =============================================
+                         MESSAGE
+                    ============================================== -->
+
+                    <div class="mb-8">
+
+                        <label
+                            for="message"
+                            class="block text-sm tracking-wide mb-2">
+
+                            MESSAGE
+
+                        </label>
+
+                        <textarea
+                            id="message"
+                            name="message"
+                            rows="5"
+                            required
+                            class="w-full bg-transparent border-b border-[#8c8478] py-3 outline-none focus:border-black transition resize-none"
+                            placeholder="Tell us about your project..."></textarea>
+
+                    </div>
+
+
+
+                    <!-- =============================================
+                         BUTTONS
+                    ============================================== -->
+
+                    <div class="flex flex-col sm:flex-row gap-4">
+
+
+                        <!-- SUBMIT -->
+
+                        <button
+                            type="submit"
+                            class="flex-1 bg-[#29251f] text-white py-4 tracking-[0.2em] text-sm hover:bg-[#4a443b] transition">
+
+                            SUBMIT
+
+                        </button>
+
+
+                        <!-- RESET -->
+
+                        <button
+                            type="reset"
+                            class="flex-1 border border-[#29251f] py-4 tracking-[0.2em] text-sm hover:bg-[#29251f] hover:text-white transition">
+
+                            RESET
+
+                        </button>
+
+                    </div>
+
+                </form>
+
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         FOOTER
+    ====================================================== -->
+
+    {% include 'navbarfooter/footer.html' %}
+
+
+
+
+
+
+    <!-- =====================================================
+         POPUP JAVASCRIPT
+    ====================================================== -->
+
+    <script>
+
+        function closePopup() {
+
+            const popup = document.getElementById("success-popup");
+
+            if (popup) {
+
+                popup.style.opacity = "0";
+
+                popup.style.transition = "opacity 0.4s ease";
+
+                setTimeout(function () {
+
+                    popup.remove();
+
+                }, 400);
+
+            }
+
+        }
+
+
+        // Automatically close popup after 4 seconds
+
+        setTimeout(function () {
+
+            closePopup();
+
+        }, 4000);
+
+    </script>
+
+
+</body>
+
+</html>

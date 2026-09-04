@@ -1,0 +1,66 @@
+x-app-environment: &app-environment
+  DJANGO_DEBUG: ${DJANGO_DEBUG:-true}
+  DJANGO_SECRET_KEY: ${DJANGO_SECRET_KEY:-}
+  DJANGO_ALLOWED_HOSTS: ${DJANGO_ALLOWED_HOSTS:-}
+  DJANGO_CSRF_TRUSTED_ORIGINS: ${DJANGO_CSRF_TRUSTED_ORIGINS:-}
+  CHANNEL_REDIS_URL: redis://redis:6379/0
+  CACHE_REDIS_URL: redis://redis:6379/0
+  CELERY_BROKER_URL: redis://redis:6379/1
+  IVORY_SUPPORT_TIMEOUT_SECONDS: ${IVORY_SUPPORT_TIMEOUT_SECONDS:-300}
+  IVORY_SUPPORT_RATE_LIMIT: ${IVORY_SUPPORT_RATE_LIMIT:-20}
+  IVORY_SUPPORT_RATE_WINDOW: ${IVORY_SUPPORT_RATE_WINDOW:-60}
+  IVORY_SUPPORT_RETENTION_DAYS: ${IVORY_SUPPORT_RETENTION_DAYS:-90}
+  IVORY_TRUST_PROXY_HEADERS: ${IVORY_TRUST_PROXY_HEADERS:-false}
+
+x-web-environment: &web-environment
+  <<: *app-environment
+  IVORY_EMAIL_MODE: ${IVORY_EMAIL_MODE:-console}
+  IVORY_GMAIL_ADDRESS: ${IVORY_GMAIL_ADDRESS:-}
+  IVORY_GMAIL_APP_PASSWORD: ${IVORY_GMAIL_APP_PASSWORD:-}
+  OPENAI_API_KEY: ${OPENAI_API_KEY:-}
+  OPENAI_CHAT_MODEL: ${OPENAI_CHAT_MODEL:-gpt-4.1-mini}
+
+x-app-service: &app-service
+  build: .
+  environment: *app-environment
+  volumes:
+    - .:/app
+  init: true
+  depends_on:
+    redis:
+      condition: service_healthy
+
+services:
+  redis:
+    image: redis:7.4-alpine
+    command: ["redis-server", "--appendonly", "yes"]
+    volumes:
+      - ivory_redis:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 2s
+      timeout: 2s
+      retries: 15
+    restart: unless-stopped
+
+  web:
+    <<: *app-service
+    environment: *web-environment
+    ports:
+      - "8000:8000"
+    stop_grace_period: 10s
+
+  worker:
+    <<: *app-service
+    entrypoint: []
+    command: ["celery", "-A", "config", "worker", "--loglevel=INFO", "--concurrency=2"]
+    restart: unless-stopped
+
+  beat:
+    <<: *app-service
+    entrypoint: []
+    command: ["celery", "-A", "config", "beat", "--loglevel=INFO", "--schedule=/tmp/celerybeat-schedule"]
+    restart: unless-stopped
+
+volumes:
+  ivory_redis:

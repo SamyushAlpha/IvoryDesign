@@ -1,0 +1,86 @@
+<g class="scene-painter" data-entry="{{ entry }}" data-target-x="{{ x }}" data-target-y="{{ y }}" style="--painter-colour: {{ colour }}" opacity="0">
+    <defs>
+        <linearGradient id="uniform-{{ entry }}" x1="0" y1="0" x2="1" y2=".5">
+            <stop stop-color="#b4bca6"/><stop offset=".35" stop-color="{{ colour }}"/><stop offset="1" stop-color="#40584e"/>
+        </linearGradient>
+        <linearGradient id="skin-{{ entry }}" x1="0" y1="0" x2="1" y2=".65">
+            <stop stop-color="#f0cfad"/><stop offset=".55" stop-color="#dfb48e"/><stop offset="1" stop-color="#b98360"/>
+        </linearGradient>
+        <linearGradient id="shirt-{{ entry }}" x1="0" y1="0" x2="1" y2="1">
+            <stop stop-color="#fff8e7"/><stop offset="1" stop-color="#c7c5b3"/>
+        </linearGradient>
+        <linearGradient id="helmet-{{ entry }}" x1="0" y1="0" x2=".8" y2="1">
+            <stop stop-color="#fff2cf"/><stop offset=".55" stop-color="#dcca98"/><stop offset="1" stop-color="#a18e67"/>
+        </linearGradient>
+    </defs>
+    <ellipse class="painter-shadow" cx="0" cy="2" rx="19" ry="4" fill="#252b26" opacity=".16"/>
+    <g class="painter-figure" stroke="#4b554b" stroke-width=".8" stroke-linecap="round" stroke-linejoin="round">
+        <g class="painter-leg-left"><path d="M-8-35L-9-18" stroke="url(#uniform-{{ entry }})" stroke-width="8"/><g class="painter-shin-left"><path d="M-9-18L-10-4" stroke="url(#uniform-{{ entry }})" stroke-width="7"/><path d="M-14-6H-7V0H-18Q-19-4-14-6Z" fill="#414b42"/><path d="M-17 0H-7 M-13-4H-9" stroke="#aeab94"/></g></g>
+        <g class="painter-leg-right"><path d="M7-35L8-18" stroke="url(#uniform-{{ entry }})" stroke-width="8"/><g class="painter-shin-right"><path d="M8-18L10-4" stroke="url(#uniform-{{ entry }})" stroke-width="7"/><path d="M7-6H14Q19-4 19 0H7Z" fill="#414b42"/><path d="M7 0H18 M9-4H13" stroke="#aeab94"/></g></g>
+        <g class="painter-upper-body" transform="translate(0 -10)">
+        
+        <path d="M-11-57Q0-61 11-57L15-29Q0-22-15-29Z" fill="url(#shirt-{{ entry }})"/>
+        <path d="M-8-56V-43H8V-56 M-12-43H12V-27H-12Z" fill="url(#uniform-{{ entry }})"/>
+        
+        <g transform="translate(0 -38)"><g class="uniform-brand" stroke="none">
+            <rect x="-11" y="-4" width="22" height="11" rx="1" fill="#ece5d1"/>
+            <text text-anchor="middle" fill="#334b40" font-family="Georgia, serif" font-size="5.5" letter-spacing=".2">IVORY</text>
+            <text y="4.8" text-anchor="middle" fill="#334b40" font-family="Arial, sans-serif" font-size="3.4" letter-spacing=".5">DESIGN</text>
+        </g></g>
+        
+        <path d="M-11-31L-8-26 M11-31L8-26 M-5-41V-29" fill="none" stroke="#d7d9c1" stroke-width=".65" opacity=".7"/>
+        <path d="M-7-54L-5-45 M7-54L5-45" stroke="#d7c89e" stroke-width="2"/>
+        <circle cx="-5" cy="-44" r="1.2" fill="#dfd1ab"/><circle cx="5" cy="-44" r="1.2" fill="#dfd1ab"/>
+
+        
+        <g class="painter-arm-left"><path d="M-12-53L-22-38L-20-29" fill="none" stroke="url(#skin-{{ entry }})" stroke-width="5.5"/><path d="M-12-53L-17-46" stroke="#eeecdc" stroke-width="7"/><g class="painter-bucket"><path d="M-25-24Q-25-32-15-32" fill="none"/><path d="M-29-25H-11L-13-10H-27Z" fill="url(#uniform-{{ entry }})"/><path d="M-28-21H-12" stroke="#f2e8d4"/></g></g>
+        <g class="painter-arm-right"><path d="M12-53L24-43L30-58" fill="none" stroke="url(#skin-{{ entry }})" stroke-width="5.5"/><path d="M12-53L18-48" stroke="#eeecdc" stroke-width="7"/><path d="M27-55L27-63Q29-66 30-62L32-64Q35-62 33-58L31-55Z" fill="#eee0c3"/><path d="M29-62V-58 M31-62V-58" stroke="#b8a991" stroke-width=".6"/>
+            
+            <g class="painter-roller"><path d="M30-57V-75H18V-82" fill="none" stroke="#616f67" stroke-width="2"/><rect x="8" y="-89" width="25" height="9" rx="3" fill="url(#uniform-{{ entry }})"/><path d="M12-87H29" stroke="#fff" opacity=".45"/></g>
+        </g>
+        <path d="M-10-56L-4-59L0-54L4-59L10-56" fill="none" stroke="#b1ae9a" stroke-width="1.1"/>
+        <path d="M-12-29H12" stroke="#4e6255" stroke-width="2"/>
+        <rect x="-2.5" y="-66" width="5" height="9" rx="2" fill="#ddb28b" stroke="none"/>
+        <g class="painter-head">
+            <g transform="translate(0 -70) scale(.6) translate(0 73)">
+            <g class="painter-head-view painter-head-front">
+                
+                <ellipse cx="0" cy="-73" rx="11" ry="13" fill="url(#skin-{{ entry }})"/>
+                
+                <path d="M-11-76Q-14-91 0-92Q12-91 12-76Z" fill="url(#helmet-{{ entry }})"/>
+                <path d="M-14-77H16" stroke="#f6eedc" stroke-width="4"/>
+                
+                <path d="M-7-73Q-4-75-2-73 M3-73Q6-75 8-73" fill="none" stroke="#826044" stroke-width=".8"/>
+                <ellipse cx="-4" cy="-71" rx="1.2" ry="1" fill="#3d493f"/><ellipse cx="5" cy="-71" rx="1.2" ry="1" fill="#3d493f"/>
+                <circle cx="-4.4" cy="-71.5" r=".5" fill="#fff7dc"/><circle cx="4.6" cy="-71.5" r=".5" fill="#fff7dc"/>
+                <path d="M1-70L0-67H2" fill="none" stroke="#b08363" stroke-width=".65"/>
+                <path d="M-2-89V-81 M2-89V-81" stroke="#fff3d3" stroke-width="1.2"/>
+                <path d="M-7-64Q1-59 8-64" fill="none" stroke="#ab8264" stroke-width=".6" opacity=".5"/>
+                <path d="M-3-65Q1-62 5-65" fill="none"/>
+                
+            </g>
+            <g class="painter-head-view painter-head-profile" opacity="0">
+                
+                <path d="M-9-78Q-9-87 1-85Q11-84 11-74L16-70L11-68Q11-60 3-60L-6-65Z" fill="url(#skin-{{ entry }})"/>
+                
+                <path d="M-10-76Q-13-91 0-92Q10-91 11-77Z" fill="url(#helmet-{{ entry }})"/>
+                <path d="M-12-77H17" stroke="#f6eedc" stroke-width="4"/>
+                
+                <path d="M7-72H8" stroke-width="2"/>
+                <path d="M7-65H11" fill="none"/>
+                <path d="M-6-72Q0-74-1-68" fill="none" stroke="#bd936e"/>
+                
+            </g>
+            <g class="painter-head-view painter-head-back" opacity="0">
+                <ellipse cx="0" cy="-73" rx="11" ry="13" fill="#b68e6e"/>
+                
+                <path d="M-11-75Q-14-91 0-92Q12-91 12-75L9-67H-9Z" fill="url(#helmet-{{ entry }})"/>
+                <path d="M-11-76H11" stroke="#f6eedc" stroke-width="3"/>
+                <path d="M-4-70H4" stroke="#f6eedc" stroke-width="2"/>
+                
+            </g>
+            </g>
+        </g>
+        </g>
+    </g>
+</g>

@@ -1,0 +1,15 @@
+.git/
+.venv/
+venv/
+backups/
+private_support/
+tests/
+**/__pycache__/
+*.py[cod]
+.env
+.env.*
+!.env.example
+compose*.yml
+Dockerfile
+docker-entrypoint.sh
+db.sqlite3

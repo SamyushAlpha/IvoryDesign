@@ -1,0 +1,39 @@
+<section id="ivory-chat" class="ivory-chat" role="dialog" aria-labelledby="ivory-chat-title" aria-describedby="ivory-chat-privacy" hidden>
+    <header class="ivory-chat__header">
+        <div>
+            <h2 id="ivory-chat-title">IVORY</h2>
+            <p>LIVE SUPPORT</p>
+        </div>
+        <button type="button" id="ivory-chat-close" aria-label="Close Ivory Design support">&times;</button>
+    </header>
+    <p id="ivory-chat-privacy" class="ivory-chat__notice">Messages are saved so an Ivory Design team member can reply. If no one is available within five minutes, an automated assistant will identify itself and offer FAQ help. Please do not share passwords or payment details.</p>
+    <p id="ivory-chat-presence" class="ivory-chat__presence" role="status">Ready for a team member</p>
+    <div id="ivory-chat-messages" class="ivory-chat__messages" role="log" aria-label="Chat messages" aria-live="off" tabindex="0">
+        <p class="ivory-chat__message ivory-chat__message--system"><strong>Ivory Design</strong><span>Hello. Send your question and a team member will reply here. If the team is unavailable, our automated assistant will step in after five minutes.</span></p>
+    </div>
+    <div class="ivory-chat__quick" aria-label="Suggested questions">
+        <button type="button" data-ivory-question="What services do you offer?">Services</button>
+        <button type="button" data-ivory-question="Show me your portfolio">Our work</button>
+        <button type="button" data-ivory-question="How do I start a project?">Start a project</button>
+    </div>
+    <nav class="ivory-chat__links" aria-label="Studio information">
+        <a href="{% url 'contact' %}">Contact &amp; consultation</a>
+        <a href="{% url 'projects' %}">Projects</a>
+        <a href="{% url 'about' %}">About</a>
+    </nav>
+    <form id="ivory-chat-form" class="ivory-chat__form" action="{% url 'support_visitor_message' %}" data-start-url="{% url 'support_visitor_start' %}" data-history-url="{% url 'support_visitor_history' %}" method="post">
+        {% csrf_token %}
+        <label for="ivory-chat-input">Your question</label>
+        <div class="ivory-chat__compose">
+            <textarea id="ivory-chat-input" name="message" rows="2" maxlength="600" placeholder="Ask about Ivory Design…" aria-describedby="ivory-chat-hint ivory-chat-status"></textarea>
+            <button type="submit" id="ivory-chat-send">Send</button>
+        </div>
+        <p id="ivory-chat-hint" class="ivory-chat__hint">Up to 600 characters · Enter to send · Shift+Enter for a new line</p>
+        <button type="button" id="ivory-chat-reveal" class="ivory-chat__reveal" hidden>Show available reply now</button>
+        <p id="ivory-chat-status" class="ivory-chat__status" role="status" aria-live="polite"></p>
+        <p id="ivory-chat-announcement" class="ivory-chat__sr-only" role="status" aria-live="polite" aria-atomic="true"></p>
+    </form>
+</section>
+<button type="button" id="ivory-chat-launcher" class="ivory-chat-launcher" aria-expanded="false" aria-controls="ivory-chat" aria-label="Open Ivory Design support" hidden>
+    <i class="fas fa-comments" aria-hidden="true"></i><span>Ask Ivory</span>
+</button>

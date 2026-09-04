@@ -1,0 +1,24 @@
+{% extends 'homepage/content_base.html' %}
+{% block title %}Services | Ivory Design Studio{% endblock %}
+{% block content %}
+<header class="content-heading">
+    <p class="content-eyebrow">WHAT WE DO</p>
+    <h1>Our <em>services.</em></h1>
+    <p>Thoughtful design, shaped around your space and your vision.</p>
+</header>
+<div class="content-grid">
+{% for service in services %}
+    <article class="content-card">
+        {% if service.image %}<img src="{{ service.image.url }}" alt="{{ service.title }}" loading="lazy" class="content-image">{% endif %}
+        <div class="content-card-body">
+            <p class="content-eyebrow">{{ forloop.counter|stringformat:'02d' }}</p>
+            <h2>{{ service.title }}</h2>
+            <div class="content-copy">{{ service.description|linebreaks }}</div>
+            <a class="content-link" href="{% url 'contact' %}">Discuss your project &rarr;</a>
+        </div>
+    </article>
+{% empty %}
+    <div class="content-empty"><h2>Let’s create something together.</h2><p>Our service details will be available soon. Get in touch to discuss your project.</p><a class="content-link" href="{% url 'contact' %}">Contact our studio &rarr;</a></div>
+{% endfor %}
+</div>
+{% endblock %}

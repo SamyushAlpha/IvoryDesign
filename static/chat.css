@@ -1,0 +1,57 @@
+/* Scoped to the assistant; the rest of the site's presentation is unchanged. */
+.ivory-chat[hidden], .ivory-chat-launcher[hidden] { display: none; }
+.ivory-chat, .ivory-chat * { box-sizing: border-box; }
+.ivory-chat {
+    position: fixed; left: 24px; bottom: 90px; z-index: 9998;
+    width: min(380px, calc(100vw - 32px)); height: min(640px, calc(100dvh - 120px));
+    display: flex; flex-direction: column; overflow-x: hidden; overflow-y: auto;
+    border: 1px solid #d8d0c2; border-radius: 18px;
+    background: #f4f0e8; color: #26231f; box-shadow: 0 20px 60px #0003;
+    font-family: Arial, sans-serif; font-size: 14px; line-height: 1.5;
+}
+.ivory-chat button, .ivory-chat textarea { font: inherit; }
+.ivory-chat button, .ivory-chat-launcher { cursor: pointer; }
+.ivory-chat button:disabled { opacity: .5; cursor: wait; }
+.ivory-chat :focus-visible, .ivory-chat-launcher:focus-visible { outline: 3px solid #776141; outline-offset: 3px; }
+.ivory-chat__header { display: flex; align-items: center; justify-content: space-between; padding: 12px 18px; background: #eae4d8; }
+.ivory-chat__header h2 { margin: 0; font-size: 20px; letter-spacing: .22em; }
+.ivory-chat__header p { margin: 0; font-size: 10px; letter-spacing: .13em; }
+.ivory-chat__header button { width: 44px; height: 44px; border: 0; border-radius: 50%; font-size: 28px; background: transparent; }
+.ivory-chat__notice { margin: 0; padding: 10px 16px; font-size: 11px; color: #595248; border-bottom: 1px solid #d8d0c2; }
+.ivory-chat__presence { margin: 0; padding: 6px 16px; font-size: 11px; font-weight: 700; color: #42392e; background: #eee8dd; border-bottom: 1px solid #d8d0c2; }
+.ivory-chat__messages { flex: 1; min-height: 80px; padding: 14px; overflow-y: auto; overscroll-behavior: contain; }
+.ivory-chat__message { margin: 0 22px 12px 0; padding: 10px 12px; border-radius: 12px; background: #fffdf8; overflow-wrap: anywhere; }
+.ivory-chat__message strong { display: block; font-size: 11px; margin-bottom: 3px; color: #5f5548; }
+.ivory-chat__message span { white-space: pre-wrap; }
+.ivory-chat__message--visitor { margin-left: 22px; margin-right: 0; background: #e7dfd1; }
+.ivory-chat__message--staff { margin-right: 34px; background: #e6eef3; }
+.ivory-chat__message--assistant { background: #fff9e9; border: 1px solid #eadbbd; }
+.ivory-chat__message--system { background: transparent; border: 1px dashed #c5baa8; }
+.ivory-chat .support-file { display:grid; gap:6px; margin-top:8px; }
+.ivory-chat .support-file img { max-width:100%; max-height:180px; object-fit:contain; border-radius:8px; }
+.ivory-chat audio { width:100%; max-width:280px; }
+.ivory-chat .support-media-controls { display:flex; flex-wrap:wrap; gap:6px; margin-top:8px; }
+.ivory-chat .support-media-controls label { font-size:11px; }
+.ivory-chat .support-media-controls input { width:180px; font-size:11px; }
+.ivory-chat .support-media-controls button { border:1px solid #c5baa8; border-radius:6px; padding:5px 8px; font-size:11px; background:#f4f0e8; color:#302d28; }
+.ivory-chat .support-media-controls [hidden] { display:none; }
+.ivory-chat .support-media-preview { width:100%; font-size:11px; }
+.ivory-chat__quick { display: flex; flex-wrap: wrap; gap: 6px; padding: 4px 14px; }
+.ivory-chat__quick button { border: 1px solid #c5baa8; border-radius: 20px; background: transparent; padding: 8px 10px; font-size: 12px; min-height: 36px; }
+.ivory-chat__links { display: flex; flex-wrap: wrap; gap: 6px 12px; padding: 8px 16px; font-size: 12px; }
+.ivory-chat__links a { color: #4b4133; text-decoration: underline; text-underline-offset: 3px; }
+.ivory-chat__form { padding: 10px 14px; border-top: 1px solid #d8d0c2; }
+.ivory-chat__form label { display: block; margin-bottom: 4px; font-size: 12px; }
+.ivory-chat__compose { display: flex; align-items: center; gap: 8px; }
+.ivory-chat__compose textarea { width: 100%; min-width: 0; resize: none; padding: 8px; border: 1px solid #bdb3a4; border-radius: 8px; background: #fffdf8; color: #26231f; font-size: 16px; }
+.ivory-chat__compose button { min-width: 52px; min-height: 44px; border: 0; border-radius: 24px; background: #302d28; color: #f4f0e8; }
+.ivory-chat__hint { margin: 6px 0 0; font-size: 10px; color: #62594c; }
+.ivory-chat__status { min-height: 18px; margin: 2px 0 0; font-size: 12px; color: #5a4933; }
+.ivory-chat__reveal { border: 0; padding: 4px 0; text-decoration: underline; font-size: 12px !important; background: transparent; color: #4b4133; }
+.ivory-chat__reveal[hidden] { display: none; }
+.ivory-chat__sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; border: 0; }
+.ivory-chat-launcher { position: fixed; bottom: 24px; left: 24px; z-index: 9997; display: flex; align-items: center; gap: 8px; min-height: 52px; padding: 12px 18px; border: 0; border-radius: 30px; background: #1c1c19; color: #fff; box-shadow: 0 8px 20px #0003; font: 14px Arial, sans-serif; }
+@media (max-width: 480px) {
+    .ivory-chat { left: 16px; bottom: 80px; height: min(640px, calc(100dvh - 100px)); }
+    .ivory-chat-launcher { left: 16px; bottom: 16px; }
+}

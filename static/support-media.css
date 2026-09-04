@@ -1,0 +1,19 @@
+/* Shared compact messenger controls, scoped to the two support composers. */
+:is(.ivory-chat, .support-inbox) .support-media-controls { display:flex; flex-wrap:nowrap; gap:2px; margin:0; align-items:center; flex-shrink:0; }
+:is(.ivory-chat, .support-inbox) .support-media-controls [hidden], :is(.ivory-chat, .support-inbox) .support-media-preview[hidden] { display:none !important; }
+:is(.ivory-chat, .support-inbox) button.support-media-icon { display:grid; place-items:center; width:36px; height:40px; min-width:36px; min-height:40px; padding:7px; border:0; border-radius:50%; background:transparent; color:#536251; cursor:pointer; }
+:is(.ivory-chat, .support-inbox) button.support-media-icon:hover { background:#e1e7dc; }
+:is(.ivory-chat, .support-inbox) button.support-media-icon:focus-visible { outline:2px solid #536251; outline-offset:2px; }
+:is(.ivory-chat, .support-inbox) button.support-media-icon.is-recording { color:#ac2929; background:#ffe8e5; }
+.support-media-icon svg { width:23px; height:23px; fill:none; stroke:currentColor; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round; }
+:is(.ivory-chat, .support-inbox) .support-media-preview { width:100%; padding:10px 12px; margin:0 0 8px; border:1px solid #d4dcce; border-radius:12px; background:#f4f7f0; color:#34432f; overflow-wrap:anywhere; }
+.support-media-preview p { margin:0 0 5px; font-size:12px; }
+.support-compose-row, .ivory-chat .ivory-chat__compose { display:flex; align-items:center; gap:4px; padding:5px; border:1px solid #d2d9ca; background:#fffdf8; border-radius:24px; }
+.support-inbox .support-compose-row textarea, .ivory-chat .ivory-chat__compose textarea { flex:1; width:0; min-width:0; border:0; box-shadow:none; background:transparent; padding:8px 5px; resize:vertical; }
+.support-inbox .support-compose-row button[type=submit] { flex-shrink:0; border-radius:20px; padding:10px 14px; }
+.ivory-chat .ivory-chat__compose button[type=submit] { min-width:44px; width:44px; height:44px; padding:0; overflow:hidden; font-size:0; background:#354b35; }
+.ivory-chat .ivory-chat__compose button[type=submit]::after { content:'➤'; font-size:23px; }
+:is(.ivory-chat, .support-inbox) .support-file { padding:8px; border-radius:10px; background:#ffffff99; min-width:0; }
+:is(.ivory-chat, .support-inbox) .support-file a { display:block; color:#355437; font-size:12px; overflow-wrap:anywhere; }
+:is(.ivory-chat, .support-inbox) .support-file audio { width:100%; min-width:180px; max-width:300px; }
+@media(max-width:480px) { .support-inbox .support-compose-row { flex-wrap:wrap; } .support-inbox .support-compose-row textarea { min-width:100px; } }

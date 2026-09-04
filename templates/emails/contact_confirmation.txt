@@ -1,0 +1,8 @@
+Hello{% if name %} {{ name }}{% endif %},
+
+Thank you for contacting Ivory Design. Your form has been submitted successfully, and our team will get in touch with you soon.
+
+Regards,
+Ivory Design Team
+
+This email address was provided through Ivory Design's contact form. If you did not submit an enquiry, you can ignore this confirmation.

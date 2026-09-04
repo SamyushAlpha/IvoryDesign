@@ -1,0 +1,313 @@
+{%load static %}
+<!-- =====================================================
+     IVORY DESIGN FOOTER
+====================================================== -->
+
+<footer class="ivory-footer">
+
+<div class="ivory-footer-inner">
+
+    <!-- Brand / Message -->
+
+    <div class="ivory-footer-brand">
+
+        <a class="ivory-footer-mark" href="{% url 'home' %}" aria-label="Ivory Design Studio home">
+            <img src="{% static 'images/b.png' %}" alt="Ivory Design Studio logo" width="120" height="68" loading="lazy">
+        </a>
+
+        <div class="ivory-footer-name">
+            IVORY
+            <span>DESIGN STUDIO</span>
+        </div>
+
+        <p class="ivory-footer-message">
+            Thoughtfully designed spaces,
+            crafted to feel like home.
+        </p>
+
+    </div>
+
+
+    <!-- Contact -->
+
+    <div class="ivory-footer-contact">
+
+        <span class="footer-eyebrow">
+            GET IN TOUCH
+        </span>
+
+        <a href="tel:+9779825776806">
+            +977 9825776806
+        </a>
+
+        <a href="mailto:hello@ivorydesign.com">
+            hello@ivorydesign.com
+        </a>
+
+        <span>
+            Kathmandu · Nepal
+        </span>
+
+    </div>
+
+
+    <!-- Message -->
+
+    <div class="ivory-footer-message-block">
+
+        <span class="footer-eyebrow">
+            LET'S CREATE
+        </span>
+
+        <p>
+            Have a space in mind?
+            <br>
+            We'd love to hear about it.
+        </p>
+
+        <a href="{% url 'contact' %}" class="footer-contact-link">
+            START A CONVERSATION
+            <span>↗</span>
+        </a>
+
+    </div>
+
+</div>
+
+
+<!-- Footer Bottom -->
+
+<div class="ivory-footer-bottom">
+
+    <span>
+        © 2026 IVORY DESIGN
+    </span>
+
+    <span>
+        ALL RIGHTS RESERVED
+    </span>
+
+    <span>
+        KATHMANDU · NEPAL
+    </span>
+
+</div>
+
+</footer>
+
+<style>
+    /* =====================================================
+   IVORY DESIGN FOOTER — TRANSPARENT
+===================================================== */
+
+.ivory-footer {
+    position: relative;
+    background: transparent;
+    color: #292621;
+    padding: 90px 7% 30px;
+    font-family: 'DM Sans', sans-serif;
+}
+
+.ivory-footer-inner {
+    max-width: 1400px;
+    margin: 0 auto;
+
+    display: grid;
+    grid-template-columns: 1.3fr 1fr 1fr;
+
+    gap: 80px;
+
+    padding-bottom: 70px;
+}
+
+
+/* Brand */
+
+.ivory-footer-brand {
+    max-width: 380px;
+}
+
+.ivory-footer-mark {
+    display: block;
+    width: 120px;
+    margin-bottom: 22px;
+}
+
+.ivory-footer-mark img {
+    display: block;
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+}
+
+.ivory-footer-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 32px;
+
+    letter-spacing: 0.08em;
+}
+
+.ivory-footer-name span {
+    display: block;
+
+    font-family: 'DM Sans', sans-serif;
+
+    font-size: 9px;
+    letter-spacing: 0.35em;
+
+    color: #777168;
+
+    margin-top: 5px;
+}
+
+.ivory-footer-message {
+    margin-top: 28px;
+
+    color: #777168;
+
+    font-size: 14px;
+    line-height: 1.8;
+    font-weight: 300;
+
+    max-width: 280px;
+}
+
+
+/* Contact */
+
+.ivory-footer-contact,
+.ivory-footer-message-block {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.footer-eyebrow {
+    font-size: 9px;
+    letter-spacing: 0.25em;
+
+    color: #817A70;
+
+    margin-bottom: 22px;
+}
+
+.ivory-footer-contact a {
+    color: #292621;
+
+    text-decoration: none;
+
+    font-size: 15px;
+
+    margin-bottom: 12px;
+
+    transition: opacity 0.3s ease;
+}
+
+.ivory-footer-contact a:hover {
+    opacity: 0.5;
+}
+
+.ivory-footer-contact span:last-child {
+    color: #817A70;
+
+    font-size: 13px;
+
+    margin-top: 8px;
+}
+
+
+/* Message */
+
+.ivory-footer-message-block p {
+    color: #5E5951;
+
+    font-family: 'Playfair Display', serif;
+
+    font-size: 20px;
+    line-height: 1.6;
+
+    margin: 0 0 28px;
+}
+
+.footer-contact-link {
+    color: #292621;
+
+    text-decoration: none;
+
+    font-size: 10px;
+    letter-spacing: 0.18em;
+
+    padding-bottom: 8px;
+
+    border-bottom: 1px solid rgba(41, 38, 33, 0.45);
+
+    transition: all 0.3s ease;
+}
+
+.footer-contact-link span {
+    margin-left: 12px;
+}
+
+.footer-contact-link:hover {
+    padding-left: 5px;
+}
+
+
+/* Bottom */
+
+.ivory-footer-bottom {
+    max-width: 1400px;
+
+    margin: 0 auto;
+
+    padding-top: 25px;
+
+    border-top: 1px solid rgba(41, 38, 33, 0.25);
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    color: #817A70;
+
+    font-size: 9px;
+
+    letter-spacing: 0.18em;
+}
+
+
+/* =====================================================
+   MOBILE
+===================================================== */
+
+@media (max-width: 768px) {
+
+    .ivory-footer {
+        padding: 65px 25px 25px;
+    }
+
+    .ivory-footer-inner {
+        grid-template-columns: 1fr;
+        gap: 55px;
+        padding-bottom: 55px;
+    }
+
+    .ivory-footer-name {
+        font-size: 28px;
+    }
+
+    .ivory-footer-message-block p {
+        font-size: 18px;
+    }
+
+    .ivory-footer-bottom {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+        line-height: 1.5;
+    }
+
+}
+</style>

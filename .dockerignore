@@ -1,0 +1,14 @@
+.git
+.gitignore
+.DS_Store
+.env
+# Environment files can contain Gmail and OpenAI credentials.
+.env.*
+.venv
+venv
+__pycache__
+*.py[cod]
+*.sqlite3-journal
+staticfiles
+backups
+private_support
