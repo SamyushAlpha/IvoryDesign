@@ -34,11 +34,10 @@ if not DEBUG and SECRET_KEY == DEVELOPMENT_SECRET_KEY:
 ALLOWED_HOSTS = [item.strip() for item in os.environ.get("DJANGO_ALLOWED_HOSTS", "").split(",") if item.strip()]
 if DEBUG and not ALLOWED_HOSTS:
     ALLOWED_HOSTS = ["localhost", "127.0.0.1", "[::1]", "testserver"]
-if IS_VERCEL and ".vercel.app" not in ALLOWED_HOSTS:
-    ALLOWED_HOSTS.append(".vercel.app")
+if IS_VERCEL and not ALLOWED_HOSTS:
+    ALLOWED_HOSTS = [os.environ.get("VERCEL_URL", "").strip()]
+    ALLOWED_HOSTS = [host for host in ALLOWED_HOSTS if host]
 CSRF_TRUSTED_ORIGINS = [item.strip() for item in os.environ.get("DJANGO_CSRF_TRUSTED_ORIGINS", "").split(",") if item.strip()]
-if IS_VERCEL and "https://*.vercel.app" not in CSRF_TRUSTED_ORIGINS:
-    CSRF_TRUSTED_ORIGINS.append("https://*.vercel.app")
 
 
 # ==========================================================
