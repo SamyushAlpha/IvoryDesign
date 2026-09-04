@@ -5,6 +5,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Ivory Design Studio{% endblock %}</title>
+    <meta name="description" content="{% block meta_description %}Ivory Design Studio creates thoughtful residential and commercial interiors in Kathmandu, Nepal.{% endblock %}">
+    <link rel="canonical" href="{{ request.build_absolute_uri }}">
+    <meta property="og:site_name" content="Ivory Design Studio">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="{% block og_title %}Ivory Design Studio{% endblock %}">
+    <meta property="og:description" content="{% block og_description %}Thoughtful interior design shaped around your space and vision.{% endblock %}">
+    <meta property="og:url" content="{{ request.build_absolute_uri }}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=Playfair+Display:wght@400;500&display=swap" rel="stylesheet">

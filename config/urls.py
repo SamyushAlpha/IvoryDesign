@@ -9,6 +9,8 @@ from Ivory import support_views
 
 
 urlpatterns = [
+    path('robots.txt', views.robots_txt, name='robots_txt'),
+    path('sitemap.xml', views.sitemap_xml, name='sitemap'),
     path('admin/support/api/<uuid:public_id>/assistant/', support_views.staff_assign_assistant, name='support_staff_assistant'),
     path('chatbox/support/start/', support_views.visitor_start, name='support_visitor_start'),
     path('chatbox/support/files/<uuid:public_id>/', support_views.attachment_download, name='support_attachment'),

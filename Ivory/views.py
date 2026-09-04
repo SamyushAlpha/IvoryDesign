@@ -1,12 +1,38 @@
 import logging
 
+from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
+from django.urls import reverse
 from django.contrib import messages
 from .models import Client, ContactMessage, Project, AboutCompany, TeamMember
 from .models import PopupAd, Service
 from .emails import send_contact_confirmation
 
 logger = logging.getLogger(__name__)
+
+
+def robots_txt(request):
+    sitemap_url = request.build_absolute_uri(reverse("sitemap"))
+    return HttpResponse(
+        f"User-agent: *\nAllow: /\nDisallow: /admin/\nDisallow: /chatbox/\nSitemap: {sitemap_url}\n",
+        content_type="text/plain",
+    )
+
+
+def sitemap_xml(request):
+    paths = [
+        reverse("home"), reverse("about"), reverse("projects"),
+        reverse("services"), reverse("contact"),
+    ]
+    paths.extend(
+        reverse("team_portfolio", args=[pk])
+        for pk in TeamMember.objects.filter(is_active=True).values_list("pk", flat=True)
+    )
+    urls = "".join(
+        f"<url><loc>{request.build_absolute_uri(path)}</loc></url>" for path in paths
+    )
+    xml = f'<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">{urls}</urlset>'
+    return HttpResponse(xml, content_type="application/xml")
 
 
 
