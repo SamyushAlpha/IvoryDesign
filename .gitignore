@@ -13,3 +13,5 @@ __pycache__/
 .DS_Store
 *.sqlite3-journal
 db.sqlite3
+.vercel
+.env*
