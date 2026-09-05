@@ -51,10 +51,7 @@
 .ivory-chat__reveal[hidden] { display: none; }
 .ivory-chat__sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; border: 0; }
 .ivory-chat-launcher { position: fixed; bottom: 24px; left: 24px; z-index: 9997; display: flex; align-items: center; gap: 8px; min-height: 52px; padding: 12px 18px; border: 0; border-radius: 30px; background: #1c1c19; color: #fff; box-shadow: 0 8px 20px #0003; font: 14px Arial, sans-serif; }
-@media (max-width: 480px) {
-    .ivory-chat { left: 16px; bottom: 80px; height: min(640px, calc(100dvh - 100px)); }
-    .ivory-chat-launcher { left: 16px; bottom: 16px; }
-}
+.ivory-chat-launcher[aria-expanded="true"] { opacity: 0; pointer-events: none; }
 
 /* Glass treatment keeps the animated interior visible behind the conversation. */
 .ivory-chat { background:rgba(244,240,232,.42); border-color:rgba(255,255,255,.52); box-shadow:0 24px 70px rgba(28,24,18,.18); backdrop-filter:blur(7px) saturate(108%); -webkit-backdrop-filter:blur(7px) saturate(108%); }
@@ -65,3 +62,50 @@
 .ivory-chat__message--visitor { background:rgba(221,209,191,.86); }
 .ivory-chat__message--staff { background:rgba(218,235,244,.88); }
 .ivory-chat__form { background:rgba(244,240,232,.32); }
+
+@media (max-width: 600px) {
+    .ivory-chat {
+        left: 12px;
+        right: 12px;
+        bottom: calc(68px + env(safe-area-inset-bottom, 0px));
+        width: auto;
+        height: min(440px, calc(100dvh - 150px));
+        min-height: 300px;
+        border-radius: 16px;
+        overflow: hidden;
+        background: rgba(244,240,232,.24);
+        border-color: rgba(255,255,255,.62);
+        box-shadow: 0 14px 40px rgba(28,24,18,.16);
+        backdrop-filter: blur(3px) saturate(105%);
+        -webkit-backdrop-filter: blur(3px) saturate(105%);
+        font-size: 13px;
+    }
+    .ivory-chat__header { flex: 0 0 auto; min-height: 48px; padding: 7px 12px; background: rgba(234,228,216,.34); }
+    .ivory-chat__header h2 { font-size: 16px; }
+    .ivory-chat__header p { font-size: 8px; }
+    .ivory-chat__header button { width: 36px; height: 36px; font-size: 24px; }
+    .ivory-chat__notice { display: none; }
+    .ivory-chat__presence { flex: 0 0 auto; padding: 5px 12px; font-size: 10px; background: rgba(238,232,221,.26); }
+    .ivory-chat__messages { min-height: 100px; padding: 9px 10px 3px; background: rgba(255,255,255,.03); }
+    .ivory-chat__message { margin: 0 34px 7px 0; padding: 7px 9px; border-radius: 10px; background: rgba(255,253,248,.68); line-height: 1.35; box-shadow: 0 3px 10px rgba(51,43,31,.04); }
+    .ivory-chat__message--visitor { margin-left: 34px; margin-right: 0; background: rgba(221,209,191,.7); }
+    .ivory-chat__message--staff { background: rgba(218,235,244,.72); }
+    .ivory-chat__message strong { font-size: 9px; }
+    .ivory-chat__quick { flex: 0 0 auto; flex-wrap: nowrap; overflow-x: auto; padding: 5px 10px; scrollbar-width: none; }
+    .ivory-chat__quick::-webkit-scrollbar { display: none; }
+    .ivory-chat__quick button { flex: 0 0 auto; min-height: 30px; padding: 5px 9px; font-size: 11px; }
+    .ivory-chat__links { display: none; }
+    .ivory-chat__form { flex: 0 0 auto; padding: 7px 10px 8px; background: rgba(244,240,232,.18); }
+    .ivory-chat__form label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+    .ivory-chat__compose { gap: 6px; }
+    .ivory-chat__compose textarea { height: 42px; min-height: 42px; padding: 9px 10px; border-radius: 12px; background: rgba(255,253,248,.74); }
+    .ivory-chat__compose button { min-width: 48px; min-height: 42px; border-radius: 21px; }
+    .ivory-chat__hint { display: none; }
+    .ivory-chat__status { min-height: 14px; margin-top: 2px; font-size: 9px; line-height: 1.2; }
+    .ivory-chat-launcher { left: 14px; bottom: calc(14px + env(safe-area-inset-bottom, 0px)); min-height: 46px; padding: 10px 15px; }
+}
+
+@media (max-width: 600px) and (max-height: 620px) {
+    .ivory-chat { bottom: 10px; height: calc(100dvh - 20px); min-height: 0; }
+    .ivory-chat__quick { display: none; }
+}
