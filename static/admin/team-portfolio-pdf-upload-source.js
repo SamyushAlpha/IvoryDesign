@@ -1,6 +1,6 @@
 import { upload } from '@vercel/blob/client';
 
-(() => {
+function initializePortfolioPdfUpload() {
   const form = document.querySelector('form[method="post"]');
   if (!form || form.dataset.pdfUploadReady) return;
   form.dataset.pdfUploadReady = 'true';
@@ -50,4 +50,10 @@ import { upload } from '@vercel/blob/client';
       alert(error?.message || 'The PDF could not be uploaded. Please try again.');
     }
   });
-})();
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initializePortfolioPdfUpload, { once: true });
+} else {
+  initializePortfolioPdfUpload();
+}
