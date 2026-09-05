@@ -198,7 +198,7 @@ class TeamPortfolioInline(admin.StackedInline):
     )
 
     class Media:
-        js = ("admin/team-portfolio-pdf-upload-v2.js",)
+        js = ("admin/team-portfolio-pdf-upload-v3.js",)
 
 
 @admin.register(Service)
@@ -223,7 +223,7 @@ class TeamPortfolioAdmin(EditButtonAdmin):
     autocomplete_fields = ("member",)
 
     class Media:
-        js = ("admin/team-portfolio-pdf-upload-v2.js",)
+        js = ("admin/team-portfolio-pdf-upload-v3.js",)
 
 
 @admin.register(TeamMember)

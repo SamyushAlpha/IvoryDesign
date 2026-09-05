@@ -1,7 +1,10 @@
 import { upload } from '@vercel/blob/client';
 
 function initializePortfolioPdfUpload() {
-  const form = document.querySelector('form[method="post"]');
+  const firstPdfInput = document.querySelector(
+    'input[name="portfolio_pdf"], input[name$="-portfolio_pdf"]',
+  );
+  const form = firstPdfInput?.closest('form');
   if (!form || form.dataset.pdfUploadReady) return;
   form.dataset.pdfUploadReady = 'true';
   const pending = [];
