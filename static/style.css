@@ -168,7 +168,7 @@ body.popup-open {
     align-items: center;
     justify-content: center;
 
-    font-family: 'Playfair Display', serif;
+    font-family: 'Fraunces', serif;
 
     font-size: 21px;
 }
@@ -391,7 +391,7 @@ body.popup-open {
 
     min-height: 1.1em;
 
-    font-family: 'Playfair Display', serif;
+    font-family: 'Fraunces', serif;
 
     font-size: clamp(52px, 8vw, 125px);
 
@@ -1018,7 +1018,7 @@ body.popup-open {
         0 0 12px;
 
     font-family:
-        'Playfair Display',
+        'Fraunces',
         serif;
 
     font-size:
@@ -1093,7 +1093,7 @@ body.popup-open {
         0 0 10px;
 
     font-family:
-        'Playfair Display',
+        'Fraunces',
         serif;
 
     font-size:
@@ -1154,7 +1154,7 @@ body.popup-open {
         0 0 18px;
 
     font-family:
-        'Playfair Display',
+        'Fraunces',
         serif;
 
     font-size: 40px;
@@ -1207,7 +1207,7 @@ body.popup-open {
         0 0 18px;
 
     font-family:
-        'Playfair Display',
+        'Fraunces',
         serif;
 
     font-size: 40px;
@@ -1523,7 +1523,7 @@ body.popup-open {
         0;
 
     font-family:
-        'Playfair Display',
+        'Fraunces',
         serif;
 
     font-size:
@@ -1710,7 +1710,7 @@ body.popup-open {
         7px 0 4px;
 
     font-family:
-        'Playfair Display',
+        'Fraunces',
         serif;
 
     font-size:
@@ -2984,7 +2984,7 @@ body.popup-open {
         0 0 12px !important;
 
     font-family:
-        'Playfair Display',
+        'Fraunces',
         serif !important;
 
     font-size:
@@ -3037,7 +3037,7 @@ body.popup-open {
         0 0 18px !important;
 
     font-family:
-        'Playfair Display',
+        'Fraunces',
         serif !important;
 
     font-size: 40px !important;
