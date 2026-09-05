@@ -3,7 +3,7 @@ import uuid
 
 from django.conf import settings
 from django.core.exceptions import ValidationError
-from django.core.validators import MinValueValidator, RegexValidator, URLValidator
+from django.core.validators import FileExtensionValidator, MinValueValidator, RegexValidator, URLValidator
 from django.db import models
 from django.core.files.storage import FileSystemStorage
 
@@ -224,6 +224,13 @@ class TeamPortfolio(models.Model):
     title = models.CharField(max_length=200)
     description = models.TextField(blank=True)
     image = models.ImageField(upload_to="team/portfolio/", max_length=500)
+    portfolio_pdf = models.FileField(
+        upload_to="team/portfolio/pdfs/",
+        max_length=500,
+        blank=True,
+        validators=[FileExtensionValidator(["pdf"])],
+        help_text="Optional PDF portfolio. Upload PDF files only.",
+    )
     location = models.CharField(max_length=200, blank=True)
     year = models.PositiveIntegerField(blank=True, null=True)
     order = models.PositiveIntegerField(default=0)
