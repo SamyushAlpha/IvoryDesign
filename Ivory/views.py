@@ -1,14 +1,50 @@
+import hashlib
 import logging
+from datetime import timedelta
 
+from django.conf import settings
+from django.db import transaction
+from django.utils import timezone
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 from django.contrib import messages
 from .models import Client, ContactMessage, Project, ProjectCategory, AboutCompany, TeamMember
 from .models import PopupAd, Service
+from .models import ActiveVisitor, SiteStatistics
 from .emails import send_contact_confirmation
 
 logger = logging.getLogger(__name__)
+
+
+def website_metrics(request):
+    """Record one visit per browser session and return near-real-time totals."""
+    now = timezone.now()
+    if not request.user.is_staff:
+        if not request.session.session_key:
+            request.session.create()
+        visitor_hash = hashlib.sha256(
+            f"{settings.SECRET_KEY}:{request.session.session_key}".encode()
+        ).hexdigest()
+        with transaction.atomic():
+            visitor, created = ActiveVisitor.objects.get_or_create(
+                visitor_hash=visitor_hash,
+                defaults={"last_seen": now},
+            )
+            if not created:
+                ActiveVisitor.objects.filter(pk=visitor.pk).update(last_seen=now)
+            statistics, _ = SiteStatistics.objects.select_for_update().get_or_create(pk=1)
+            if created:
+                statistics.total_visits += 1
+                statistics.save(update_fields=["total_visits", "updated_at"])
+    else:
+        statistics, _ = SiteStatistics.objects.get_or_create(pk=1)
+
+    online_since = now - timedelta(minutes=2)
+    return JsonResponse({
+        "total_visits": statistics.total_visits,
+        "online_now": ActiveVisitor.objects.filter(last_seen__gte=online_since).count(),
+    })
 
 
 def staff_blob_upload_authorize(request):

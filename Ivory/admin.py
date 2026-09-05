@@ -2,7 +2,7 @@ from django import forms
 from django.contrib import admin
 from django.urls import reverse
 from django.utils.html import format_html
-from .models import CustomFAQ, Service, TeamPortfolio
+from .models import ActiveVisitor, CustomFAQ, Service, SiteStatistics, TeamPortfolio
 
 
 class TeamPortfolioAdminForm(forms.ModelForm):
@@ -28,6 +28,49 @@ class EditButtonAdmin(admin.ModelAdmin):
             f"admin:{obj._meta.app_label}_{obj._meta.model_name}_change",
             args=(obj.pk,),
         )
+
+
+@admin.register(SiteStatistics)
+class SiteStatisticsAdmin(admin.ModelAdmin):
+    list_display = ("visits_display", "online_display", "updated_at")
+    readonly_fields = ("total_visits", "updated_at")
+
+    @admin.display(description="TOTAL VISITS")
+    def visits_display(self, obj):
+        return format_html('<strong id="ivory-total-visits">{}</strong>', obj.total_visits)
+
+    @admin.display(description="ONLINE NOW")
+    def online_display(self, obj):
+        return format_html('<strong id="ivory-online-visitors">—</strong>')
+
+    def changelist_view(self, request, extra_context=None):
+        SiteStatistics.objects.get_or_create(pk=1)
+        return super().changelist_view(request, extra_context)
+
+    def has_add_permission(self, request):
+        return False
+
+    def has_delete_permission(self, request, obj=None):
+        return False
+
+    class Media:
+        js = ("site-metrics.js",)
+
+
+@admin.register(ActiveVisitor)
+class ActiveVisitorAdmin(admin.ModelAdmin):
+    list_display = ("first_seen", "last_seen")
+    readonly_fields = ("visitor_hash", "first_seen", "last_seen")
+    ordering = ("-last_seen",)
+
+    def has_add_permission(self, request):
+        return False
+
+    def has_change_permission(self, request, obj=None):
+        return request.user.has_perm("Ivory.view_activevisitor")
+
+    def has_delete_permission(self, request, obj=None):
+        return False
         return format_html(
             '<a class="button" href="{}" aria-label="Edit {}">Edit</a>',
             url,

@@ -7,10 +7,22 @@ from django.contrib.auth import get_user_model
 from django.test import TestCase
 from django.urls import reverse
 
-from .models import Client, Project, ProjectCategory, ProjectImage, Service, TeamMember, TeamPortfolio
+from .models import ActiveVisitor, Client, Project, ProjectCategory, ProjectImage, Service, SiteStatistics, TeamMember, TeamPortfolio
 
 
 class ContentPagesTests(TestCase):
+    def test_website_metrics_count_each_browser_session_once(self):
+        first = self.client.get(reverse("website_metrics")).json()
+        repeated = self.client.get(reverse("website_metrics")).json()
+        second_browser = self.client_class().get(reverse("website_metrics")).json()
+
+        self.assertEqual(first["total_visits"], 1)
+        self.assertEqual(repeated["total_visits"], 1)
+        self.assertEqual(second_browser["total_visits"], 2)
+        self.assertEqual(second_browser["online_now"], 2)
+        self.assertEqual(SiteStatistics.objects.get(pk=1).total_visits, 2)
+        self.assertEqual(ActiveVisitor.objects.count(), 2)
+
     def test_project_archive_links_to_long_form_case_study(self):
         category = ProjectCategory.objects.create(name="Apartments", slug="apartments")
         project = Project.objects.create(name="Sky Residence", category=category, description="Calm interior", image="projects/sky.jpg")

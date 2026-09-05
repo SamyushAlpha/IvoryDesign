@@ -93,7 +93,14 @@
 
 </div>
 
+<div class="ivory-visit-counter" aria-label="Website visitor statistics">
+    <span><strong id="ivory-total-visits">—</strong> TOTAL VISITS</span>
+    <span class="ivory-visit-counter__live"><i aria-hidden="true"></i><strong id="ivory-online-visitors">—</strong> ONLINE NOW</span>
+</div>
+
 </footer>
+
+<script src="{% static 'site-metrics.js' %}?v=20260905-1" defer></script>
 
 <style>
     /* =====================================================
@@ -276,6 +283,11 @@
 
     letter-spacing: 0.18em;
 }
+
+.ivory-visit-counter { display:flex; justify-content:center; gap:28px; padding:14px 20px 0; color:#716b62; font:10px/1.4 Arial,sans-serif; letter-spacing:.16em; }
+.ivory-visit-counter span { display:flex; align-items:center; gap:7px; }
+.ivory-visit-counter strong { color:#26231f; font-size:12px; letter-spacing:.05em; }
+.ivory-visit-counter__live i { width:7px; height:7px; border-radius:50%; background:#36a66a; box-shadow:0 0 0 4px rgba(54,166,106,.12); }
 
 
 /* =====================================================

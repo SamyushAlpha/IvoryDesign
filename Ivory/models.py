@@ -6,6 +6,7 @@ from django.core.exceptions import ValidationError
 from django.core.validators import MinValueValidator, RegexValidator, URLValidator
 from django.db import models
 from django.core.files.storage import FileSystemStorage
+from django.utils import timezone
 
 
 def private_support_storage():
@@ -18,6 +19,28 @@ def support_upload_path(instance, filename):
 
 DEFAULT_PRICING_GUIDANCE = "Pricing depends on the project scope and specifications. Please use the Contact form for a tailored quote."
 DEFAULT_APPOINTMENT_INSTRUCTIONS = "Use the Contact form with your name, email, phone number, and project details to request a consultation. The team will confirm availability."
+
+
+class SiteStatistics(models.Model):
+    total_visits = models.PositiveBigIntegerField(default=0)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = "Website statistics"
+        verbose_name_plural = "Website statistics"
+
+    def __str__(self):
+        return "Website visits"
+
+
+class ActiveVisitor(models.Model):
+    visitor_hash = models.CharField(max_length=64, unique=True)
+    first_seen = models.DateTimeField(auto_now_add=True)
+    last_seen = models.DateTimeField(default=timezone.now, db_index=True)
+
+    class Meta:
+        verbose_name = "Visitor session"
+        verbose_name_plural = "Visitor sessions"
 
 
 class ContactMessage(models.Model):
