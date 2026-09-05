@@ -1,10 +1,28 @@
 from django.contrib import admin
+from django.urls import reverse
+from django.utils.html import format_html
 from .models import CustomFAQ, Service, TeamPortfolio
 
 
+class EditButtonAdmin(admin.ModelAdmin):
+    """Show an unmistakable edit action beside every editable content item."""
+
+    @admin.display(description="EDIT")
+    def edit_button(self, obj):
+        url = reverse(
+            f"admin:{obj._meta.app_label}_{obj._meta.model_name}_change",
+            args=(obj.pk,),
+        )
+        return format_html(
+            '<a class="button" href="{}" aria-label="Edit {}">Edit</a>',
+            url,
+            obj,
+        )
+
+
 @admin.register(CustomFAQ)
-class CustomFAQAdmin(admin.ModelAdmin):
-    list_display = ("question", "category", "is_active", "order")
+class CustomFAQAdmin(EditButtonAdmin):
+    list_display = ("question", "category", "is_active", "order", "edit_button")
     list_editable = ("is_active", "order")
     list_filter = ("is_active", "category")
     search_fields = ("question", "answer", "aliases")
@@ -70,12 +88,13 @@ class ContactMessageAdmin(admin.ModelAdmin):
 # ==========================================================
 
 @admin.register(ProjectCategory)
-class ProjectCategoryAdmin(admin.ModelAdmin):
+class ProjectCategoryAdmin(EditButtonAdmin):
 
     list_display = (
         "name",
         "slug",
         "created_at",
+        "edit_button",
     )
 
     search_fields = (
@@ -97,7 +116,7 @@ class ProjectImageInline(admin.StackedInline):
 
 
 @admin.register(Project)
-class ProjectAdmin(admin.ModelAdmin):
+class ProjectAdmin(EditButtonAdmin):
     inlines = (ProjectImageInline,)
 
     list_display = (
@@ -107,6 +126,7 @@ class ProjectAdmin(admin.ModelAdmin):
         "year",
         "featured",
         "created_at",
+        "edit_button",
     )
 
     list_filter = (
@@ -139,11 +159,12 @@ class ProjectAdmin(admin.ModelAdmin):
 # ==========================================================
 
 @admin.register(AboutCompany)
-class AboutCompanyAdmin(admin.ModelAdmin):
+class AboutCompanyAdmin(EditButtonAdmin):
 
     list_display = (
         "title",
         "updated_at",
+        "edit_button",
     )
 
 
@@ -158,16 +179,16 @@ class TeamPortfolioInline(admin.StackedInline):
 
 
 @admin.register(Service)
-class ServiceAdmin(admin.ModelAdmin):
-    list_display = ("title", "order", "is_active")
+class ServiceAdmin(EditButtonAdmin):
+    list_display = ("title", "order", "is_active", "edit_button")
     list_editable = ("order", "is_active")
     list_filter = ("is_active",)
     search_fields = ("title", "description")
 
 
 @admin.register(TeamPortfolio)
-class TeamPortfolioAdmin(admin.ModelAdmin):
-    list_display = ("title", "member", "order", "is_active")
+class TeamPortfolioAdmin(EditButtonAdmin):
+    list_display = ("title", "member", "order", "is_active", "edit_button")
     list_editable = ("order", "is_active")
     list_filter = ("member", "is_active")
     search_fields = ("title", "description", "member__name")
@@ -175,7 +196,7 @@ class TeamPortfolioAdmin(admin.ModelAdmin):
 
 
 @admin.register(TeamMember)
-class TeamMemberAdmin(admin.ModelAdmin):
+class TeamMemberAdmin(EditButtonAdmin):
     inlines = (TeamPortfolioInline,)
 
     list_display = (
@@ -183,6 +204,7 @@ class TeamMemberAdmin(admin.ModelAdmin):
         "designation",
         "order",
         "is_active",
+        "edit_button",
     )
 
     list_filter = (
@@ -211,12 +233,13 @@ class TeamMemberAdmin(admin.ModelAdmin):
 # POPUP AD
 # ==========================================================    
 @admin.register(PopupAd)
-class PopupAdAdmin(admin.ModelAdmin):
+class PopupAdAdmin(EditButtonAdmin):
 
     list_display = (
         "title",
         "is_active",
         "created_at",
+        "edit_button",
     )
 
     list_filter = (
@@ -238,7 +261,7 @@ class PopupAdAdmin(admin.ModelAdmin):
     )
 
 @admin.register(Client)
-class ClientAdmin(admin.ModelAdmin):
+class ClientAdmin(EditButtonAdmin):
 
     list_display = (
         "name",
@@ -246,6 +269,7 @@ class ClientAdmin(admin.ModelAdmin):
         "order",
         "is_active",
         "created_at",
+        "edit_button",
     )
 
     list_editable = (
@@ -266,8 +290,8 @@ class BusinessSocialProfileInline(admin.TabularInline):
 
 
 @admin.register(BusinessInformation)
-class BusinessInformationAdmin(admin.ModelAdmin):
-    list_display = ("__str__", "pricing_mode", "updated_at")
+class BusinessInformationAdmin(EditButtonAdmin):
+    list_display = ("__str__", "pricing_mode", "updated_at", "edit_button")
     readonly_fields = ("updated_at",)
     inlines = (BusinessSocialProfileInline,)
     fieldsets = (
