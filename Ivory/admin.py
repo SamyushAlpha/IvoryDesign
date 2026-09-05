@@ -41,7 +41,7 @@ class SiteStatisticsAdmin(admin.ModelAdmin):
 
     @admin.display(description="ONLINE NOW")
     def online_display(self, obj):
-        return format_html('<strong id="ivory-online-visitors">—</strong>')
+        return format_html('<strong id="ivory-online-visitors">{}</strong>', "—")
 
     def changelist_view(self, request, extra_context=None):
         SiteStatistics.objects.get_or_create(pk=1)

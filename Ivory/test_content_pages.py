@@ -23,6 +23,16 @@ class ContentPagesTests(TestCase):
         self.assertEqual(SiteStatistics.objects.get(pk=1).total_visits, 2)
         self.assertEqual(ActiveVisitor.objects.count(), 2)
 
+    def test_website_statistics_admin_page_renders(self):
+        user = get_user_model().objects.create_superuser(
+            username="statistics-admin", password="test-only-password"
+        )
+        self.client.force_login(user)
+        response = self.client.get(reverse("admin:Ivory_sitestatistics_changelist"))
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'id="ivory-total-visits"')
+        self.assertContains(response, 'id="ivory-online-visitors"')
+
     def test_project_archive_links_to_long_form_case_study(self):
         category = ProjectCategory.objects.create(name="Apartments", slug="apartments")
         project = Project.objects.create(name="Sky Residence", category=category, description="Calm interior", image="projects/sky.jpg")
