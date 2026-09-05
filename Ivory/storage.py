@@ -28,7 +28,7 @@ class VercelBlobStorage(Storage):
                 content_type=content_type,
                 add_random_suffix=True,
             )
-        return result["url"]
+        return result.url
 
     def _open(self, name, mode="rb"):
         if not name.startswith(("https://", "http://")):
