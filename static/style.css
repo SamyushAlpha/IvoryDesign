@@ -3263,3 +3263,50 @@ body.popup-open {
     .ivory-btn,.work-card,.client-logo { transition:none; }
     .ivory-btn:hover,.work-card:hover,.client-logo:hover { transform:none; }
 }
+
+/* Tactile ink-hover language, adapted for Ivory's quiet editorial palette. */
+@media (hover:hover) and (pointer:fine) {
+    :is(.ivory-nav-links a,.ivory-mobile-menu a,.ivory-btn,.works-footer a,
+        .footer-contact-link,.ivory-footer-contact a,.project-filters button,
+        .project-row__content strong,.case-copy > a,.case-next a) {
+        --ivory-hover-ink: rgba(224,184,79,.46);
+        background-image:linear-gradient(var(--ivory-hover-ink),var(--ivory-hover-ink));
+        background-repeat:no-repeat;
+        background-position:0 100%;
+        background-size:0 34%;
+        transition:background-size .42s cubic-bezier(.2,.8,.2,1),
+                   transform .28s cubic-bezier(.2,.8,.2,1),
+                   color .25s ease,box-shadow .28s ease;
+    }
+    :is(.ivory-nav-links a,.ivory-mobile-menu a,.ivory-btn,.works-footer a,
+        .footer-contact-link,.ivory-footer-contact a,.project-filters button,
+        .project-row__open:hover .project-row__content strong,.case-copy > a,.case-next a):hover,
+    :is(.ivory-nav-links a,.ivory-mobile-menu a,.ivory-btn,.works-footer a,
+        .footer-contact-link,.ivory-footer-contact a,.project-filters button,
+        .case-copy > a,.case-next a):focus-visible {
+        background-size:100% 34%;
+    }
+    .project-row__arrow,.work-arrow,.footer-contact-link span,.case-next a span {
+        transition:transform .38s cubic-bezier(.2,.8,.2,1),background-color .3s ease,color .3s ease;
+    }
+    .project-row__open:hover .project-row__arrow,
+    .work-card:hover .work-arrow,
+    .footer-contact-link:hover span,
+    .case-next a:hover span {
+        transform:translate(5px,-5px) rotate(8deg);
+    }
+    .ivory-menu-btn span { transition:transform .3s cubic-bezier(.2,.8,.2,1),width .3s ease; }
+    .ivory-menu-btn:hover span:first-child { transform:translateX(5px); }
+    .ivory-menu-btn:hover span:last-child { transform:translateX(-5px); }
+
+    .ivory-cursor {
+        transform-origin:center;
+        will-change:transform,width,height,margin;
+        transition:width .32s cubic-bezier(.2,.9,.2,1),height .32s cubic-bezier(.2,.9,.2,1),
+                   margin .32s cubic-bezier(.2,.9,.2,1),background .25s ease,border-color .25s ease,opacity .2s !important;
+    }
+    .ivory-cursor.is-reading { width:38px;height:38px;margin:-19px 0 0 -19px;background:rgba(224,184,79,.1);border-color:rgba(32,30,26,.48); }
+    .ivory-cursor.is-reading span { top:16px;left:16px; }
+    .ivory-cursor.is-active { width:58px;height:44px;margin:-22px 0 0 -29px;border-radius:54% 46% 52% 48%;background:rgba(224,184,79,.32);border-color:rgba(70,57,30,.58); }
+    .ivory-cursor.is-active span { top:19px;left:26px; }
+}
