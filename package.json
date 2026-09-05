@@ -2,5 +2,5 @@
   "private": true,
   "dependencies": {"@vercel/blob": "2.4.0"},
   "devDependencies": {"esbuild": "0.25.9"},
-  "scripts": {"build:admin": "esbuild static/admin/team-portfolio-pdf-upload-source.js --bundle --minify --format=iife --outfile=static/admin/team-portfolio-pdf-upload.js"}
+  "scripts": {"build:admin": "esbuild static/admin/team-portfolio-pdf-upload-source.js --bundle --minify --format=iife --outfile=static/admin/team-portfolio-pdf-upload.js", "build:api": "esbuild api/blob-upload-source.js --bundle --minify --platform=node --format=esm --outfile=api/blob-upload.js"}
 }
