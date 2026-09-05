@@ -17,6 +17,8 @@
     let selectedId = "";
     let reconnectDelay = 1000;
     let socket;
+    let listPoll;
+    let historyPoll;
 
     function textNode(tag, className, text) {
         const node = document.createElement(tag);
@@ -93,9 +95,9 @@
         messageList.scrollTop = messageList.scrollHeight;
     }
 
-    async function selectConversation(id) {
+    async function selectConversation(id, quiet = false) {
         selectedId = id;
-        actionStatus.textContent = "Loading conversation…";
+        if (!quiet) actionStatus.textContent = "Loading conversation…";
         try {
             const data = await getJson(`/admin/support/api/${id}/`);
             empty.hidden = true;
@@ -104,10 +106,10 @@
             document.getElementById("support-conversation-status").textContent = data.conversation.status_label + (data.conversation.assigned_name ? ` · Assigned to ${data.conversation.assigned_name}` : "");
             document.getElementById("support-visitor-phone").textContent = data.conversation.visitor_phone ? `Phone: ${data.conversation.visitor_phone}` : "Phone not collected yet";
             renderMessages(data.messages);
-            actionStatus.textContent = "Conversation loaded.";
+            if (!quiet) actionStatus.textContent = "Conversation loaded.";
             await loadList();
         } catch (error) {
-            actionStatus.textContent = error.message;
+            if (!quiet) actionStatus.textContent = error.message;
         }
     }
 
@@ -183,4 +185,21 @@
 
     loadList();
     connect();
+    listPoll = setInterval(() => {
+        if (!document.hidden && !pending) loadList();
+    }, 3000);
+    historyPoll = setInterval(() => {
+        if (!document.hidden && selectedId && !pending) selectConversation(selectedId, true);
+    }, 2500);
+    document.addEventListener("visibilitychange", () => {
+        if (!document.hidden) {
+            loadList();
+            if (selectedId) selectConversation(selectedId, true);
+        }
+    });
+    window.addEventListener("pagehide", () => {
+        clearInterval(listPoll);
+        clearInterval(historyPoll);
+        socket?.close();
+    });
 })();

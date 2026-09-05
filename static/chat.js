@@ -24,6 +24,7 @@
     let reconnectDelay = 1000;
     let activeTyper = null;
     let renderQueue = Promise.resolve();
+    let historyPoll = null;
 
     function setOpen(open) {
         panel.hidden = !open;
@@ -44,6 +45,7 @@
     revealButton.addEventListener("click", () => activeTyper?.skip());
     window.addEventListener("pagehide", () => {
         clearTimeout(reconnectTimer);
+        clearInterval(historyPoll);
         socket?.close();
         activeTyper?.cancel();
     });
@@ -135,6 +137,18 @@
         }
     }
 
+    async function pollHistory() {
+        if (!conversationId || pending || document.hidden) return;
+        try {
+            const data = await getJson(form.dataset.historyUrl);
+            updatePresence(data.conversation);
+            await enqueue((data.messages || []).filter((message) => !renderedIds.has(message.id)), true);
+            status.textContent = "Messages are up to date.";
+        } catch {
+            status.textContent = "Checking for new messages…";
+        }
+    }
+
     async function startSupport() {
         if (pending) return;
         try {
@@ -176,6 +190,12 @@
         });
         socket.addEventListener("error", () => socket?.close());
     }
+
+
+    historyPoll = setInterval(pollHistory, 3000);
+    document.addEventListener("visibilitychange", () => {
+        if (!document.hidden) pollHistory();
+    });
 
     async function submitQuestion() {
         if (pending || media.recording) return;

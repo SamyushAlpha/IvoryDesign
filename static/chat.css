@@ -55,3 +55,13 @@
     .ivory-chat { left: 16px; bottom: 80px; height: min(640px, calc(100dvh - 100px)); }
     .ivory-chat-launcher { left: 16px; bottom: 16px; }
 }
+
+/* Glass treatment keeps the animated interior visible behind the conversation. */
+.ivory-chat { background:rgba(244,240,232,.76); border-color:rgba(255,255,255,.62); box-shadow:0 24px 70px rgba(28,24,18,.22); backdrop-filter:blur(15px) saturate(115%); -webkit-backdrop-filter:blur(15px) saturate(115%); }
+.ivory-chat__header { background:rgba(234,228,216,.68); }
+.ivory-chat__notice, .ivory-chat__presence { background:rgba(238,232,221,.58); }
+.ivory-chat__messages { background:rgba(255,255,255,.08); }
+.ivory-chat__message { background:rgba(255,253,248,.82); box-shadow:0 6px 18px rgba(51,43,31,.06); }
+.ivory-chat__message--visitor { background:rgba(221,209,191,.86); }
+.ivory-chat__message--staff { background:rgba(218,235,244,.88); }
+.ivory-chat__form { background:rgba(244,240,232,.55); }

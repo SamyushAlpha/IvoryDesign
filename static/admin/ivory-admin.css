@@ -480,3 +480,5 @@ body.login-page .login-box::after {
 
     display: none !important;
 }
+.ivory-support-notify-toggle { position:fixed; right:22px; bottom:22px; z-index:1100; border:0; border-radius:999px; padding:10px 16px; background:#263626; color:#fff; box-shadow:0 8px 24px #0003; font-size:12px; cursor:pointer; }
+.ivory-support-badge { display:inline-grid; place-items:center; min-width:20px; height:20px; margin-left:8px; padding:0 6px; border-radius:999px; background:#dc3545; color:#fff; font-size:11px; font-weight:700; }

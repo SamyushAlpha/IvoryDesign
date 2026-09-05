@@ -432,7 +432,7 @@ JAZZMIN_SETTINGS = {
 
     "custom_css": "admin/ivory-admin.css",
 
-    "custom_js": None,
+    "custom_js": "admin/support-notifications.js",
 
 }
 
