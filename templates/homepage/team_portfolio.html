@@ -19,7 +19,7 @@
             {% if entry.location or entry.year %}<p class="content-eyebrow">{{ entry.location }}{% if entry.location and entry.year %} · {% endif %}{{ entry.year|default_if_none:'' }}</p>{% endif %}
             <h2>{{ entry.title }}</h2>
             <div class="content-copy">{{ entry.description|linebreaks }}</div>
-            {% if entry.portfolio_pdf %}<a class="portfolio-pdf-link" href="{{ entry.portfolio_pdf.url }}" target="_blank" rel="noopener">View portfolio PDF <span>↗</span></a>{% endif %}
+            {% if entry.portfolio_pdf %}<a class="portfolio-pdf-link" href="{{ entry.portfolio_pdf }}" target="_blank" rel="noopener">View portfolio PDF <span>↗</span></a>{% endif %}
         </div>
     </article>
 {% empty %}

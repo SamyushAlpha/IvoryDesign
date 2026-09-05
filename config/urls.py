@@ -15,6 +15,7 @@ urlpatterns = [
     path('chatbox/support/start/', support_views.visitor_start, name='support_visitor_start'),
     path('chatbox/support/files/<uuid:public_id>/', support_views.attachment_download, name='support_attachment'),
     path('admin/support/', support_views.staff_inbox, name='support_inbox'),
+    path('admin/blob-upload-authorize/', views.staff_blob_upload_authorize, name='staff_blob_upload_authorize'),
     path('admin/support/api/conversations/', support_views.staff_conversations, name='support_staff_conversations'),
     path('admin/support/api/<uuid:public_id>/', support_views.staff_history, name='support_staff_history'),
     path('admin/support/api/<uuid:public_id>/claim/', support_views.staff_claim, name='support_staff_claim'),

@@ -88,15 +88,21 @@ class ContentPagesTests(TestCase):
                 "portfolio-MIN_NUM_FORMS": 0, "portfolio-MAX_NUM_FORMS": 1000,
                 "portfolio-0-member": member.pk, "portfolio-0-title": "Uploaded work",
                 "portfolio-0-image": SimpleUploadedFile("project.png", image.getvalue(), content_type="image/png"),
-                "portfolio-0-portfolio_pdf": SimpleUploadedFile("portfolio.pdf", b"%PDF-1.4\n%%EOF", content_type="application/pdf"),
+                "portfolio-0-portfolio_pdf": "https://example.public.blob.vercel-storage.com/team/portfolio/pdfs/portfolio.pdf",
                 "portfolio-0-description": "Created in the team member editor",
                 "portfolio-0-order": 0, "portfolio-0-is_active": "on", "_save": "Save",
             })
             self.assertEqual(response.status_code, 302)
             entry = member.portfolio.get()
             self.assertTrue(entry.image.storage.exists(entry.image.name))
-            self.assertTrue(entry.portfolio_pdf.storage.exists(entry.portfolio_pdf.name))
+            self.assertTrue(entry.portfolio_pdf.endswith("portfolio.pdf"))
             page = self.client.get(reverse("team_portfolio", args=[member.pk]))
             self.assertContains(page, "Uploaded work")
             self.assertContains(page, "View portfolio PDF")
-            self.assertContains(page, entry.portfolio_pdf.url)
+            self.assertContains(page, entry.portfolio_pdf)
+
+    def test_blob_upload_authorization_requires_staff(self):
+        self.assertEqual(self.client.get(reverse("staff_blob_upload_authorize")).status_code, 403)
+        user = get_user_model().objects.create_user(username="staff", password="test-only-password", is_staff=True)
+        self.client.force_login(user)
+        self.assertJSONEqual(self.client.get(reverse("staff_blob_upload_authorize")).content, {"authorized": True})

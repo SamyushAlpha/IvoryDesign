@@ -177,6 +177,9 @@ class TeamPortfolioInline(admin.StackedInline):
     extra = 0
     show_change_link = True
 
+    class Media:
+        js = ("admin/team-portfolio-pdf-upload.js",)
+
 
 @admin.register(Service)
 class ServiceAdmin(EditButtonAdmin):
@@ -193,6 +196,9 @@ class TeamPortfolioAdmin(EditButtonAdmin):
     list_filter = ("member", "is_active")
     search_fields = ("title", "description", "member__name")
     autocomplete_fields = ("member",)
+
+    class Media:
+        js = ("admin/team-portfolio-pdf-upload.js",)
 
 
 @admin.register(TeamMember)

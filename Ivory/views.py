@@ -1,6 +1,6 @@
 import logging
 
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 from django.contrib import messages
@@ -9,6 +9,13 @@ from .models import PopupAd, Service
 from .emails import send_contact_confirmation
 
 logger = logging.getLogger(__name__)
+
+
+def staff_blob_upload_authorize(request):
+    """Confirm a current staff session before a direct Blob upload."""
+    if not request.user.is_authenticated or not request.user.is_staff:
+        return JsonResponse({"authorized": False}, status=403)
+    return JsonResponse({"authorized": True})
 
 
 def robots_txt(request):

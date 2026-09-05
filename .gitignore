@@ -17,3 +17,6 @@ db.sqlite3
 .env*
 .agents/
 skills-lock.json
+node_modules/
+tmp/
+output/

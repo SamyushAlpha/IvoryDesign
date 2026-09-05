@@ -1,6 +1,6 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "buildCommand": "python manage.py migrate --noinput && python manage.py seed_public_content && python manage.py collectstatic --noinput",
+  "buildCommand": "npm run build:admin && python manage.py migrate --noinput && python manage.py seed_public_content && python manage.py collectstatic --noinput",
   "functions": {
     "config/asgi.py": {
       "maxDuration": 60
