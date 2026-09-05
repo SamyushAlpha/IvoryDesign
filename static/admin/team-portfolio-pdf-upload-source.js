@@ -9,10 +9,14 @@ function initializePortfolioPdfUpload() {
     if (urlInput.dataset.pdfChooserReady) return;
     urlInput.dataset.pdfChooserReady = 'true';
     urlInput.type = 'hidden';
-    const chooser = document.createElement('input');
-    chooser.type = 'file'; chooser.accept = 'application/pdf,.pdf'; chooser.className = 'vTextField';
-    chooser.setAttribute('aria-label', 'Choose portfolio PDF');
-    urlInput.insertAdjacentElement('afterend', chooser);
+    const chooserName = urlInput.name.replace(/portfolio_pdf$/, 'portfolio_pdf_upload');
+    let chooser = form.querySelector(`input[name="${CSS.escape(chooserName)}"]`);
+    if (!chooser) {
+      chooser = document.createElement('input');
+      chooser.type = 'file'; chooser.accept = 'application/pdf,.pdf'; chooser.className = 'vTextField';
+      chooser.setAttribute('aria-label', 'Choose portfolio PDF');
+      urlInput.insertAdjacentElement('afterend', chooser);
+    }
     if (urlInput.value) {
       const current = document.createElement('a');
       current.href = urlInput.value; current.target = '_blank'; current.rel = 'noopener';
@@ -41,6 +45,7 @@ function initializePortfolioPdfUpload() {
           access: 'public', handleUploadUrl: '/api/blob-upload', multipart: file.size > 10 * 1024 * 1024,
         });
         urlInput.value = blob.url;
+        chooser.value = '';
       }
       uploaded = true;
       buttons.forEach(button => button.disabled = false);

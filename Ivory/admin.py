@@ -1,7 +1,22 @@
+from django import forms
 from django.contrib import admin
 from django.urls import reverse
 from django.utils.html import format_html
 from .models import CustomFAQ, Service, TeamPortfolio
+
+
+class TeamPortfolioAdminForm(forms.ModelForm):
+    portfolio_pdf_upload = forms.FileField(
+        required=False,
+        label="Portfolio PDF",
+        help_text="Choose a PDF file up to 50 MB. It uploads when you save.",
+        widget=forms.ClearableFileInput(attrs={"accept": "application/pdf,.pdf"}),
+    )
+
+    class Meta:
+        model = TeamPortfolio
+        fields = "__all__"
+        widgets = {"portfolio_pdf": forms.HiddenInput()}
 
 
 class EditButtonAdmin(admin.ModelAdmin):
@@ -174,11 +189,16 @@ class AboutCompanyAdmin(EditButtonAdmin):
 
 class TeamPortfolioInline(admin.StackedInline):
     model = TeamPortfolio
+    form = TeamPortfolioAdminForm
     extra = 0
     show_change_link = True
+    fields = (
+        "title", "description", "image", "portfolio_pdf_upload",
+        "portfolio_pdf", "location", "year", "order", "is_active",
+    )
 
     class Media:
-        js = ("admin/team-portfolio-pdf-upload.js",)
+        js = ("admin/team-portfolio-pdf-upload-v2.js",)
 
 
 @admin.register(Service)
@@ -191,6 +211,11 @@ class ServiceAdmin(EditButtonAdmin):
 
 @admin.register(TeamPortfolio)
 class TeamPortfolioAdmin(EditButtonAdmin):
+    form = TeamPortfolioAdminForm
+    fields = (
+        "member", "title", "description", "image", "portfolio_pdf_upload",
+        "portfolio_pdf", "location", "year", "order", "is_active",
+    )
     list_display = ("title", "member", "order", "is_active", "edit_button")
     list_editable = ("order", "is_active")
     list_filter = ("member", "is_active")
@@ -198,7 +223,7 @@ class TeamPortfolioAdmin(EditButtonAdmin):
     autocomplete_fields = ("member",)
 
     class Media:
-        js = ("admin/team-portfolio-pdf-upload.js",)
+        js = ("admin/team-portfolio-pdf-upload-v2.js",)
 
 
 @admin.register(TeamMember)
