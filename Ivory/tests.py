@@ -40,7 +40,7 @@ class ContactConfirmationTests(TestCase):
             str(list(response.wsgi_request._messages)[0]),
         )
 
-    def test_confirmation_sender_recipient_bodies_and_inline_logo(self):
+    def test_confirmation_sender_recipient_bodies_and_hosted_logo(self):
         self.client.post(reverse("contact"), self.form_data)
         email = mail.outbox[0]
         self.assertEqual(email.from_email, "Ivory Design <ivory-company@example.com>")
@@ -61,33 +61,18 @@ class ContactConfirmationTests(TestCase):
         parts = list(serialized.walk())
         plain = next(part for part in parts if part.get_content_type() == "text/plain")
         html = next(part for part in parts if part.get_content_type() == "text/html")
-        logo = next(part for part in parts if part.get_content_type() == "image/png")
         self.assertIn("submitted successfully", plain.get_content())
         self.assertIn("get in touch with you soon", html.get_content())
         self.assertNotIn(self.form_data["message"], html.get_content())
         self.assertIn("Regards,<br><strong>Ivory Design Team", html.get_content())
-        self.assertIn('cid:' + logo["Content-ID"].strip("<>"), html.get_content())
-        self.assertEqual(logo.get_content_disposition(), "inline")
-        self.assertEqual(
-            logo.get_payload(decode=True),
-            (settings.BASE_DIR / "static/images/b.png").read_bytes(),
-        )
+        self.assertIn("https://ivory-design.vercel.app/static/images/b.png", html.get_content())
 
-        # The plaintext is a sibling of the HTML+logo related group. There is
-        # no multipart/mixed wrapper, named file or attachment disposition.
+        # The hosted logo does not create a file attachment in Gmail.
         self.assertEqual(serialized.get_content_type(), "multipart/alternative")
         alternatives = list(serialized.iter_parts())
         self.assertEqual(len(alternatives), 2)
         self.assertEqual(alternatives[0].get_content_type(), "text/plain")
-        related = alternatives[1]
-        self.assertEqual(related.get_content_type(), "multipart/related")
-        self.assertEqual(related.get_param("type"), "text/html")
-        self.assertEqual(related.get_param("start"), html["Content-ID"])
-        self.assertEqual(list(related.iter_parts()), [html, logo])
-        self.assertEqual(logo["Content-Transfer-Encoding"], "base64")
-        self.assertEqual(logo["Content-Disposition"], "inline")
-        self.assertIsNone(logo.get_filename())
-        self.assertIsNone(logo.get_param("name"))
+        self.assertEqual(alternatives[1].get_content_type(), "text/html")
         self.assertEqual(email.attachments, [])
         self.assertIn('alt="Ivory Design logo"', html.get_content())
         for part in parts:
@@ -129,14 +114,12 @@ class ContactConfirmationTests(TestCase):
         self.assertNotIn("sensitive SMTP response", logs.output[0])
         self.assertNotIn(self.form_data["email"], logs.output[0])
 
-    def test_missing_logo_does_not_lose_enquiry(self):
-        with patch("pathlib.Path.read_bytes", side_effect=FileNotFoundError), self.assertLogs(
-            "Ivory.views", level="ERROR"
-        ):
+    def test_confirmation_does_not_depend_on_a_local_logo_attachment(self):
+        with patch("pathlib.Path.read_bytes", side_effect=FileNotFoundError):
             response = self.client.post(reverse("contact"), self.form_data)
         self.assertEqual(response.status_code, 302)
         self.assertEqual(ContactMessage.objects.count(), 1)
-        self.assertEqual(len(mail.outbox), 0)
+        self.assertEqual(len(mail.outbox), 1)
 
     def test_mailer_reporting_zero_deliveries_is_logged(self):
         with patch("Ivory.emails.EmailMultiAlternatives.send", return_value=0), self.assertLogs(
