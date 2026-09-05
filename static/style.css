@@ -3198,3 +3198,17 @@ body.popup-open {
     .clients-group { min-width: 0; flex-wrap: wrap; justify-content: center; width: 100%; padding-right: 0; gap: 24px; }
     .clients-group[aria-hidden="true"], .clients-group [aria-hidden="true"] { display: none; }
 }
+
+/* Studio cursor and direct WhatsApp contact */
+@media (pointer:fine) {
+    html, body, a, button, input, textarea, select { cursor:none !important; }
+    .ivory-cursor { position:fixed; top:0; left:0; width:28px; height:28px; margin:-14px 0 0 -14px; z-index:2147483646; pointer-events:none; opacity:0; border:1px solid rgba(32,30,26,.75); border-radius:50%; transition:width .22s,height .22s,margin .22s,background .22s,opacity .2s; }
+    .ivory-cursor span { position:absolute; width:4px; height:4px; top:11px; left:11px; border-radius:50%; background:#292621; }
+    .ivory-cursor.is-visible { opacity:1; }
+    .ivory-cursor.is-active { width:52px; height:52px; margin:-26px 0 0 -26px; background:rgba(224,184,79,.18); }
+    .ivory-cursor.is-active span { top:23px; left:23px; }
+}
+.ivory-whatsapp { position:fixed; right:24px; bottom:24px; z-index:9996; display:grid; place-items:center; width:58px; height:58px; color:#fff !important; background:#25d366; border-radius:50%; box-shadow:0 10px 30px rgba(0,0,0,.22); transition:transform .25s,box-shadow .25s; }
+.ivory-whatsapp:hover { transform:translateY(-4px) scale(1.04); box-shadow:0 15px 34px rgba(0,0,0,.28); }
+.ivory-whatsapp svg { width:31px; height:31px; }
+@media(max-width:600px) { .ivory-whatsapp { right:16px; bottom:18px; width:52px; height:52px; } }

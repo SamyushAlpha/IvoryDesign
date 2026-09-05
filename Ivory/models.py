@@ -105,6 +105,21 @@ class Project(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class ProjectImage(models.Model):
+    project = models.ForeignKey(Project, on_delete=models.CASCADE, related_name="gallery")
+    image = models.ImageField(upload_to="projects/gallery/")
+    caption = models.CharField(max_length=200, blank=True)
+    order = models.PositiveIntegerField(default=0)
+
+    class Meta:
+        ordering = ["order", "pk"]
+        verbose_name = "Project gallery image"
+        verbose_name_plural = "Project gallery images"
+
+    def __str__(self):
+        return self.caption or f"{self.project.name} image"
 #For Aboutus section
 # ==========================================================
 # ABOUT COMPANY

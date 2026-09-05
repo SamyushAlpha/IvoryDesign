@@ -16,7 +16,7 @@ from .models import (
 from .models import (
     ContactMessage,
     Project,
-    ProjectCategory,
+    ProjectCategory, ProjectImage,
 )
 
 
@@ -91,8 +91,14 @@ class ProjectCategoryAdmin(admin.ModelAdmin):
 # PROJECTS
 # ==========================================================
 
+class ProjectImageInline(admin.StackedInline):
+    model = ProjectImage
+    extra = 1
+
+
 @admin.register(Project)
 class ProjectAdmin(admin.ModelAdmin):
+    inlines = (ProjectImageInline,)
 
     list_display = (
         "name",

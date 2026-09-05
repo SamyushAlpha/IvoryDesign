@@ -4,7 +4,7 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 from django.contrib import messages
-from .models import Client, ContactMessage, Project, AboutCompany, TeamMember
+from .models import Client, ContactMessage, Project, ProjectCategory, AboutCompany, TeamMember
 from .models import PopupAd, Service
 from .emails import send_contact_confirmation
 
@@ -104,10 +104,11 @@ def contact(request):
 #projects page
 
 def projects(request):
-    all_projects = Project.objects.all().order_by('-created_at')
+    all_projects = Project.objects.select_related("category").prefetch_related("gallery").order_by('-created_at')
 
     return render(request, 'homepage/projects.html', {
-        'projects': all_projects
+        'projects': all_projects,
+        'project_categories': ProjectCategory.objects.filter(projects__isnull=False).distinct().order_by("name"),
     })
 #About us page
 def about(request):
