@@ -131,7 +131,10 @@ def visitor_history(request):
     if not conversation:
         return JsonResponse({"conversation": None, "messages": []})
     request.session["ivory_support_conversation"] = str(conversation.public_id)
-    messages = conversation_history(conversation)
+    # Closed chat widgets poll without clearing unread staff replies. Opening the
+    # chat uses the default value and marks those replies as read.
+    mark_read = request.GET.get("mark_read", "1") != "0"
+    messages = conversation_history(conversation, mark_read=mark_read)
     conversation.refresh_from_db()
     return JsonResponse({
         "conversation": serialize_conversation(conversation),

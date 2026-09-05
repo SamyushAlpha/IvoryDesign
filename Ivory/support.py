@@ -209,14 +209,14 @@ def start_conversation(visitor_key):
     return conversation
 
 
-def conversation_history(conversation, *, for_staff=False):
+def conversation_history(conversation, *, for_staff=False, mark_read=True):
     messages = list(conversation.support_messages.select_related("sender_user").all())
     if for_staff:
         conversation.support_messages.filter(sender_type=SupportMessage.SenderType.VISITOR, read_by_staff=False).update(read_by_staff=True)
         if conversation.staff_unread_count:
             conversation.staff_unread_count = 0
             conversation.save(update_fields=["staff_unread_count", "updated_at"])
-    else:
+    elif mark_read:
         conversation.support_messages.exclude(sender_type=SupportMessage.SenderType.VISITOR).filter(read_by_visitor=False).update(read_by_visitor=True)
         if conversation.visitor_unread_count:
             conversation.visitor_unread_count = 0

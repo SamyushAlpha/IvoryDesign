@@ -186,6 +186,33 @@ class SupportHttpTests(TestCase):
         self.assertTrue(second.json()["duplicate"])
         self.assertEqual(SupportMessage.objects.count(), 1)
 
+    @patch("Ivory.support._schedule_takeover")
+    def test_closed_widget_poll_preserves_visitor_unread_count(self, schedule):
+        self.post("Hello")
+        conversation = SupportConversation.objects.get()
+        SupportMessage.objects.create(
+            conversation=conversation,
+            sender_type=SupportMessage.SenderType.STAFF,
+            sequence=2,
+            body="First staff reply",
+        )
+        SupportMessage.objects.create(
+            conversation=conversation,
+            sender_type=SupportMessage.SenderType.STAFF,
+            sequence=3,
+            body="Second staff reply",
+        )
+        conversation.visitor_unread_count = 2
+        conversation.save(update_fields=["visitor_unread_count"])
+
+        closed_poll = self.client.get(reverse("support_visitor_history"), {"mark_read": "0"})
+        self.assertEqual(closed_poll.json()["conversation"]["visitor_unread_count"], 2)
+        conversation.refresh_from_db()
+        self.assertEqual(conversation.visitor_unread_count, 2)
+
+        opened_chat = self.client.get(reverse("support_visitor_history"))
+        self.assertEqual(opened_chat.json()["conversation"]["visitor_unread_count"], 0)
+
     def test_csrf_origin_payload_and_length_protection(self):
         no_csrf = Client(enforce_csrf_checks=True).post(self.url, "{}", content_type="application/json")
         self.assertEqual(no_csrf.status_code, 403)

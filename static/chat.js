@@ -4,6 +4,7 @@
     const panel = document.getElementById("ivory-chat");
     if (!panel) return;
     const launcher = document.getElementById("ivory-chat-launcher");
+    const unreadBadge = document.getElementById("ivory-chat-unread");
     const closeButton = document.getElementById("ivory-chat-close");
     const form = document.getElementById("ivory-chat-form");
     const input = document.getElementById("ivory-chat-input");
@@ -25,13 +26,36 @@
     let activeTyper = null;
     let renderQueue = Promise.resolve();
     let historyPoll = null;
+    let unreadCount = 0;
+    const originalTitle = document.title.replace(/^\(\d+\)\s*/, "");
+
+    function updateUnread(conversation) {
+        const nextCount = panel.hidden ? Number(conversation?.visitor_unread_count || 0) : 0;
+        unreadCount = Math.max(0, nextCount);
+        unreadBadge.hidden = unreadCount === 0;
+        unreadBadge.textContent = unreadCount > 99 ? "99+" : String(unreadCount);
+        launcher.classList.toggle("has-unread", unreadCount > 0);
+        launcher.setAttribute("aria-label", unreadCount
+            ? `Open Ivory Design support, ${unreadCount} unread message${unreadCount === 1 ? "" : "s"}`
+            : "Open Ivory Design support");
+        document.title = unreadCount ? `(${unreadCount}) ${originalTitle}` : originalTitle;
+    }
+
+    function historyUrl(markRead) {
+        const url = new URL(form.dataset.historyUrl, location.href);
+        if (!markRead) url.searchParams.set("mark_read", "0");
+        return url.toString();
+    }
 
     function setOpen(open) {
         panel.hidden = !open;
         launcher.setAttribute("aria-expanded", String(open));
         launcher.setAttribute("aria-label", open ? "Close Ivory Design support" : "Open Ivory Design support");
         (open ? input : launcher).focus();
-        if (open) startSupport();
+        if (open) {
+            updateUnread(null);
+            startSupport().then(() => pollHistory(true));
+        }
     }
     launcher.hidden = false;
     launcher.addEventListener("click", () => setOpen(panel.hidden));
@@ -122,10 +146,11 @@
         return data;
     }
 
-    async function syncHistory() {
+    async function syncHistory(markRead = !panel.hidden) {
         try {
-            const data = await getJson(form.dataset.historyUrl);
+            const data = await getJson(historyUrl(markRead));
             updatePresence(data.conversation);
+            updateUnread(data.conversation);
             if (!data.conversation) return;
             conversationId = data.conversation.id;
             messages.replaceChildren();
@@ -137,11 +162,12 @@
         }
     }
 
-    async function pollHistory() {
+    async function pollHistory(markRead = !panel.hidden) {
         if (!conversationId || pending || document.hidden) return;
         try {
-            const data = await getJson(form.dataset.historyUrl);
+            const data = await getJson(historyUrl(markRead));
             updatePresence(data.conversation);
+            updateUnread(data.conversation);
             await enqueue((data.messages || []).filter((message) => !renderedIds.has(message.id)), true);
             status.textContent = "Messages are up to date.";
         } catch {
@@ -177,6 +203,7 @@
             try { data = JSON.parse(event.data); } catch { return; }
             if (data.kind !== "conversation") return;
             updatePresence(data.conversation);
+            updateUnread(data.conversation);
             enqueue(data.messages, true);
         });
         socket.addEventListener("close", () => {
