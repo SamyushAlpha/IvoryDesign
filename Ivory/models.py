@@ -112,6 +112,7 @@ class ProjectImage(models.Model):
     project = models.ForeignKey(Project, on_delete=models.CASCADE, related_name="gallery")
     image = models.ImageField(upload_to="projects/gallery/", max_length=500)
     caption = models.CharField(max_length=200, blank=True)
+    description = models.TextField(blank=True)
     order = models.PositiveIntegerField(default=0)
 
     class Meta:

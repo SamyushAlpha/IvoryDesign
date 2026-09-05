@@ -28,6 +28,10 @@ def sitemap_xml(request):
         reverse("team_portfolio", args=[pk])
         for pk in TeamMember.objects.filter(is_active=True).values_list("pk", flat=True)
     )
+    paths.extend(
+        reverse("project_detail", args=[pk])
+        for pk in Project.objects.values_list("pk", flat=True)
+    )
     urls = "".join(
         f"<url><loc>{request.build_absolute_uri(path)}</loc></url>" for path in paths
     )
@@ -109,6 +113,18 @@ def projects(request):
     return render(request, 'homepage/projects.html', {
         'projects': all_projects,
         'project_categories': ProjectCategory.objects.filter(projects__isnull=False).distinct().order_by("name"),
+    })
+
+
+def project_detail(request, pk):
+    project = get_object_or_404(
+        Project.objects.select_related("category").prefetch_related("gallery"),
+        pk=pk,
+    )
+    next_project = Project.objects.exclude(pk=project.pk).order_by("-created_at").first()
+    return render(request, "homepage/project_detail.html", {
+        "project": project,
+        "next_project": next_project,
     })
 #About us page
 def about(request):

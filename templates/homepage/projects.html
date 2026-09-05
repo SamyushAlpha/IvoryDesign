@@ -11,7 +11,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=Playfair+Display:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="{% static 'style.css' %}?v=20260905-project1">
-  <link rel="stylesheet" href="{% static 'projects-showcase.css' %}?v=20260905-1">
+  <link rel="stylesheet" href="{% static 'projects-showcase.css' %}?v=20260905-2">
 </head>
 <body class="project-archive">
 {% include 'navbarfooter/navbar.html' %}
@@ -39,7 +39,7 @@
     <div class="project-list">
       {% for project in projects %}
       <article class="project-row" data-category="{% if project.category %}category-{{ project.category.pk }}{% endif %}">
-        <button type="button" class="project-row__open" data-project-open aria-label="Open {{ project.name }} gallery">
+        <a href="{% url 'project_detail' project.pk %}" class="project-row__open" aria-label="View {{ project.name }} project details">
           <span class="project-row__number">— {{ forloop.counter|stringformat:'02d' }} / {{ project.category.name|default:'Interior' }}</span>
           <span class="project-row__preview">{% if project.image %}<img src="{{ project.image.url }}" alt="" loading="lazy">{% endif %}</span>
           <span class="project-row__content">
@@ -48,11 +48,7 @@
             <span>{{ project.description|truncatewords:28 }}</span>
           </span>
           <span class="project-row__arrow">↗</span>
-        </button>
-        <div class="project-assets" hidden data-name="{{ project.name }}">
-          {% if project.image %}<img data-src="{{ project.image.url }}" data-caption="{{ project.name }}">{% endif %}
-          {% for asset in project.gallery.all %}<img data-src="{{ asset.image.url }}" data-caption="{{ asset.caption|default:project.name }}">{% endfor %}
-        </div>
+        </a>
       </article>
       {% empty %}
       <p class="project-empty">Projects added through the admin panel will appear here.</p>
@@ -61,15 +57,7 @@
   </section>
 </main>
 
-<div class="project-viewer" hidden role="dialog" aria-modal="true" aria-label="Project gallery">
-  <header><strong id="project-viewer-title">Project</strong><span id="project-viewer-count">01 / 01</span><button type="button" data-viewer-close>CLOSE —</button></header>
-  <button type="button" class="project-viewer__nav project-viewer__nav--prev" data-viewer-prev aria-label="Previous image">←</button>
-  <figure><img id="project-viewer-image" alt=""><figcaption id="project-viewer-caption"></figcaption></figure>
-  <button type="button" class="project-viewer__nav project-viewer__nav--next" data-viewer-next aria-label="Next image">→</button>
-  <div class="project-viewer__thumbs" id="project-viewer-thumbs"></div>
-</div>
-
 {% include 'navbarfooter/footer.html' %}
-<script src="{% static 'projects-showcase.js' %}?v=20260905-1" defer></script>
+<script src="{% static 'projects-showcase.js' %}?v=20260905-2" defer></script>
 </body>
 </html>

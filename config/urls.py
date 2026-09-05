@@ -31,6 +31,7 @@ urlpatterns = [
     path('chatbox/support/message/', support_views.visitor_message, name='support_visitor_message'),
 
     path('projects/', views.projects, name='projects'),
+    path('projects/<int:pk>/', views.project_detail, name='project_detail'),
 
     path('about/', views.about, name='about'),
     path('services/', views.services, name='services'),

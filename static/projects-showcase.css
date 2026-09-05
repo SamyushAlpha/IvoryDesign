@@ -13,7 +13,7 @@
 .project-filters button.is-active{background:var(--ink);color:var(--paper);border-color:var(--ink)}
 .project-row{border-bottom:1px solid var(--line)}
 .project-row[hidden]{display:none}
-.project-row__open{position:relative;width:100%;min-height:240px;padding:34px 0;display:grid;grid-template-columns:190px minmax(180px,320px) 1fr 50px;gap:35px;align-items:center;border:0;background:transparent;text-align:left;color:inherit}
+.project-row__open{position:relative;width:100%;min-height:240px;padding:34px 0;display:grid;grid-template-columns:190px minmax(180px,320px) 1fr 50px;gap:35px;align-items:center;border:0;background:transparent;text-align:left;color:inherit;text-decoration:none}
 .project-row__number{align-self:start;font-size:9px;letter-spacing:.2em;text-transform:uppercase}
 .project-row__preview{height:175px;overflow:hidden;background:#ddd7cc}
 .project-row__preview img{width:100%;height:100%;object-fit:cover;transition:transform .7s ease,filter .4s}

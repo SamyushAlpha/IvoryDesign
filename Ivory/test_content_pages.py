@@ -7,10 +7,21 @@ from django.contrib.auth import get_user_model
 from django.test import TestCase
 from django.urls import reverse
 
-from .models import Client, Service, TeamMember, TeamPortfolio
+from .models import Client, Project, ProjectCategory, ProjectImage, Service, TeamMember, TeamPortfolio
 
 
 class ContentPagesTests(TestCase):
+    def test_project_archive_links_to_long_form_case_study(self):
+        category = ProjectCategory.objects.create(name="Apartments", slug="apartments")
+        project = Project.objects.create(name="Sky Residence", category=category, description="Calm interior", image="projects/sky.jpg")
+        ProjectImage.objects.create(project=project, image="projects/gallery/lounge.jpg", caption="The lounge", description="Layered stone and walnut.")
+        detail_url = reverse("project_detail", args=[project.pk])
+        self.assertContains(self.client.get(reverse("projects")), f'href="{detail_url}"')
+        response = self.client.get(detail_url)
+        self.assertContains(response, "Sky Residence")
+        self.assertContains(response, "The lounge")
+        self.assertContains(response, "Layered stone and walnut.")
+
     def test_services_show_only_published_content_in_order(self):
         Service.objects.create(title="Later service", description="Later", order=2)
         Service.objects.create(title="First service", description="<script>bad</script>", order=1)

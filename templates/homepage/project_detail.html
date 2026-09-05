@@ -1,0 +1,54 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>{{ project.name }} | Ivory Design Studio</title>
+  <meta name="description" content="{{ project.description|striptags|truncatewords:24 }}">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=Playfair+Display:wght@400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'project-detail.css' %}?v=20260905-1">
+</head>
+<body class="case-study">
+  <header class="case-nav">
+    <a href="{% url 'projects' %}">← &nbsp; BACK TO PROJECTS</a>
+    <a class="case-nav__brand" href="{% url 'home' %}"><img src="{% static 'images/a.svg' %}" alt=""><span>IVORY<small>DESIGN STUDIO</small></span></a>
+    <a href="{% url 'contact' %}">CONTACT &nbsp;—</a>
+  </header>
+
+  <main>
+    <article class="case-block case-block--hero">
+      <figure>{% if project.image %}<img src="{{ project.image.url }}" alt="{{ project.name }}" fetchpriority="high">{% endif %}</figure>
+      <div class="case-copy">
+        <p class="case-kicker">— 01 / {{ project.category.name|default:'Interior design' }}</p>
+        <h1>{{ project.name }}</h1>
+        <p class="case-meta">{{ project.location|default:'Kathmandu, Nepal' }}{% if project.year %} · {{ project.year }}{% endif %}</p>
+        <div class="case-description">{{ project.description|linebreaksbr }}</div>
+        <a href="{{ project.image.url }}" target="_blank" rel="noopener">VIEW IMAGE ↗</a>
+      </div>
+    </article>
+
+    {% for asset in project.gallery.all %}
+    <article class="case-block">
+      <figure><img src="{{ asset.image.url }}" alt="{{ asset.caption|default:project.name }}" loading="lazy"></figure>
+      <div class="case-copy">
+        <p class="case-kicker">— {{ forloop.counter|add:'1'|stringformat:'02d' }} / {{ asset.caption|default:project.name }}</p>
+        <h2>{{ asset.caption|default:project.name }}</h2>
+        {% if asset.description %}<div class="case-description">{{ asset.description|linebreaksbr }}</div>{% endif %}
+        <a href="{{ asset.image.url }}" target="_blank" rel="noopener">VIEW IMAGE ↗</a>
+      </div>
+    </article>
+    {% endfor %}
+
+    <footer class="case-next">
+      {% if next_project %}<p>NEXT PROJECT</p><a href="{% url 'project_detail' next_project.pk %}">{{ next_project.name }} <span>↗</span></a>{% else %}<a href="{% url 'projects' %}">VIEW ALL PROJECTS <span>↗</span></a>{% endif %}
+    </footer>
+  </main>
+
+  <a class="case-whatsapp" href="https://wa.me/9779825776806?text=Hello%20Ivory%20Design%20%E2%80%94%20I%27d%20like%20to%20enquire%20about%20a%20project." target="_blank" rel="noopener" aria-label="Chat on WhatsApp">◔</a>
+  <div class="ivory-cursor" aria-hidden="true"><span></span></div>
+  <script src="{% static 'cursor.js' %}?v=20260905-1" defer></script>
+</body>
+</html>
