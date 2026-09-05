@@ -512,3 +512,11 @@ JAZZMIN_UI_TWEAKS = {
 MEDIA_URL = '/media/'
 
 MEDIA_ROOT = BASE_DIR / 'media'
+
+# Vercel deployments are read-only. Store new public admin uploads in Vercel
+# Blob while continuing to serve the media files already bundled in the repo.
+if IS_VERCEL:
+    STORAGES = {
+        "default": {"BACKEND": "Ivory.storage.VercelBlobStorage"},
+        "staticfiles": {"BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage"},
+    }

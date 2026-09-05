@@ -73,7 +73,8 @@ class Project(models.Model):
     )
 
     image = models.ImageField(
-        upload_to="projects/"
+        upload_to="projects/",
+        max_length=500,
     )
 
     location = models.CharField(
@@ -109,7 +110,7 @@ class Project(models.Model):
 
 class ProjectImage(models.Model):
     project = models.ForeignKey(Project, on_delete=models.CASCADE, related_name="gallery")
-    image = models.ImageField(upload_to="projects/gallery/")
+    image = models.ImageField(upload_to="projects/gallery/", max_length=500)
     caption = models.CharField(max_length=200, blank=True)
     order = models.PositiveIntegerField(default=0)
 
@@ -144,6 +145,7 @@ class AboutCompany(models.Model):
 
     image = models.ImageField(
         upload_to="about/",
+        max_length=500,
         blank=True,
         null=True
     )
@@ -171,7 +173,8 @@ class TeamMember(models.Model):
     )
 
     photo = models.ImageField(
-        upload_to="team/"
+        upload_to="team/",
+        max_length=500,
     )
 
     bio = models.TextField(
@@ -204,7 +207,7 @@ class TeamMember(models.Model):
 class Service(models.Model):
     title = models.CharField(max_length=200)
     description = models.TextField()
-    image = models.ImageField(upload_to="services/", blank=True)
+    image = models.ImageField(upload_to="services/", blank=True, max_length=500)
     order = models.PositiveIntegerField(default=0)
     is_active = models.BooleanField(default=True)
 
@@ -219,7 +222,7 @@ class TeamPortfolio(models.Model):
     member = models.ForeignKey(TeamMember, on_delete=models.CASCADE, related_name="portfolio")
     title = models.CharField(max_length=200)
     description = models.TextField(blank=True)
-    image = models.ImageField(upload_to="team/portfolio/")
+    image = models.ImageField(upload_to="team/portfolio/", max_length=500)
     location = models.CharField(max_length=200, blank=True)
     year = models.PositiveIntegerField(blank=True, null=True)
     order = models.PositiveIntegerField(default=0)
@@ -240,7 +243,7 @@ class PopupAd(models.Model):
 
     description = models.TextField()
 
-    image = models.ImageField(upload_to="popup_ads/")
+    image = models.ImageField(upload_to="popup_ads/", max_length=500)
 
     is_active = models.BooleanField(default=True)
 
@@ -260,7 +263,8 @@ class Client(models.Model):
     name = models.CharField(max_length=200)
 
     logo = models.ImageField(
-        upload_to="clients/"
+        upload_to="clients/",
+        max_length=500,
     )
 
     order = models.PositiveIntegerField(
