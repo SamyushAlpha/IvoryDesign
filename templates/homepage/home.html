@@ -42,7 +42,7 @@
 
     <link
         rel="stylesheet"
-        href="{% static 'style.css' %}?v=20260903-marquee4">
+        href="{% static 'style.css' %}?v=20260905-horizontal1">
     <link rel="stylesheet" href="{% static 'hero-drawing.css' %}?v=20260903-23">
     <link rel="stylesheet" href="{% static 'chat.css' %}?v=20260905-glass2">
     <link rel="stylesheet" href="{% static 'support-media.css' %}?v=20260903-media2">
@@ -501,8 +501,10 @@ body.popup-open {
 <section
     id="projects"
     class="ivory-works-section"
+    data-horizontal-works
 >
 
+    <div class="works-sticky">
 
     <div class="works-header">
 
@@ -549,6 +551,7 @@ body.popup-open {
          PROJECT SHOWCASE
     ====================================================== -->
 
+    <div class="works-viewport">
     <div class="works-grid">
 
 
@@ -556,7 +559,7 @@ body.popup-open {
 
 
         <a
-            href="#"
+            href="{% url 'projects' %}"
             class="work-card {% if forloop.first %}work-large{% endif %}"
         >
 
@@ -628,6 +631,7 @@ body.popup-open {
 
 
     </div>
+    </div>
 
 
 
@@ -655,6 +659,7 @@ body.popup-open {
         </a>
 
 
+    </div>
     </div>
 
 
@@ -1443,6 +1448,7 @@ setTimeout(
 
 <script src="{% static 'hero-drawing.js' %}?v=20260903-23" defer></script>
 <script src="{% static 'clients-marquee.js' %}?v=20260903-marquee2" defer></script>
+<script src="{% static 'selected-works-scroll.js' %}?v=20260905-1" defer></script>
 </body>
 
 

@@ -3212,3 +3212,23 @@ body.popup-open {
 .ivory-whatsapp:hover { transform:translateY(-4px) scale(1.04); box-shadow:0 15px 34px rgba(0,0,0,.28); }
 .ivory-whatsapp svg { width:31px; height:31px; }
 @media(max-width:600px) { .ivory-whatsapp { right:16px; bottom:18px; width:52px; height:52px; } }
+
+/* Homepage selected works: vertical wheel movement drives a pinned horizontal gallery. */
+@media (min-width:761px) and (prefers-reduced-motion:no-preference) {
+    .ivory-works-section[data-horizontal-works] { position:relative; min-height:100vh; height:100vh; padding:0; overflow:visible; }
+    .ivory-works-section .works-sticky { position:sticky; top:0; height:100vh; padding:clamp(72px,9vh,105px) 7% 48px; overflow:hidden; display:flex; flex-direction:column; background:#f4f1e9; }
+    .ivory-works-section .works-header { flex:0 0 auto; margin-bottom:clamp(24px,4vh,48px); }
+    .ivory-works-section .works-header h2 { font-size:clamp(42px,5vw,72px); }
+    .ivory-works-section .works-viewport { flex:1; min-height:0; overflow:visible; }
+    .ivory-works-section .works-grid { display:flex; width:max-content; height:100%; gap:22px; will-change:transform; transform:translate3d(0,0,0); }
+    .ivory-works-section .work-card { flex:0 0 clamp(390px,48vw,720px); width:clamp(390px,48vw,720px); height:100%; min-height:280px; }
+    .ivory-works-section .work-card:nth-child(2n) { flex-basis:clamp(330px,38vw,560px); width:clamp(330px,38vw,560px); }
+    .ivory-works-section .work-large,.ivory-works-section .work-wide { grid-row:auto; grid-column:auto; }
+    .ivory-works-section .works-footer { flex:0 0 auto; margin-top:24px; padding-top:15px; }
+}
+@media (max-width:760px) {
+    .ivory-works-section .works-viewport { overflow-x:auto; scrollbar-width:none; margin:0 -7%; padding:0 7%; scroll-snap-type:x mandatory; }
+    .ivory-works-section .works-viewport::-webkit-scrollbar { display:none; }
+    .ivory-works-section .works-grid { display:flex; width:max-content; grid-auto-rows:auto; }
+    .ivory-works-section .work-card { width:82vw; height:58vh; flex:0 0 82vw; scroll-snap-align:center; }
+}
