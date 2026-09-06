@@ -13,7 +13,7 @@
 .home-page .ivory-menu-btn span { background:#f7f2e8 !important; }
 .home-page .logo-mark img { filter:brightness(0) invert(1); }
 .hero-drawing { position: absolute; inset: 0; z-index: 2; pointer-events: none; }
-.house-sketch { position: absolute; right: 1%; top: 18%; width: 57%; height: 68%; color: #393a32; overflow: visible; transform: scale(.94); transform-origin: center; }
+.house-sketch { position: absolute; right: 1%; top: 22.5%; width: 57%; height: 68%; color: #393a32; overflow: visible; transform: scale(.94); transform-origin: center; }
 .sketch-guides { opacity: .14; }
 .sketch-detail { opacity: .45; stroke-width: 1; }
 .signature-sketch { position: absolute; bottom: 88px; left: auto; right: 7%; width: 245px; height: 76px; color: #ffdf57; overflow: visible; }
@@ -64,6 +64,8 @@
 .painter-head { transition: transform .25s ease; }
 
 .scene-vehicle { pointer-events: none; }
+.scene-ground-shadow { filter:blur(8px);mix-blend-mode:multiply; }
+.scene-vehicle > ellipse:first-child { filter:blur(2.5px);opacity:.30; }
 @media (prefers-reduced-motion: reduce) {
     .scene-vehicle { display: none; }
 }

@@ -9,6 +9,7 @@
     const finishing = Array.from(drawing.querySelectorAll('.house-finishing'));
     const scenes = Array.from(drawing.querySelectorAll('[data-interior-scene]'));
     const sparkles = drawing.querySelector('.paint-sparkles');
+    const groundShadow = drawing.querySelector('.scene-ground-shadow');
     const clamp = value => Math.min(1, Math.max(0, value));
     const ease = value => value * value * (3 - 2 * value);
     // One continuous path per stroke keeps the revealed line at the pencil tip.
@@ -242,6 +243,7 @@
     function render(elapsedTime) {
         const sceneIndex = Math.floor(elapsedTime / cycle) % scenes.length;
         const time = elapsedTime % cycle;
+        groundShadow.setAttribute('opacity', String(.34 * clamp((time - 44000) / 9000)));
         scenes.forEach((scene, index) => { scene.style.display = index === sceneIndex ? '' : 'none'; });
         drawing.setAttribute('data-active-scene', String(sceneIndex));
         strokes = schedules[sceneIndex];
