@@ -13,7 +13,7 @@
 .home-page .ivory-menu-btn span { background:#f7f2e8 !important; }
 .home-page .logo-mark img { filter:brightness(0) invert(1); }
 .hero-drawing { position: absolute; inset: 0; z-index: 2; pointer-events: none; }
-.house-sketch { position: absolute; right: 1%; top: 22.5%; width: 57%; height: 68%; color: #393a32; overflow: visible; transform: scale(.94); transform-origin: center; }
+.house-sketch { position: absolute; right: 1%; top: 28%; width: 57%; height: 68%; color: #393a32; overflow: visible; transform: scale(.94); transform-origin: center; }
 .sketch-guides { opacity: .14; }
 .sketch-detail { opacity: .45; stroke-width: 1; }
 .signature-sketch { position: absolute; bottom: 88px; left: auto; right: 7%; width: 245px; height: 76px; color: #ffdf57; overflow: visible; }
@@ -37,7 +37,7 @@
     .ivory-subtitle { margin-top: 22px; max-width: 310px; }
     .ivory-buttons { margin-top: 26px; gap: 10px; }
     .ivory-btn { padding: 13px 15px; }
-    .house-sketch { top: 470px; right: 1%; width: 94%; height: 260px; color: #e5ddce; }
+    .house-sketch { top: 515px; right: 1%; width: 94%; height: 260px; color: #e5ddce; }
     .signature-sketch { bottom: 88px; width: 195px; height: 58px; }
     .sketch-guides { opacity: .12; }
     .ivory-hero-bg { background-position:62% center; }
