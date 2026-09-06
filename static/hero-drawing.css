@@ -1,30 +1,17 @@
-/* The original warm hero background, with a living architectural sketch. */
-.ivory-hero-bg { background: #e9e5dc; transform: none; animation: none; }
+/* A calm studio wall inspired by the supplied light-and-shadow reference. */
+.ivory-hero { background:#132322; }
+.ivory-hero-bg {
+    background:#132322 url("images/ivory-hero-wall-light.webp") center center / cover no-repeat;
+    transform:none;
+    animation:none;
+}
 .ivory-hero-overlay {
-    overflow: hidden;
-    background:
-        radial-gradient(ellipse at 94% 2%, rgba(255,253,243,.76) 0%, rgba(255,249,224,.34) 23%, rgba(255,249,224,0) 58%),
-        linear-gradient(128deg, rgba(255,255,255,0) 38%, rgba(255,252,235,.08) 51%, rgba(255,252,235,.36) 62%, rgba(255,252,235,0) 78%),
-        linear-gradient(90deg, rgba(38,36,31,.54) 0%, rgba(38,36,31,.27) 44%, rgba(38,36,31,.04) 100%);
+    background:linear-gradient(90deg,rgba(6,18,18,.58) 0%,rgba(6,18,18,.30) 43%,rgba(6,18,18,.06) 100%);
 }
-.ivory-hero-overlay::after {
-    content: "";
-    position: absolute;
-    top: -28%;
-    right: -8%;
-    width: 66%;
-    height: 118%;
-    background: linear-gradient(151deg, rgba(255,255,255,.35), rgba(255,248,218,.14) 45%, transparent 72%);
-    clip-path: polygon(57% 0,100% 0,73% 100%,0 100%);
-    filter: blur(18px);
-    opacity: .72;
-    transform-origin: top right;
-    animation: ivorySunbeam 10s ease-in-out infinite alternate;
-}
-@keyframes ivorySunbeam {
-    from { transform: translate3d(1.5%,-1%,0) rotate(-1deg); opacity: .62; }
-    to { transform: translate3d(-2%,1%,0) rotate(1deg); opacity: .82; }
-}
+.home-page .ivory-nav-links a,
+.home-page .ivory-logo { color:#f7f2e8 !important; }
+.home-page .ivory-menu-btn span { background:#f7f2e8 !important; }
+.home-page .logo-mark img { filter:brightness(0) invert(1); }
 .hero-drawing { position: absolute; inset: 0; z-index: 2; pointer-events: none; }
 .house-sketch { position: absolute; right: 1%; top: 18%; width: 57%; height: 68%; color: #393a32; overflow: visible; transform: scale(.94); transform-origin: center; }
 .sketch-guides { opacity: .14; }
@@ -53,24 +40,19 @@
     .house-sketch { top: 470px; right: 1%; width: 94%; height: 260px; color: #e5ddce; }
     .signature-sketch { bottom: 88px; width: 195px; height: 58px; }
     .sketch-guides { opacity: .12; }
-    .ivory-hero-overlay {
-        background:
-            radial-gradient(ellipse at 100% 1%, rgba(255,253,242,.65), rgba(255,249,224,.2) 30%, transparent 62%),
-            linear-gradient(120deg, rgba(35,33,29,.58), rgba(35,33,29,.2) 60%, rgba(35,33,29,.02));
-    }
-    .ivory-hero-overlay::after { right:-25%; width:92%; opacity:.58; }
+    .ivory-hero-bg { background-position:62% center; }
+    .ivory-hero-overlay { background:linear-gradient(180deg,rgba(6,18,18,.24),rgba(6,18,18,.42)); }
 }
 @media (prefers-reduced-motion: reduce) {
     .hero-drawing .drawing-strokes { visibility: visible; }
     .hero-drawing [data-draw] { stroke-dashoffset: 0 !important; }
     .drawing-pencil { display: none; }
-    .ivory-hero-overlay::after { animation: none; }
 }
 
 /* Tiny, friendly decorators remain behind the page's interactive content. */
 .scene-painter { pointer-events: none; }
 .house-paint { opacity: 1; }
-.house-sketch .drawing-strokes { stroke: #45483c; }
+.house-sketch .drawing-strokes { stroke: #eee5d4; }
 @media (max-width: 600px) {
     .house-sketch .drawing-strokes { stroke: #e5ddce; }
 }
