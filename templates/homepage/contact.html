@@ -20,12 +20,12 @@
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;1,9..144,400&display=swap" rel="stylesheet">
 
     <!-- Your CSS -->
-    <link rel="stylesheet" href="{% static 'style.css' %}?v=20260905-hover1">
+    <link rel="stylesheet" href="{% static 'style.css' %}?v=20260906-contact1">
 
 </head>
 
 
-<body class="bg-[#f3eee5] text-[#29251f]">
+<body class="contact-page bg-[#f3eee5] text-[#29251f]">
 
 
     <!-- =====================================================
@@ -40,16 +40,16 @@
          CONTACT SECTION
     ====================================================== -->
 
-    <section class="min-h-screen flex items-center justify-center px-6 py-20">
+    <section class="contact-stage min-h-screen flex items-center justify-center px-6 py-20">
 
-        <div class="w-full max-w-3xl">
+        <div class="contact-shell w-full max-w-3xl">
 
 
             <!-- =================================================
                  PAGE HEADING
             ================================================== -->
 
-            <div class="text-center mb-12">
+            <div class="contact-heading text-center mb-12">
 
                 <p class="text-sm tracking-[0.35em] uppercase mb-4">
                     Get In Touch
@@ -71,14 +71,14 @@
                  CONTACT FORM CARD
             ================================================== -->
 
-            <div class="bg-[#ebe4d8] p-8 md:p-12 rounded-sm shadow-sm">
+            <div class="contact-card bg-[#ebe4d8] p-8 md:p-12 rounded-sm shadow-sm">
 
 
                 <!-- =================================================
                      IVORY LOGO
                 ================================================== -->
 
-                <div class="flex justify-center mb-10">
+                <div class="contact-card__brand flex justify-center mb-10">
 
                     <a href="/" class="text-center">
 
@@ -100,7 +100,7 @@
                      CONTACT FORM
                 ================================================== -->
 
-                <form method="POST" action="/contact/">
+                <form class="contact-form" method="POST" action="/contact/">
 
                     {% csrf_token %}
 
@@ -109,7 +109,7 @@
                          NAME
                     ============================================== -->
 
-                    <div class="mb-6">
+                    <div class="contact-field mb-6">
 
                         <label
                             for="name"
@@ -136,7 +136,7 @@
                          EMAIL
                     ============================================== -->
 
-                    <div class="mb-6">
+                    <div class="contact-field mb-6">
 
                         <label
                             for="email"
@@ -163,7 +163,7 @@
                          CONTACT NUMBER
                     ============================================== -->
 
-                    <div class="mb-6">
+                    <div class="contact-field mb-6">
 
                         <label
                             for="contact"
@@ -190,7 +190,7 @@
                          MESSAGE
                     ============================================== -->
 
-                    <div class="mb-8">
+                    <div class="contact-field mb-8">
 
                         <label
                             for="message"
@@ -216,14 +216,14 @@
                          BUTTONS
                     ============================================== -->
 
-                    <div class="flex flex-col sm:flex-row gap-4">
+                    <div class="contact-actions flex flex-col sm:flex-row gap-4">
 
 
                         <!-- SUBMIT -->
 
                         <button
                             type="submit"
-                            class="flex-1 bg-[#29251f] text-white py-4 tracking-[0.2em] text-sm hover:bg-[#4a443b] transition">
+                            class="contact-action contact-action--primary flex-1 bg-[#29251f] text-white py-4 tracking-[0.2em] text-sm hover:bg-[#4a443b] transition">
 
                             SUBMIT
 
@@ -234,7 +234,7 @@
 
                         <button
                             type="reset"
-                            class="flex-1 border border-[#29251f] py-4 tracking-[0.2em] text-sm hover:bg-[#29251f] hover:text-white transition">
+                            class="contact-action contact-action--secondary flex-1 border border-[#29251f] py-4 tracking-[0.2em] text-sm hover:bg-[#29251f] hover:text-white transition">
 
                             RESET
 
