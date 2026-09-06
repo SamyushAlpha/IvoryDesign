@@ -26,9 +26,6 @@
     transform:scale(.94);
     transform-origin:center bottom;
 }
-.hero-drawing:is([data-active-scene="0"], [data-active-scene="2"]) .house-sketch {
-    transform:scale(.94) rotate(-45deg);
-}
 .sketch-guides { opacity: .14; }
 .sketch-detail { opacity: .45; stroke-width: 1; }
 .signature-sketch { position: absolute; bottom: 88px; left: auto; right: 7%; width: 245px; height: 76px; color: #ffdf57; overflow: visible; }
@@ -53,7 +50,6 @@
     .ivory-buttons { margin-top: 26px; gap: 10px; }
     .ivory-btn { padding: 13px 15px; }
     .house-sketch { top:550px;bottom:auto;right:1%;width:94%;height:260px;aspect-ratio:auto;color:#e5ddce; }
-    .hero-drawing:is([data-active-scene="0"], [data-active-scene="2"]) .house-sketch { transform:scale(.94); }
     .signature-sketch { bottom: 88px; width: 195px; height: 58px; }
     .sketch-guides { opacity: .12; }
     .ivory-hero-bg { background-position:62% center; }
