@@ -243,6 +243,7 @@
     function render(elapsedTime) {
         const sceneIndex = Math.floor(elapsedTime / cycle) % scenes.length;
         const time = elapsedTime % cycle;
+        const sceneGroundOffset = Number(scenes[sceneIndex]?.dataset.groundOffset || 0);
         groundShadow.setAttribute('opacity', String(.34 * clamp((time - 44000) / 9000)));
         scenes.forEach((scene, index) => { scene.style.display = index === sceneIndex ? '' : 'none'; });
         drawing.setAttribute('data-active-scene', String(sceneIndex));
@@ -254,7 +255,7 @@
             stroke.path.style.strokeDashoffset = stroke.length * (1 - progress);
             if (progress > 0 && progress < 1) {
                 const point = stroke.path.getPointAtLength(stroke.length * progress);
-                stroke.pencil.setAttribute('transform', `translate(${point.x} ${point.y})`);
+                stroke.pencil.setAttribute('transform', `translate(${point.x} ${point.y + sceneGroundOffset})`);
                 stroke.pencil.setAttribute('opacity', '1');
             }
         });
