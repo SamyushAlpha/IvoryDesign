@@ -46,3 +46,6 @@ html,body,a,button{cursor:none!important}.ivory-cursor{position:fixed;top:0;left
 @media (prefers-reduced-motion:reduce) {
     .ivory-cursor,.ivory-cursor::before,.ivory-cursor::after,.ivory-cursor span { transition:none !important; }
 }
+html,body { cursor:default !important; }
+a,button { cursor:pointer !important; }
+.ivory-cursor { display:none !important; }

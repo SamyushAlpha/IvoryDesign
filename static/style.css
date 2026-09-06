@@ -3397,3 +3397,10 @@ body.popup-open {
 @media (prefers-reduced-motion:reduce) {
     .ivory-cursor,.ivory-cursor::before,.ivory-cursor::after,.ivory-cursor span { transition:none !important; }
 }
+
+/* Familiar native cursors, selected automatically for each type of action. */
+html,body { cursor:default !important; }
+a,button,label[for],select,summary,[role="button"] { cursor:pointer !important; }
+input,textarea,[contenteditable="true"] { cursor:text !important; }
+input:is([type="button"],[type="submit"],[type="reset"],[type="checkbox"],[type="radio"],[type="file"]) { cursor:pointer !important; }
+.ivory-cursor { display:none !important; }
