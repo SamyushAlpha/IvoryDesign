@@ -17,7 +17,7 @@
     position:absolute;
     right:1%;
     top:auto;
-    bottom:6.5vh;
+    bottom:8.5vh;
     width:clamp(540px,52vw,650px);
     height:auto;
     aspect-ratio:820 / 640;
@@ -26,8 +26,8 @@
     transform:scale(.94);
     transform-origin:center bottom;
 }
-.hero-drawing[data-active-scene="0"] .house-sketch {
-    transform:scale(.94) rotate(1.15deg);
+.hero-drawing:is([data-active-scene="0"], [data-active-scene="2"]) .house-sketch {
+    transform:scale(.94) rotate(-45deg);
 }
 .sketch-guides { opacity: .14; }
 .sketch-detail { opacity: .45; stroke-width: 1; }
@@ -53,7 +53,7 @@
     .ivory-buttons { margin-top: 26px; gap: 10px; }
     .ivory-btn { padding: 13px 15px; }
     .house-sketch { top:550px;bottom:auto;right:1%;width:94%;height:260px;aspect-ratio:auto;color:#e5ddce; }
-    .hero-drawing[data-active-scene="0"] .house-sketch { transform:scale(.94); }
+    .hero-drawing:is([data-active-scene="0"], [data-active-scene="2"]) .house-sketch { transform:scale(.94); }
     .signature-sketch { bottom: 88px; width: 195px; height: 58px; }
     .sketch-guides { opacity: .12; }
     .ivory-hero-bg { background-position:62% center; }
