@@ -243,7 +243,7 @@
     function render(elapsedTime) {
         const sceneIndex = Math.floor(elapsedTime / cycle) % scenes.length;
         const time = elapsedTime % cycle;
-        const sceneGroundOffset = Number(scenes[sceneIndex]?.dataset.groundOffset || 0);
+        const sceneGroundOffset = Number(scenes[sceneIndex]?.dataset?.groundOffset || 0);
         groundShadow.setAttribute('opacity', String(.34 * clamp((time - 44000) / 9000)));
         scenes.forEach((scene, index) => { scene.style.display = index === sceneIndex ? '' : 'none'; });
         drawing.setAttribute('data-active-scene', String(sceneIndex));

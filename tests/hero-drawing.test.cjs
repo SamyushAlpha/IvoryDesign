@@ -37,10 +37,11 @@ const vehicles = ['left', 'bottom', 'right'].map((entry, index) => {
 const reveals = Array.from({length: 12}, element);
 const finishing = element();
 const sparkles = element();
+const groundShadow = element();
 const drawing = Object.assign(element(), {
     classList: {add() {}, remove() {}},
     querySelectorAll: selector => ({'[data-draw]': [...strokes, secondSceneStroke, thirdSceneStroke], '[data-interior-scene]': scenes, '.house-finishing': [finishing], '.drawing-pencil': pencils, '.paint-reveal': reveals, '.scene-painter': painters, '.scene-vehicle': vehicles}[selector]),
-    querySelector: selector => ({'.signature-sketch': {getBoundingClientRect: () => ({left: 490, top: 720, right: 800, bottom: 810})}, '.house-sketch': {getScreenCTM: () => ({inverse: () => ({})})}, '.house-finishing': finishing, '.paint-sparkles': sparkles}[selector]),
+    querySelector: selector => ({'.signature-sketch': {getBoundingClientRect: () => ({left: 490, top: 720, right: 800, bottom: 810})}, '.house-sketch': {getScreenCTM: () => ({inverse: () => ({})})}, '.house-finishing': finishing, '.paint-sparkles': sparkles, '.scene-ground-shadow': groundShadow}[selector]),
     getBoundingClientRect: () => ({left: 0, right: 1280, top: 0, bottom: 900}),
 });
 let frame;

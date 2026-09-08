@@ -28,8 +28,6 @@
 }
 .sketch-guides { opacity: .14; }
 .sketch-detail { opacity: .45; stroke-width: 1; }
-.signature-sketch { position: absolute; bottom: 88px; left: auto; right: 7%; width: 245px; height: 76px; color: #ffdf57; overflow: visible; }
-.signature-flourish { opacity: .65; stroke-width: 1.2; }
 .hero-drawing:not(.is-ready) .drawing-strokes { visibility: hidden; }
 .hero-drawing.is-animating [data-draw] { stroke-dasharray: var(--stroke-length); stroke-dashoffset: var(--stroke-length); }
 .drawing-pencil { filter: drop-shadow(1px 2px 1px #0002); }
@@ -47,13 +45,11 @@
     .ivory-btn-primary span { font-size:clamp(18px,1.1vw,22px); }
 }
 @media (min-width: 901px) and (max-width: 1499px) {
-    .signature-sketch { right:1%;bottom:34px;width:180px;height:56px; }
 }
 @media (max-width: 900px) {
     .ivory-hero-content { width: 58%; padding-left: 7%; }
     .house-sketch { right:-6%;width:57%; }
     .ivory-buttons { flex-wrap: wrap; }
-    .signature-sketch { right: 7%; width: 210px; }
 }
 @media (max-width: 600px) {
     .ivory-hero { min-height: 900px; min-height: max(900px, 100svh); }
@@ -63,7 +59,6 @@
     .ivory-buttons { margin-top: 26px; gap: 10px; }
     .ivory-btn { padding: 13px 15px; }
     .house-sketch { top:550px;bottom:auto;right:1%;width:94%;height:260px;aspect-ratio:auto;color:#e5ddce; }
-    .signature-sketch { bottom: 88px; width: 195px; height: 58px; }
     .sketch-guides { opacity: .12; }
     .ivory-hero-bg { background-position:62% center; }
     .ivory-hero-overlay { background:linear-gradient(180deg,rgba(6,18,18,.24),rgba(6,18,18,.42)); }
