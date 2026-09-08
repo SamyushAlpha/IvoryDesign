@@ -1,11 +1,113 @@
 from django import forms
 from django.contrib import admin
+from django.contrib.auth.admin import GroupAdmin, UserAdmin
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import Group, User
 from django.urls import reverse
 from django.utils.html import format_html
 from .models import (
     ActiveVisitor, CustomFAQ, Project, ProjectImage, Service, SiteStatistics,
     TeamPortfolio,
 )
+
+
+class StaffAccountCreationForm(UserCreationForm):
+    """Create a staff login and assign its access in one form."""
+
+    class Meta(UserCreationForm.Meta):
+        model = User
+        fields = (
+            "username", "first_name", "last_name", "email", "is_active",
+            "is_staff", "groups", "user_permissions",
+        )
+
+
+admin.site.unregister(User)
+
+
+@admin.register(User)
+class StaffAccountAdmin(UserAdmin):
+    add_form = StaffAccountCreationForm
+    list_display = ("username", "email", "first_name", "last_name", "is_staff", "is_active")
+    list_filter = ("is_staff", "is_active", "groups")
+    filter_horizontal = ("groups", "user_permissions")
+    fieldsets = (
+        ("Account", {"fields": ("username", "password")}),
+        ("Personal details", {"fields": ("first_name", "last_name", "email")}),
+        ("Access control", {
+            "description": (
+                "Enable Staff status so this person can sign in. Assign an access role, "
+                "individual permissions, or both. View, add, change and delete are separate permissions."
+            ),
+            "fields": ("is_active", "is_staff", "groups", "user_permissions"),
+        }),
+        ("Important dates", {"fields": ("last_login", "date_joined")}),
+    )
+    add_fieldsets = (
+        ("Login details", {
+            "classes": ("wide",),
+            "fields": ("username", "password1", "password2"),
+        }),
+        ("Personal details", {
+            "classes": ("wide",),
+            "fields": ("first_name", "last_name", "email"),
+        }),
+        ("Access control", {
+            "classes": ("wide",),
+            "description": (
+                "Enable Staff status, then choose only the access this person needs. "
+                "Use roles when several people need the same access."
+            ),
+            "fields": ("is_active", "is_staff", "groups", "user_permissions"),
+        }),
+    )
+
+    def has_module_permission(self, request):
+        return request.user.is_superuser
+
+    def has_view_permission(self, request, obj=None):
+        return request.user.is_superuser
+
+    def has_add_permission(self, request):
+        return request.user.is_superuser
+
+    def has_change_permission(self, request, obj=None):
+        return request.user.is_superuser
+
+    def has_delete_permission(self, request, obj=None):
+        return request.user.is_superuser and obj != request.user
+
+
+admin.site.unregister(Group)
+
+
+@admin.register(Group)
+class AccessRoleAdmin(GroupAdmin):
+    filter_horizontal = ("permissions",)
+    fieldsets = (
+        ("Access role", {
+            "description": (
+                "Create a reusable role such as Project Editor or Live Support. "
+                "Everyone assigned to this role receives the selected permissions."
+            ),
+            "fields": ("name", "permissions"),
+        }),
+    )
+
+    def has_module_permission(self, request):
+        return request.user.is_superuser
+
+    def has_view_permission(self, request, obj=None):
+        return request.user.is_superuser
+
+    def has_add_permission(self, request):
+        return request.user.is_superuser
+
+    def has_change_permission(self, request, obj=None):
+        return request.user.is_superuser
+
+    def has_delete_permission(self, request, obj=None):
+        return request.user.is_superuser
 
 
 class TeamPortfolioAdminForm(forms.ModelForm):
