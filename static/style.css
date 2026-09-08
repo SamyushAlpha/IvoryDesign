@@ -3319,6 +3319,9 @@ body.popup-open {
     transform:translate(0,0);
     transition:transform .22s cubic-bezier(.2,.8,.2,1),box-shadow .22s cubic-bezier(.2,.8,.2,1),background-color .22s ease,color .22s ease !important;
 }
+.ivory-btn {
+    box-shadow:none !important;
+}
 @media (hover:hover) and (pointer:fine) {
     :is(.ivory-btn,.contact-action,.project-filters button):hover {
         transform:translate(-3px,-4px) !important;
