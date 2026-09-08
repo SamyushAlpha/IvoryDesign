@@ -13,7 +13,8 @@ from django.core.files.uploadedfile import SimpleUploadedFile
 from django.test import Client, TestCase, override_settings
 from django.urls import reverse
 
-from .models import SupportConversation
+from .models import SupportConversation, private_support_storage
+from .storage import VercelBlobStorage
 from .support import visitor_key_from_seed
 from .support_uploads import validate_upload
 
@@ -84,8 +85,9 @@ class SupportMediaTests(TestCase):
         self.assertIn("inline", response["Content-Disposition"])
         self.assertEqual(b"".join(response.streaming_content), buffer.getvalue())
 
+    @patch("Ivory.support_uploads.shutil.which", return_value="/usr/bin/ffprobe")
     @patch("Ivory.support_uploads.subprocess.run")
-    def test_browser_webm_without_duration_uses_packet_timestamps(self, run):
+    def test_browser_webm_without_duration_uses_packet_timestamps(self, run, _which):
         run.side_effect = [
             SimpleNamespace(stdout=json.dumps({"streams": [{"codec_type": "audio"}], "format": {}})),
             SimpleNamespace(stdout=json.dumps({"packets": [{"pts_time": "0", "duration_time": ".02"},
@@ -102,3 +104,15 @@ class SupportMediaTests(TestCase):
                                    {"message": "", "client_message_id": str(uuid.uuid4()),
                                     "file": SimpleUploadedFile("test.txt", b"test", "text/plain")})
         self.assertEqual(response.status_code, 403)
+
+    @override_settings(IS_VERCEL=True)
+    def test_production_support_attachments_use_persistent_blob_storage(self):
+        self.assertIsInstance(private_support_storage(), VercelBlobStorage)
+
+    @patch("Ivory.support_uploads.shutil.which", return_value=None)
+    def test_browser_voice_is_accepted_without_ffprobe_on_vercel(self, _which):
+        uploaded = validate_upload(SimpleUploadedFile(
+            "voice.webm", b"\x1aE\xdf\xa3browser-recording", "audio/webm"
+        ))
+        self.assertEqual(uploaded["content_type"], "audio/webm")
+        self.assertIsNone(uploaded["duration"])

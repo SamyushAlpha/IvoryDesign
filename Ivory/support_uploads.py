@@ -3,8 +3,10 @@ import io
 import json
 import os
 import re
+import shutil
 import subprocess
 import tempfile
+import wave
 from pathlib import Path
 
 from django.conf import settings
@@ -65,6 +67,22 @@ def validate_upload(upload):
         }
         if not signatures.get(ext):
             raise ValidationError("The audio signature is invalid.")
+        if ext == ".wav":
+            try:
+                with wave.open(io.BytesIO(data), "rb") as audio:
+                    duration = audio.getnframes() / audio.getframerate()
+                if not 0 < duration <= settings.IVORY_SUPPORT_AUDIO_SECONDS:
+                    raise ValueError
+            except (EOFError, ValueError, wave.Error, ZeroDivisionError):
+                raise ValidationError("Audio must be valid and at most 120 seconds.")
+            return {"file": ContentFile(data, name=name), "filename": name, "content_type": mime,
+                    "size": len(data), "duration": duration}
+        # Vercel's Python runtime does not include ffprobe. Browser recordings
+        # still receive signature and size validation there; duration is
+        # enforced by MediaRecorder's two-minute timer in the composer.
+        if not shutil.which("ffprobe"):
+            return {"file": ContentFile(data, name=name), "filename": name, "content_type": mime,
+                    "size": len(data), "duration": None}
         path = None
         try:
             with tempfile.NamedTemporaryFile(suffix=ext, delete=False) as temp:

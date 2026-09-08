@@ -10,6 +10,9 @@ from django.utils import timezone
 
 
 def private_support_storage():
+    if settings.IS_VERCEL:
+        from .storage import VercelBlobStorage
+        return VercelBlobStorage()
     return FileSystemStorage(location=settings.PRIVATE_SUPPORT_ROOT, base_url=None)
 
 
