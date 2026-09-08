@@ -36,6 +36,19 @@
 .ivory-hero-content { max-width: none; width: 53%; padding-right: 0; }
 .ivory-title { font-size: clamp(48px, 7vw, 106px); min-height: 1.9em; }
 .ivory-subtitle { max-width: 380px; }
+@media (min-width: 1500px) {
+    .ivory-buttons { gap:clamp(18px,1.1vw,26px); }
+    .ivory-btn {
+        min-height:58px;
+        padding:clamp(18px,1.15vw,23px) clamp(28px,1.75vw,36px);
+        gap:clamp(24px,1.5vw,32px);
+        font-size:clamp(10px,.65vw,12px);
+    }
+    .ivory-btn-primary span { font-size:clamp(18px,1.1vw,22px); }
+}
+@media (min-width: 901px) and (max-width: 1499px) {
+    .signature-sketch { right:1%;bottom:34px;width:180px;height:56px; }
+}
 @media (max-width: 900px) {
     .ivory-hero-content { width: 58%; padding-left: 7%; }
     .house-sketch { right:-6%;width:57%; }
