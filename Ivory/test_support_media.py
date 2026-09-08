@@ -13,7 +13,7 @@ from django.core.files.uploadedfile import SimpleUploadedFile
 from django.test import Client, TestCase, override_settings
 from django.urls import reverse
 
-from .models import SupportConversation, private_support_storage
+from .models import SupportAttachment, SupportConversation, private_support_storage
 from .storage import VercelBlobStorage
 from .support import visitor_key_from_seed
 from .support_uploads import validate_upload
@@ -21,6 +21,12 @@ from .support_uploads import validate_upload
 
 @override_settings(CHANNEL_LAYERS={"default": {"BACKEND": "channels.layers.InMemoryChannelLayer"}})
 class SupportMediaTests(TestCase):
+    def test_attachment_field_accepts_persistent_storage_urls(self):
+        self.assertGreaterEqual(
+            SupportAttachment._meta.get_field("file").max_length,
+            500,
+        )
+
     def setUp(self):
         self.temp = tempfile.TemporaryDirectory()
         self.addCleanup(self.temp.cleanup)

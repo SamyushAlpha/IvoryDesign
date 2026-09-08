@@ -528,7 +528,11 @@ class CustomFAQ(models.Model):
 class SupportAttachment(models.Model):
     public_id = models.UUIDField(default=uuid.uuid4, unique=True, editable=False)
     message = models.ForeignKey(SupportMessage, on_delete=models.CASCADE, related_name="attachments")
-    file = models.FileField(storage=private_support_storage, upload_to=support_upload_path)
+    file = models.FileField(
+        storage=private_support_storage,
+        upload_to=support_upload_path,
+        max_length=500,
+    )
     filename = models.CharField(max_length=120)
     content_type = models.CharField(max_length=80)
     size = models.PositiveIntegerField()
