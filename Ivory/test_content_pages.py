@@ -128,3 +128,29 @@ class ContentPagesTests(TestCase):
         user = get_user_model().objects.create_user(username="staff", password="test-only-password", is_staff=True)
         self.client.force_login(user)
         self.assertJSONEqual(self.client.get(reverse("staff_blob_upload_authorize")).content, {"authorized": True})
+
+    def test_admin_saves_direct_blob_project_and_gallery_images(self):
+        user = get_user_model().objects.create_superuser(
+            username="project-editor", password="test-only-password"
+        )
+        self.client.force_login(user)
+        category = ProjectCategory.objects.create(name="Homes", slug="homes")
+        add_page = self.client.get(reverse("admin:Ivory_project_add"))
+        self.assertContains(add_page, 'name="image_upload"')
+        self.assertContains(add_page, 'admin/project-image-upload.js')
+
+        cover_url = "https://example.public.blob.vercel-storage.com/projects/covers/home.jpg"
+        gallery_url = "https://example.public.blob.vercel-storage.com/projects/gallery/lounge.jpg"
+        response = self.client.post(reverse("admin:Ivory_project_add"), {
+            "name": "Blob Home", "category": category.pk, "description": "A home",
+            "image": cover_url, "location": "Kathmandu", "year": 2026,
+            "featured": "on", "gallery-TOTAL_FORMS": 1,
+            "gallery-INITIAL_FORMS": 0, "gallery-MIN_NUM_FORMS": 0,
+            "gallery-MAX_NUM_FORMS": 1000, "gallery-0-image": gallery_url,
+            "gallery-0-caption": "Lounge", "gallery-0-description": "Warm interior",
+            "gallery-0-order": 0, "_save": "Save",
+        })
+        self.assertEqual(response.status_code, 302)
+        project = Project.objects.get(name="Blob Home")
+        self.assertEqual(project.image.name, cover_url)
+        self.assertEqual(project.gallery.get().image.name, gallery_url)

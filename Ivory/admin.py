@@ -2,7 +2,10 @@ from django import forms
 from django.contrib import admin
 from django.urls import reverse
 from django.utils.html import format_html
-from .models import ActiveVisitor, CustomFAQ, Service, SiteStatistics, TeamPortfolio
+from .models import (
+    ActiveVisitor, CustomFAQ, Project, ProjectImage, Service, SiteStatistics,
+    TeamPortfolio,
+)
 
 
 class TeamPortfolioAdminForm(forms.ModelForm):
@@ -17,6 +20,32 @@ class TeamPortfolioAdminForm(forms.ModelForm):
         model = TeamPortfolio
         fields = "__all__"
         widgets = {"portfolio_pdf": forms.HiddenInput()}
+
+
+class DirectProjectImageForm(forms.ModelForm):
+    image = forms.URLField(widget=forms.HiddenInput())
+    image_upload = forms.ImageField(
+        required=False,
+        label="Image",
+        help_text="Choose an image up to 50 MB. It uploads directly when you save.",
+        widget=forms.ClearableFileInput(attrs={"accept": "image/*"}),
+    )
+
+    def clean(self):
+        cleaned = super().clean()
+        if not cleaned.get("image") and not cleaned.get("image_upload"):
+            self.add_error("image_upload", "Choose an image.")
+        return cleaned
+
+    class Meta:
+        model = Project
+        fields = "__all__"
+
+
+class DirectProjectGalleryImageForm(DirectProjectImageForm):
+    class Meta:
+        model = ProjectImage
+        fields = "__all__"
 
 
 class EditButtonAdmin(admin.ModelAdmin):
@@ -170,12 +199,19 @@ class ProjectCategoryAdmin(EditButtonAdmin):
 
 class ProjectImageInline(admin.StackedInline):
     model = ProjectImage
+    form = DirectProjectGalleryImageForm
     extra = 1
+    fields = ("image_upload", "image", "caption", "description", "order")
 
 
 @admin.register(Project)
 class ProjectAdmin(EditButtonAdmin):
+    form = DirectProjectImageForm
     inlines = (ProjectImageInline,)
+    fields = (
+        "name", "category", "description", "image_upload", "image",
+        "location", "year", "featured",
+    )
 
     list_display = (
         "name",
@@ -212,6 +248,9 @@ class ProjectAdmin(EditButtonAdmin):
     autocomplete_fields = (
         "category",
     )
+
+    class Media:
+        js = ("admin/project-image-upload.js",)
 # ==========================================================
 # ABOUT COMPANY
 # ==========================================================

@@ -16,9 +16,13 @@ export default async function handler(request, response) {
       request,
       onBeforeGenerateToken: async (pathname) => {
         const safeName = pathname.split('/').pop().replace(/[^a-zA-Z0-9._-]/g, '-');
-        if (!pathname.startsWith('team/portfolio/pdfs/') || !safeName.toLowerCase().endsWith('.pdf')) throw new Error('PDF files only');
+        const isPdf = pathname.startsWith('team/portfolio/pdfs/') && safeName.toLowerCase().endsWith('.pdf');
+        const isProjectImage = pathname.startsWith('projects/covers/') || pathname.startsWith('projects/gallery/');
+        if (!isPdf && !isProjectImage) throw new Error('Upload path is not allowed');
         return {
-          allowedContentTypes: ['application/pdf'],
+          allowedContentTypes: isPdf ? ['application/pdf'] : [
+            'image/jpeg', 'image/png', 'image/webp', 'image/gif', 'image/avif',
+          ],
           maximumSizeInBytes: 50 * 1024 * 1024,
           addRandomSuffix: true,
         };
@@ -27,6 +31,6 @@ export default async function handler(request, response) {
     });
     return response.status(200).json(result);
   } catch (error) {
-    return response.status(400).json({ error: error?.message || 'PDF upload failed' });
+    return response.status(400).json({ error: error?.message || 'File upload failed' });
   }
 }
