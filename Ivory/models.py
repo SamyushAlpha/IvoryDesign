@@ -4,7 +4,7 @@ import uuid
 from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.core.validators import MinValueValidator, RegexValidator, URLValidator
-from django.db import models
+from django.db import models, transaction
 from django.core.files.storage import FileSystemStorage
 from django.utils import timezone
 
@@ -46,6 +46,16 @@ class ActiveVisitor(models.Model):
         verbose_name_plural = "Visitor sessions"
 
 
+class SecurityThrottle(models.Model):
+    key = models.CharField(max_length=160, unique=True)
+    count = models.PositiveIntegerField(default=0)
+    window_ends = models.DateTimeField(db_index=True)
+
+    class Meta:
+        verbose_name = "Security throttle"
+        verbose_name_plural = "Security throttles"
+
+
 class ContactMessage(models.Model):
     name = models.CharField(max_length=100)
     email = models.EmailField()
@@ -55,6 +65,64 @@ class ContactMessage(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class InvoiceCounter(models.Model):
+    year = models.PositiveSmallIntegerField(unique=True)
+    last_number = models.PositiveIntegerField(default=0)
+
+    class Meta:
+        verbose_name = "Invoice counter"
+        verbose_name_plural = "Invoice counters"
+
+    def __str__(self):
+        return f"{self.year}: {self.last_number}"
+
+
+class RoomEstimate(models.Model):
+    public_id = models.UUIDField(default=uuid.uuid4, unique=True, editable=False)
+    customer_name = models.CharField(max_length=120)
+    phone_number = models.CharField(max_length=20)
+    room_count = models.PositiveSmallIntegerField(validators=[MinValueValidator(1)])
+    rooms = models.JSONField(help_text="Room dimensions and calculated areas.")
+    rate_per_sq_ft = models.DecimalField(max_digits=6, decimal_places=2)
+    total_area_sq_ft = models.DecimalField(max_digits=12, decimal_places=2)
+    total_amount = models.DecimalField(max_digits=14, decimal_places=2)
+    invoice_year = models.PositiveSmallIntegerField(null=True, blank=True, editable=False)
+    invoice_sequence = models.PositiveIntegerField(null=True, blank=True, editable=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ["-created_at"]
+        verbose_name = "Room estimate"
+        verbose_name_plural = "Room estimates"
+        constraints = [
+            models.UniqueConstraint(
+                fields=("invoice_year", "invoice_sequence"),
+                name="unique_room_estimate_invoice_number",
+            ),
+        ]
+
+    def save(self, *args, **kwargs):
+        if self._state.adding and self.invoice_sequence is None:
+            with transaction.atomic():
+                year = timezone.localdate().year
+                counter, _ = InvoiceCounter.objects.select_for_update().get_or_create(year=year)
+                counter.last_number += 1
+                counter.save(update_fields=("last_number",))
+                self.invoice_year = year
+                self.invoice_sequence = counter.last_number
+                return super().save(*args, **kwargs)
+        return super().save(*args, **kwargs)
+
+    @property
+    def invoice_number(self):
+        if self.invoice_year and self.invoice_sequence:
+            return f"IVY-{self.invoice_year}-{self.invoice_sequence:05d}"
+        return f"IVY-{self.created_at:%Y}-{self.pk:05d}" if self.pk and self.created_at else "IVY-DRAFT"
+
+    def __str__(self):
+        return f"{self.customer_name} - {self.invoice_number}"
 
 
 # Portifolio models

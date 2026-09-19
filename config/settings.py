@@ -34,9 +34,12 @@ if not DEBUG and SECRET_KEY == DEVELOPMENT_SECRET_KEY:
 ALLOWED_HOSTS = [item.strip() for item in os.environ.get("DJANGO_ALLOWED_HOSTS", "").split(",") if item.strip()]
 if DEBUG and not ALLOWED_HOSTS:
     ALLOWED_HOSTS = ["localhost", "127.0.0.1", "[::1]", "testserver"]
-if IS_VERCEL and not ALLOWED_HOSTS:
-    ALLOWED_HOSTS = [os.environ.get("VERCEL_URL", "").strip()]
-    ALLOWED_HOSTS = [host for host in ALLOWED_HOSTS if host]
+if IS_VERCEL:
+    deployment_host = os.environ.get("VERCEL_URL", "").strip()
+    if deployment_host and deployment_host not in ALLOWED_HOSTS:
+        ALLOWED_HOSTS.append(deployment_host)
+    if "ivoryarvena.vercel.app" not in ALLOWED_HOSTS:
+        ALLOWED_HOSTS.append("ivoryarvena.vercel.app")
 CSRF_TRUSTED_ORIGINS = [item.strip() for item in os.environ.get("DJANGO_CSRF_TRUSTED_ORIGINS", "").split(",") if item.strip()]
 
 
@@ -65,10 +68,13 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'Ivory.security.CanonicalHostMiddleware',
+    'Ivory.security.SecurityHeadersMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'Ivory.security.AdminLoginRateLimitMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
@@ -110,6 +116,8 @@ ASGI_APPLICATION = 'config.asgi.application'
 # ==========================================================
 
 database_url = os.environ.get("DATABASE_URL", "").strip()
+if IS_VERCEL and not database_url:
+    raise ImproperlyConfigured("Set DATABASE_URL before deploying to production.")
 if database_url:
     parsed_database_url = urllib.parse.urlparse(database_url)
     DATABASES = {
@@ -149,6 +157,20 @@ SESSION_SAVE_EVERY_REQUEST = True
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 SESSION_COOKIE_SECURE = not DEBUG
 CSRF_COOKIE_SECURE = not DEBUG
+SESSION_COOKIE_HTTPONLY = True
+SESSION_COOKIE_SAMESITE = "Lax"
+CSRF_COOKIE_HTTPONLY = True
+CSRF_COOKIE_SAMESITE = "Lax"
+
+# Production transport hardening. Vercel terminates TLS and forwards the
+# original scheme using X-Forwarded-Proto.
+SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+SECURE_SSL_REDIRECT = not DEBUG
+SECURE_HSTS_SECONDS = 31536000 if not DEBUG else 0
+SECURE_HSTS_INCLUDE_SUBDOMAINS = not DEBUG
+SECURE_HSTS_PRELOAD = not DEBUG
+SECURE_CONTENT_TYPE_NOSNIFF = True
+X_FRAME_OPTIONS = "DENY"
 
 
 # ==========================================================
@@ -234,6 +256,19 @@ if IVORY_EMAIL_MODE == "smtp":
         },
     }
 
+# Transactional confirmations through an approved Meta WhatsApp template.
+WHATSAPP_PHONE_NUMBER_ID = os.environ.get("WHATSAPP_PHONE_NUMBER_ID", "").strip()
+WHATSAPP_ACCESS_TOKEN = os.environ.get("WHATSAPP_ACCESS_TOKEN", "").strip()
+WHATSAPP_CONFIRMATION_TEMPLATE = os.environ.get(
+    "WHATSAPP_CONFIRMATION_TEMPLATE", "ivory_form_submitted"
+).strip()
+WHATSAPP_CONFIRMATION_LANGUAGE = os.environ.get("WHATSAPP_CONFIRMATION_LANGUAGE", "en_US").strip()
+WHATSAPP_GRAPH_API_VERSION = os.environ.get("WHATSAPP_GRAPH_API_VERSION", "v23.0").strip()
+WHATSAPP_DEFAULT_COUNTRY_CODE = os.environ.get("WHATSAPP_DEFAULT_COUNTRY_CODE", "977").strip()
+WHATSAPP_CONFIRMATION_ENABLED = bool(
+    WHATSAPP_PHONE_NUMBER_ID and WHATSAPP_ACCESS_TOKEN and WHATSAPP_CONFIRMATION_TEMPLATE
+)
+
 
 # ==========================================================
 # IVORY DESIGN STUDIO - ADMIN CONFIGURATION
@@ -269,7 +304,11 @@ IVORY_SUPPORT_RETENTION_DAYS = max(1, int(os.environ.get("IVORY_SUPPORT_RETENTIO
 PRIVATE_SUPPORT_ROOT = Path(os.environ.get("PRIVATE_SUPPORT_ROOT", str(BASE_DIR / "private_support")))
 IVORY_SUPPORT_UPLOAD_BYTES = int(os.environ.get("IVORY_SUPPORT_UPLOAD_BYTES", "5242880"))
 IVORY_SUPPORT_AUDIO_SECONDS = int(os.environ.get("IVORY_SUPPORT_AUDIO_SECONDS", "120"))
-IVORY_TRUST_PROXY_HEADERS = os.environ.get("IVORY_TRUST_PROXY_HEADERS", "false").lower() in {"1", "true", "yes"}
+IVORY_TRUST_PROXY_HEADERS = os.environ.get(
+    "IVORY_TRUST_PROXY_HEADERS", "true" if IS_VERCEL else "false"
+).lower() in {"1", "true", "yes"}
+IVORY_INVOICE_LINK_MAX_AGE = max(3600, int(os.environ.get("IVORY_INVOICE_LINK_MAX_AGE", "2592000")))
+IVORY_CUSTOMER_DATA_RETENTION_DAYS = max(30, int(os.environ.get("IVORY_CUSTOMER_DATA_RETENTION_DAYS", "365")))
 
 CELERY_BROKER_URL = os.environ.get("CELERY_BROKER_URL", CHANNEL_REDIS_URL or "redis://localhost:6379/1")
 CELERY_RESULT_BACKEND = None
@@ -280,6 +319,10 @@ CELERY_BEAT_SCHEDULE = {
     "support-timeout-reconciliation": {
         "task": "Ivory.tasks.activate_due_support_conversations",
         "schedule": 30.0,
+    },
+    "customer-data-retention": {
+        "task": "Ivory.tasks.delete_expired_customer_data",
+        "schedule": 86400.0,
     },
     "support-resolved-retention": {
         "task": "Ivory.tasks.delete_expired_support_conversations",
@@ -293,22 +336,22 @@ JAZZMIN_SETTINGS = {
     # BRANDING
     # ------------------------------------------------------
 
-    "site_title": "Ivory Design Studio Admin",
+    "site_title": "Ivory Interior & Design Admin",
 
-    "site_header": "Ivory Design Studio",
+    "site_header": "Ivory Interior & Design",
 
-    "site_brand": "IVORY",
+    "site_brand": "IVORY ARVENA",
 
-    "site_logo": 'images/a.svg',
+    "site_logo": 'images/Ivoryarvena.svg',
 
-    "login_logo": 'images/a.svg',
+    "login_logo": 'images/Ivoryarvena.svg',
 
     
     
 
-    "welcome_sign": "Welcome to Ivory Design Studio",
+    "welcome_sign": "Welcome to Ivory Interior & Design",
 
-    "copyright": "Ivory Design Studio",
+    "copyright": "Ivory Interior & Design",
 
     "show_sidebar": True,
     "navigation_expanded": True,
@@ -337,13 +380,13 @@ JAZZMIN_SETTINGS = {
 
         {
             "name": "Contact Messages",
-            "url": "/admin/Ivory/contactmessage/",
+            "url": "/my-lo/Ivory/contactmessage/",
             "permissions": ["Ivory.view_contactmessage"],
         },
 
         {
             "name": "Live Support",
-            "url": "/admin/support/",
+            "url": "/my-lo/support/",
             "permissions": ["Ivory.view_supportconversation"],
         },
 
@@ -443,7 +486,7 @@ JAZZMIN_SETTINGS = {
 
 JAZZMIN_UI_TWEAKS = {
 
-    "theme": "flatly",
+    "theme": "darkly",
 
     "dark_mode_theme": "darkly",
 
@@ -455,11 +498,11 @@ JAZZMIN_UI_TWEAKS = {
 
     "brand_small_text": False,
 
-    "brand_colour": "navbar-light",
+    "brand_colour": "navbar-dark",
 
-    "accent": "accent-dark",
+    "accent": "accent-warning",
 
-    "navbar": "navbar-white navbar-light",
+    "navbar": "navbar-black navbar-dark",
 
     "no_navbar_border": False,
 
@@ -471,7 +514,7 @@ JAZZMIN_UI_TWEAKS = {
 
     "sidebar_fixed": True,
 
-    "sidebar": "sidebar-light-primary",
+    "sidebar": "sidebar-dark-warning",
 
     "sidebar_nav_small_text": False,
 

@@ -1,0 +1,17 @@
+{% load static %}
+<!doctype html><html lang="en"><head>
+{% include 'components/site_icons.html' %}
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>{{ estimate.invoice_number }} | Ivory Interior &amp; Design</title>
+<meta name="robots" content="noindex,nofollow,noarchive">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=Fraunces:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{% static 'style.css' %}?v=20260915-navcup2"><link rel="stylesheet" href="{% static 'calculator.css' %}">
+</head><body class="calculator-page">
+{% include 'navbarfooter/navbar.html' %}
+<main class="result-shell"><section class="result-card">
+  <span class="result-kicker">ESTIMATE READY</span><h1>{{ estimate.customer_name }}, your preliminary estimate is ready.</h1>
+  <div class="result-total"><small>{{ estimate.invoice_number }}</small><strong>NPR {{ estimate.total_amount|floatformat:2 }}</strong><span>{{ estimate.total_area_sq_ft|floatformat:2 }} sq ft · {{ estimate.room_count }} room{{ estimate.room_count|pluralize }}</span></div>
+  <p>This invoice is created according to your calculation. Rates may differ according to the final plan.</p>
+  <div class="result-actions"><a class="download-estimate" href="{{ pdf_url }}">DOWNLOAD PDF <span>↓</span></a><a href="{% url 'calculator' %}">CALCULATE AGAIN</a></div>
+</section></main>
+</body></html>

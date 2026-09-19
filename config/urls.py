@@ -2,6 +2,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, re_path
+from django.views.generic import RedirectView
 from django.views.static import serve
 from Ivory import views
 from Ivory.chat import ask
@@ -9,24 +10,30 @@ from Ivory import support_views
 
 
 urlpatterns = [
+    # Browsers and crawlers that use the conventional icon path should find our branded icon.
+    path('favicon.ico', RedirectView.as_view(url='/static/images/ivory-arvena-favicon-v2.png', permanent=True), name='favicon'),
+    path('google5995f313dfce11d4.html', views.google_site_verification, name='google_site_verification'),
     path('website-metrics/', views.website_metrics, name='website_metrics'),
     path('robots.txt', views.robots_txt, name='robots_txt'),
     path('sitemap.xml', views.sitemap_xml, name='sitemap'),
-    path('admin/support/api/<uuid:public_id>/assistant/', support_views.staff_assign_assistant, name='support_staff_assistant'),
+    path('my-lo/support/api/<uuid:public_id>/assistant/', support_views.staff_assign_assistant, name='support_staff_assistant'),
     path('chatbox/support/start/', support_views.visitor_start, name='support_visitor_start'),
     path('chatbox/support/files/<uuid:public_id>/', support_views.attachment_download, name='support_attachment'),
-    path('admin/support/', support_views.staff_inbox, name='support_inbox'),
-    path('admin/blob-upload-authorize/', views.staff_blob_upload_authorize, name='staff_blob_upload_authorize'),
-    path('admin/support/api/conversations/', support_views.staff_conversations, name='support_staff_conversations'),
-    path('admin/support/api/<uuid:public_id>/', support_views.staff_history, name='support_staff_history'),
-    path('admin/support/api/<uuid:public_id>/claim/', support_views.staff_claim, name='support_staff_claim'),
-    path('admin/support/api/<uuid:public_id>/reply/', support_views.staff_message, name='support_staff_message'),
-    path('admin/support/api/<uuid:public_id>/resolve/', support_views.staff_resolve, name='support_staff_resolve'),
-    path('admin/', admin.site.urls),
+    path('my-lo/support/', support_views.staff_inbox, name='support_inbox'),
+    path('my-lo/blob-upload-authorize/', views.staff_blob_upload_authorize, name='staff_blob_upload_authorize'),
+    path('my-lo/support/api/conversations/', support_views.staff_conversations, name='support_staff_conversations'),
+    path('my-lo/support/api/<uuid:public_id>/', support_views.staff_history, name='support_staff_history'),
+    path('my-lo/support/api/<uuid:public_id>/claim/', support_views.staff_claim, name='support_staff_claim'),
+    path('my-lo/support/api/<uuid:public_id>/reply/', support_views.staff_message, name='support_staff_message'),
+    path('my-lo/support/api/<uuid:public_id>/resolve/', support_views.staff_resolve, name='support_staff_resolve'),
+    path('my-lo/', admin.site.urls),
 
     path('', views.home, name='home'),
 
     path('contact/', views.contact, name='contact'),
+    path('calculator/', views.calculator, name='calculator'),
+    path('calculator/<uuid:public_id>/', views.estimate_result, name='estimate_result'),
+    path('calculator/<uuid:public_id>/pdf/', views.estimate_pdf, name='estimate_pdf'),
 
     path('chatbox/ask/', ask, name='chat_ask'),
     path('chatbox/support/history/', support_views.visitor_history, name='support_visitor_history'),

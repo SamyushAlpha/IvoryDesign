@@ -1,0 +1,31 @@
+{% load static %}
+<!doctype html><html lang="en"><head>
+{% include 'components/site_icons.html' %}
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Room Cost Calculator | Ivory Arvena Interior &amp; Design</title>
+<meta name="description" content="Estimate the preliminary cost of your interior design project in Nepal by room size with Ivory Arvena Interior &amp; Design's room cost calculator.">
+<meta name="robots" content="index,follow">
+<link rel="canonical" href="https://ivoryarvena.vercel.app/calculator/">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=Fraunces:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{% static 'style.css' %}?v=20260915-navcup2"><link rel="stylesheet" href="{% static 'calculator.css' %}">
+</head><body class="calculator-page">
+{% include 'navbarfooter/navbar.html' %}
+<main class="estimate-shell">
+  <section class="estimate-intro"><span>IVORY DESIGN STUDIO</span><h1>Plan your space.<br>Estimate the investment.</h1><p>Enter each room’s dimensions and choose an expected rate between NPR 90 and NPR 180 per square foot.</p></section>
+  <section class="estimate-card">
+    <div class="estimate-card-head"><span>ROOM ESTIMATOR</span><strong>01</strong></div>
+    {% if errors %}<div class="estimate-errors" role="alert">{% for error in errors %}<p>{{ error }}</p>{% endfor %}</div>{% endif %}
+    <form method="post" id="estimate-form" target="_blank">{% csrf_token %}
+      <label>Your name<input name="name" maxlength="120" required value="{{ values.name|default:'' }}" autocomplete="name"></label>
+      <label class="estimate-phone">Phone number<input name="phone_number" type="tel" maxlength="20" required value="{{ values.phone_number|default:'' }}" autocomplete="tel" inputmode="tel" placeholder="e.g. +977 98XXXXXXXX"></label>
+      <div class="estimate-grid">
+        <label>Number of rooms<select name="room_count" id="room-count" required>{% for number in "1234567" %}<option value="{{ number }}"{% if values.room_count == number %} selected{% endif %}>{{ number }} room{% if number != "1" %}s{% endif %}</option>{% endfor %}</select></label>
+        <label>Expected rate / sq ft<input name="rate" type="number" min="90" max="180" step="0.01" required value="{{ values.rate|default:'120' }}"><small>NPR 90–180</small></label>
+      </div>
+      <div id="room-fields" class="room-fields"></div>
+      <button type="submit">CREATE MY ESTIMATE <span>↗</span></button>
+    </form>
+  </section>
+</main>
+<script src="{% static 'calculator.js' %}" defer></script>
+</body></html>
