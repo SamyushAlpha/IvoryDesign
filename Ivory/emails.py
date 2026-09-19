@@ -17,12 +17,13 @@ def send_contact_confirmation(enquiry):
     context = {
         "name": enquiry.name,
         "logo_url": "https://ivoryarvena.vercel.app/static/images/ivoryarvena-email-logo.png",
+        "site_url": "https://ivoryarvena.vercel.app/",
     }
 
     email = EmailMultiAlternatives(
-        subject="We've received your enquiry | Ivory Design",
+        subject="We've received your enquiry | Ivory Arvena",
         body=render_to_string("emails/contact_confirmation.txt", context),
-        from_email=formataddr(("Ivory Design", sender)),
+        from_email=formataddr(("Ivory Arvena", sender)),
         to=[recipient],
         reply_to=[sender],
         headers={
