@@ -22,7 +22,7 @@ from .models import PopupAd, Service
 from .models import ActiveVisitor, SiteStatistics
 from .emails import send_contact_confirmation
 from .whatsapp import send_whatsapp_confirmation
-from .security import rate_limited
+from .security import client_fingerprint, rate_limited
 
 logger = logging.getLogger(__name__)
 
@@ -138,14 +138,37 @@ def home(request):
 def contact(request):
 
     if request.method == "POST":
-
-        if rate_limited(request, "contact", limit=5, window=900):
-            return HttpResponse("Too many submissions. Please wait 15 minutes and try again.", status=429)
-
         name = request.POST.get("name", "").strip()
         email = request.POST.get("email", "").strip()
         contact_number = request.POST.get("contact", "").strip()
         message = request.POST.get("message", "").strip()
+
+        # Allow normal retries and office/shared-network traffic while still
+        # stopping repeated submissions from one visitor or email address.
+        visitor_limited = rate_limited(
+            request, "contact-visitor-v2", limit=30, window=900
+        )
+        recipient_identity = f"{client_fingerprint(request)}:{email.casefold()}"
+        recipient_limited = rate_limited(
+            request,
+            "contact-recipient-v2",
+            limit=10,
+            window=900,
+            identity=recipient_identity,
+        )
+        if visitor_limited or recipient_limited:
+            messages.error(
+                request,
+                "You have sent several enquiries recently. Please wait a few minutes and try again.",
+            )
+            response = render(
+                request,
+                "homepage/contact.html",
+                {"values": request.POST},
+                status=429,
+            )
+            response["Retry-After"] = "900"
+            return response
 
         # Save contact message to database
         enquiry = ContactMessage(

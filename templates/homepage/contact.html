@@ -79,6 +79,16 @@
 
             <div class="contact-card bg-[#ebe4d8] p-8 md:p-12 rounded-sm shadow-sm">
 
+                {% if messages %}
+                    <div class="mb-8" role="status" aria-live="polite">
+                        {% for message in messages %}
+                            <p class="rounded-sm border border-[#8c8478] bg-[#f3eee5] px-5 py-4 text-center text-sm">
+                                {{ message }}
+                            </p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+
 
                 <!-- =================================================
                      IVORY LOGO
@@ -131,6 +141,7 @@
                             name="name"
                             required
                             autocomplete="name"
+                            value="{{ values.name|default:'' }}"
                             class="w-full bg-transparent border-b border-[#8c8478] py-3 outline-none focus:border-black transition"
                             placeholder="Your name">
 
@@ -158,6 +169,7 @@
                             name="email"
                             required
                             autocomplete="email"
+                            value="{{ values.email|default:'' }}"
                             class="w-full bg-transparent border-b border-[#8c8478] py-3 outline-none focus:border-black transition"
                             placeholder="your@email.com">
 
@@ -185,6 +197,7 @@
                             name="contact"
                             required
                             autocomplete="tel"
+                            value="{{ values.contact|default:'' }}"
                             class="w-full bg-transparent border-b border-[#8c8478] py-3 outline-none focus:border-black transition"
                             placeholder="Your phone number">
 
@@ -212,7 +225,7 @@
                             rows="5"
                             required
                             class="w-full bg-transparent border-b border-[#8c8478] py-3 outline-none focus:border-black transition resize-none"
-                            placeholder="Tell us about your project..."></textarea>
+                            placeholder="Tell us about your project...">{{ values.message|default:'' }}</textarea>
 
                     </div>
 
