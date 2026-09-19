@@ -3,24 +3,26 @@
 
 {% block extrastyle %}
 {{ block.super }}
-<link rel="stylesheet" href="{% static 'admin/support-inbox.css' %}?v=20260905-live1">
-<link rel="stylesheet" href="{% static 'support-media.css' %}?v=20260903-media2">
+<link rel="stylesheet" href="{% static 'support-media.css' %}?v=20260919-instagram2">
+<link rel="stylesheet" href="{% static 'admin/support-inbox.css' %}?v=20260919-instagram2">
 {% endblock %}
 
 {% block extrahead %}
 {{ block.super }}
-<script src="{% static 'support-media.js' %}?v=20260903-media2" defer></script>
-<script src="{% static 'admin/support-inbox.js' %}?v=20260919-routefix1" defer></script>
+<script src="{% static 'support-media.js' %}?v=20260919-instagram2" defer></script>
+<script src="{% static 'admin/support-inbox.js' %}?v=20260919-instagram2" defer></script>
 {% endblock %}
 
 {% block content %}
 <div class="support-inbox" data-can-change="{{ can_change_support|yesno:'true,false' }}">
   <header class="support-inbox__header">
-    <div>
-      <p class="support-inbox__eyebrow">IVORY DESIGN · CLIENT CARE</p>
-      <h1>Live support</h1>
-      <p>A thoughtful conversation, from first question to next step.</p>
-      <a href="/admin/Ivory/customfaq/">Edit assistant FAQs</a>
+    <div class="support-inbox__brand">
+      <span class="support-inbox__brand-mark"><img src="{% static 'images/Ivoryarvena.svg' %}" alt="Ivory Arvena Interior & Design"></span>
+      <div>
+        <p class="support-inbox__eyebrow">IVORY ARVENA INTERIOR &amp; DESIGN</p>
+        <h1>Messages</h1>
+        <a href="/my-lo/Ivory/customfaq/">Assistant settings</a>
+      </div>
     </div>
     <p id="support-connection" class="support-inbox__connection" role="status">Connecting…</p>
   </header>
@@ -35,7 +37,10 @@
 
   <div class="support-inbox__layout">
     <section class="support-inbox__list-panel" aria-labelledby="support-list-title">
-      <h2 id="support-list-title">Conversations</h2>
+      <div class="support-inbox__list-title">
+        <h2 id="support-list-title">Messages</h2>
+        <span aria-hidden="true">⌄</span>
+      </div>
       <div id="support-conversation-list" class="support-inbox__list" role="list"></div>
     </section>
 
@@ -46,7 +51,8 @@
       </div>
       <div id="support-active-detail" hidden>
         <header class="support-inbox__conversation-header">
-          <div>
+          <span class="support-inbox__chat-avatar"><img src="{% static 'images/Ivoryarvena.svg' %}" alt=""></span>
+          <div class="support-inbox__chat-identity">
             <h2 id="support-visitor-name">Visitor</h2>
             <p id="support-conversation-status"></p>
             <p id="support-visitor-phone"></p>
@@ -63,10 +69,16 @@
         {% if can_change_support %}
         <form id="support-reply-form" class="support-inbox__reply">
           {% csrf_token %}
-          <label for="support-reply">Reply as a team member</label>
-          <textarea id="support-reply" maxlength="1800" rows="3" placeholder="Write a thoughtful reply…" aria-describedby="support-compose-hint support-action-status"></textarea>
+          <label class="sr-only" for="support-reply">Reply as a team member</label>
+          <div class="support-compose-row">
+            <button id="support-emoji" class="support-compose-emoji" type="button" aria-label="Add emoji" title="Add emoji">☺</button>
+            <textarea id="support-reply" maxlength="1800" rows="1" placeholder="Message…" aria-describedby="support-compose-hint support-action-status"></textarea>
+            <button type="submit" aria-label="Send message"><span class="sr-only">Send message</span></button>
+          </div>
+          <div id="support-emoji-picker" class="support-emoji-picker" hidden aria-label="Choose an emoji">
+            <button type="button">😊</button><button type="button">👍</button><button type="button">❤️</button><button type="button">🙏</button><button type="button">✨</button><button type="button">🏠</button>
+          </div>
           <small id="support-compose-hint">Enter to send · Shift+Enter for a new line · Files up to 5 MB · Voice notes up to 2 minutes</small>
-          <button type="submit">Send reply</button>
         </form>
         {% endif %}
         <p id="support-action-status" role="status"></p>

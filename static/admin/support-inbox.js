@@ -12,6 +12,9 @@
     const csrf = document.querySelector("[name=csrfmiddlewaretoken]")?.value || "";
     const replyForm = document.getElementById("support-reply-form");
     const media = replyForm ? window.IvorySupportMedia.composer(replyForm, actionStatus) : null;
+    const replyInput = document.getElementById("support-reply");
+    const emojiButton = document.getElementById("support-emoji");
+    const emojiPicker = document.getElementById("support-emoji-picker");
     let pending = false;
     let filter = "active";
     let selectedId = "";
@@ -19,6 +22,19 @@
     let socket;
     let listPoll;
     let historyPoll;
+
+    function syncComposerState() {
+        replyForm?.classList.toggle("has-content", Boolean(replyInput?.value.trim() || media?.file));
+    }
+    replyInput?.addEventListener("input", syncComposerState);
+    replyForm?.addEventListener("supportmediachange", syncComposerState);
+    emojiButton?.addEventListener("click", () => { emojiPicker.hidden = !emojiPicker.hidden; });
+    emojiPicker?.querySelectorAll("button").forEach((button) => button.addEventListener("click", () => {
+        replyInput.value += button.textContent;
+        emojiPicker.hidden = true;
+        syncComposerState();
+        replyInput.focus();
+    }));
 
     function textNode(tag, className, text) {
         const node = document.createElement(tag);
@@ -52,10 +68,15 @@
             button.className = "support-inbox__conversation";
             button.dataset.id = conversation.id;
             button.setAttribute("aria-current", String(conversation.id === selectedId));
-            const heading = textNode("strong", "", conversation.visitor_name || "Anonymous visitor");
+            const displayName = conversation.visitor_name || "Anonymous visitor";
+            const avatar = textNode("span", "support-inbox__avatar", displayName.charAt(0).toUpperCase());
+            const copy = document.createElement("span");
+            copy.className = "support-inbox__conversation-copy";
+            const heading = textNode("strong", "", displayName);
             const meta = textNode("span", "", conversation.status_label + (conversation.assigned_name ? ` · ${conversation.assigned_name}` : ""));
             const time = textNode("time", "", new Date(conversation.last_activity_at).toLocaleString());
-            button.append(heading, meta, time);
+            copy.append(heading, meta, time);
+            button.append(avatar, copy);
             if (conversation.staff_unread_count) {
                 button.append(textNode("span", "support-inbox__unread", String(conversation.staff_unread_count)));
             }
@@ -86,10 +107,13 @@
         messages.forEach((message) => {
             const item = document.createElement("article");
             item.className = `support-inbox__message support-inbox__message--${message.sender}`;
-            item.append(textNode("strong", "", message.label));
-            item.append(textNode("p", "", message.body));
-            window.IvorySupportMedia.attachments(item, message.attachments);
-            item.append(textNode("time", "", new Date(message.created_at).toLocaleString()));
+            const bubble = document.createElement("div");
+            bubble.className = "support-inbox__bubble";
+            bubble.append(textNode("strong", "", message.label));
+            bubble.append(textNode("p", "", message.body));
+            window.IvorySupportMedia.attachments(bubble, message.attachments);
+            bubble.append(textNode("time", "", new Date(message.created_at).toLocaleString()));
+            item.append(bubble);
             messageList.append(item);
         });
         messageList.scrollTop = messageList.scrollHeight;
@@ -155,7 +179,7 @@
         input.readOnly = true;
         try {
             const saved = await action("reply", { message, client_message_id: crypto.randomUUID() });
-            if (saved) { input.value = ""; media.clear(); input.focus(); }
+            if (saved) { input.value = ""; media.clear(); syncComposerState(); input.focus(); }
         } finally { input.readOnly = false; }
     }
     replyForm?.addEventListener("submit", sendReply);

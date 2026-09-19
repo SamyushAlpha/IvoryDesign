@@ -20,7 +20,7 @@
         const label = document.createElement("button"); label.type = "button";
         const picker = document.createElement("input"); picker.type = "file";
         picker.accept = ".png,.jpg,.jpeg,.pdf,.txt,.webm,.ogg,.mp3,.wav,.m4a"; picker.hidden = true;
-        const icons = {attach: 'M21 11.5 12.5 20a6 6 0 0 1-8.5-8.5L13 2.5a4 4 0 0 1 5.7 5.7l-9 9a2 2 0 0 1-2.8-2.8L15 6.3', mic: 'M9 5a3 3 0 0 1 6 0v7a3 3 0 0 1-6 0ZM5 10v2a7 7 0 0 0 14 0v-2M12 19v3M8 22h8', stop: 'M6 6h12v12H6Z', cancel: 'm6 6 12 12M6 18 18 6'};
+        const icons = {attach: 'M21 11.5 12.5 20a6 6 0 0 1-8.5-8.5L13 2.5a4 4 0 0 1 5.7 5.7l-9 9a2 2 0 0 1-2.8-2.8L15 6.3', image: 'M4 4h16v16H4ZM4 16l4.5-4.5 3.5 3.5 2.5-2.5L20 18M15.5 8.5h.01', mic: 'M9 5a3 3 0 0 1 6 0v7a3 3 0 0 1-6 0ZM5 10v2a7 7 0 0 0 14 0v-2M12 19v3M8 22h8', stop: 'M6 6h12v12H6Z', cancel: 'm6 6 12 12M6 18 18 6'};
         function icon(button, name, title) {
             button.replaceChildren(); button.className = "support-media-icon";
             button.setAttribute("aria-label", title); button.title = title;
@@ -28,22 +28,23 @@
             svg.setAttribute("viewBox", "0 0 24 24"); svg.setAttribute("aria-hidden", "true");
             const path = document.createElementNS(svg.namespaceURI, "path"); path.setAttribute("d", icons[name]); svg.append(path); button.append(svg);
         }
-        icon(label, "attach", "Attach a file"); label.addEventListener("click", () => picker.click());
+        icon(label, form.closest(".support-inbox") ? "image" : "attach", "Attach a file"); label.addEventListener("click", () => picker.click());
         const record = document.createElement("button"); record.type = "button"; icon(record, "mic", "Record a voice note");
         const cancel = document.createElement("button"); cancel.type = "button"; icon(cancel, "cancel", "Remove attachment or cancel recording"); cancel.hidden = true;
         const preview = document.createElement("div"); preview.className = "support-media-preview";
         preview.hidden = true; preview.setAttribute("aria-live", "polite");
         controls.append(picker, label, record, cancel);
-        let row = form.querySelector(".ivory-chat__compose");
+        let row = form.querySelector(".ivory-chat__compose, .support-compose-row");
         if (!row) {
             row = document.createElement("div"); row.className = "support-compose-row";
             const input = form.querySelector("textarea"), submit = form.querySelector('button[type="submit"]');
             input.before(row); row.append(input, submit);
         }
-        row.prepend(controls); row.before(preview);
+        row.querySelector('button[type="submit"]')?.before(controls); row.before(preview);
         let file = null, recorder = null, stream = null, timer = null, objectUrl = null, recording = false, discarded = false, busy = false;
         function release() { if (objectUrl) URL.revokeObjectURL(objectUrl); objectUrl = null; }
-        function clear() { file = null; picker.value = ""; release(); preview.replaceChildren(); preview.hidden = true; cancel.hidden = true; }
+        function changed() { form.dispatchEvent(new CustomEvent("supportmediachange")); }
+        function clear() { file = null; picker.value = ""; release(); preview.replaceChildren(); preview.hidden = true; cancel.hidden = true; changed(); }
         function select(value) {
             clear();
             if (!value || !value.size || value.size > 5 * 1024 * 1024) { status.textContent = "Choose a non-empty file up to 5 MB."; return; }
@@ -52,6 +53,7 @@
             if (file.type.startsWith("audio/")) {
                 objectUrl = URL.createObjectURL(file); const audio = document.createElement("audio"); audio.controls = true; audio.src = objectUrl; preview.append(audio);
             }
+            changed();
             status.textContent = "Attachment ready. Press Send to share it.";
         }
         function stop() { if (recorder?.state === "recording") recorder.stop(); clearTimeout(timer); stream?.getTracks().forEach(t => t.stop()); }
