@@ -496,10 +496,10 @@ def estimate_pdf(request, public_id):
             stamp_buffer.seek(0)
             pdf.drawImage(
                 ImageReader(stamp_buffer),
-                signature_left + 25,
-                y - 31,
-                width=60,
-                height=42,
+                signature_left + 31,
+                y - 29,
+                width=48,
+                height=28,
                 mask="auto",
                 preserveAspectRatio=True,
                 anchor="c",
