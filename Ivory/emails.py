@@ -16,7 +16,7 @@ def send_contact_confirmation(enquiry):
     sender_domain = sender.rsplit("@", 1)[-1].encode("idna").decode("ascii")
     context = {
         "name": enquiry.name,
-        "logo_url": "https://ivory-design.vercel.app/static/images/b.png",
+        "logo_url": "https://ivoryarvena.vercel.app/static/images/ivoryarvena-email-logo.png",
     }
 
     email = EmailMultiAlternatives(
