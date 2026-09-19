@@ -16,7 +16,10 @@ def send_contact_confirmation(enquiry):
     sender_domain = sender.rsplit("@", 1)[-1].encode("idna").decode("ascii")
     context = {
         "name": enquiry.name,
-        "logo_url": "https://ivoryarvena.vercel.app/static/images/ivoryarvena-email-logo.png",
+        # Use a versioned path so Gmail's image proxy does not reuse the cached
+        # failure from the earlier deployment. Keep it hosted so the message has
+        # no attachment and retains the inbox-friendly MIME structure.
+        "logo_url": "https://ivoryarvena.vercel.app/static/images/ivory-arvena-mail-logo-2026.png",
         "site_url": "https://ivoryarvena.vercel.app/",
     }
 

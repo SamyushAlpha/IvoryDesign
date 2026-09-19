@@ -22,7 +22,7 @@ class ConfirmationLogoTests(SimpleTestCase):
 
         self.assertEqual(message.get_content_subtype(), "alternative")
         self.assertIn(
-            "https://ivoryarvena.vercel.app/static/images/ivoryarvena-email-logo.png",
+            "https://ivoryarvena.vercel.app/static/images/ivory-arvena-mail-logo-2026.png",
             html.get_content(),
         )
         self.assertFalse(any(part.get_content_maintype() == "image" for part in parts))
