@@ -16,13 +16,13 @@
 
     <div class="ivory-footer-brand">
 
-        <a class="ivory-footer-mark" href="{% url 'home' %}" aria-label="Ivory Design Studio home">
-            <img src="{% static 'images/b.png' %}" alt="Ivory Design Studio logo" width="120" height="68" loading="lazy">
+        <a class="ivory-footer-mark" href="{% url 'home' %}" aria-label="Ivory Arvena Interior &amp; Design home">
+            <img src="{% static 'images/Ivoryarvena.svg' %}" alt="Ivory Arvena Interior &amp; Design logo" width="120" height="68" loading="lazy">
         </a>
 
         <div class="ivory-footer-name">
-            IVORY
-            <span>DESIGN STUDIO</span>
+            IVORY ARVENA
+            <span>INTERIOR &amp; DESIGN</span>
         </div>
 
         <p class="ivory-footer-message">
@@ -45,13 +45,18 @@
             +977 9825776806
         </a>
 
-        <a href="mailto:hello@ivorydesign.com">
-            hello@ivorydesign.com
+        <a href="mailto:ivorydesign2083@gmail.com">
+            ivorydesign2083@gmail.com
         </a>
 
         <span>
             Kathmandu · Nepal
         </span>
+
+        <nav class="ivory-footer-social" aria-label="Ivory Design social media">
+            <a href="https://www.facebook.com/profile.php?id=61594457698243" target="_blank" rel="noopener noreferrer">Facebook</a>
+            <a href="https://www.instagram.com/ivoryarvena/" target="_blank" rel="noopener noreferrer">Instagram</a>
+        </nav>
 
     </div>
 
@@ -85,7 +90,7 @@
 <div class="ivory-footer-bottom">
 
     <span>
-        © 2026 IVORY DESIGN
+        © 2026 IVORY ARVENA
     </span>
 
     <span>
@@ -137,14 +142,18 @@
 .ivory-footer-mark {
     display: block;
     width: 120px;
+    height: 70px;
     margin-bottom: 22px;
+    overflow: hidden;
 }
 
 .ivory-footer-mark img {
     display: block;
-    width: 100%;
+    width: 125%;
     height: auto;
+    max-width: none;
     object-fit: contain;
+    transform: translate(-10%, -22%);
 }
 
 .ivory-footer-name {
@@ -214,12 +223,26 @@
     opacity: 0.5;
 }
 
-.ivory-footer-contact span:last-child {
+.ivory-footer-contact > span:not(.footer-eyebrow) {
     color: #817A70;
 
     font-size: 13px;
 
     margin-top: 8px;
+}
+
+.ivory-footer-social {
+    display: flex;
+    gap: 18px;
+    margin-top: 20px;
+}
+
+.ivory-footer-social a {
+    padding-bottom: 4px;
+    border-bottom: 1px solid rgba(41, 38, 33, 0.35);
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
 }
 
 

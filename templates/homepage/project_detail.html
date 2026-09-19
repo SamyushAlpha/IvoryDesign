@@ -2,10 +2,19 @@
 <!doctype html>
 <html lang="en">
 <head>
+  {% include 'components/site_icons.html' %}
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>{{ project.name }} | Ivory Design Studio</title>
+  <title>{{ project.name }} | Ivory Arvena Interior &amp; Design</title>
   <meta name="description" content="{{ project.description|striptags|truncatewords:24 }}">
+  <meta name="robots" content="index,follow,max-image-preview:large">
+  <link rel="canonical" href="https://ivoryarvena.vercel.app{% url 'project_detail' project.pk %}">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Ivory Arvena">
+  <meta property="og:title" content="{{ project.name }} | Ivory Arvena Interior &amp; Design">
+  <meta property="og:description" content="{{ project.description|striptags|truncatewords:24 }}">
+  <meta property="og:url" content="https://ivoryarvena.vercel.app{% url 'project_detail' project.pk %}">
+  {% if project.image %}<meta property="og:image" content="{{ request.scheme }}://{{ request.get_host }}{{ project.image.url }}">{% endif %}
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;1,9..144,400&display=swap" rel="stylesheet">
@@ -14,7 +23,7 @@
 <body class="case-study">
   <header class="case-nav">
     <a href="{% url 'projects' %}">← &nbsp; BACK TO PROJECTS</a>
-    <a class="case-nav__brand" href="{% url 'home' %}"><img src="{% static 'images/a.svg' %}" alt=""><span>IVORY<small>DESIGN STUDIO</small></span></a>
+    <a class="case-nav__brand" href="{% url 'home' %}"><img src="{% static 'images/Ivoryarvena.svg' %}" alt=""><span>IVORY ARVENA<small>INTERIOR &amp; DESIGN</small></span></a>
     <a href="{% url 'contact' %}">CONTACT &nbsp;—</a>
   </header>
 

@@ -4,6 +4,7 @@
 <html lang="en">
 
 <head>
+    {% include 'components/site_icons.html' %}
 
     <meta charset="UTF-8">
 
@@ -12,10 +13,15 @@
         content="width=device-width, initial-scale=1.0">
 
     <title>
-        About Us | Ivory Design Studio
+        About Us | Ivory Arvena Interior &amp; Design
     </title>
-    <meta name="description" content="Meet Ivory Design Studio and our interior design team in Kathmandu, Nepal.">
-    <link rel="canonical" href="https://ivory-design.vercel.app/about/">
+    <meta name="description" content="Meet Ivory Arvena Interior &amp; Design and our interior design team in Kathmandu, Nepal.">
+    <meta name="robots" content="index,follow,max-image-preview:large">
+    <link rel="canonical" href="https://ivoryarvena.vercel.app/about/">
+    <meta property="og:title" content="About Ivory Arvena Interior &amp; Design | Kathmandu, Nepal">
+    <meta property="og:description" content="Meet the people and design philosophy behind Ivory Arvena Interior &amp; Design in Kathmandu.">
+    <meta property="og:url" content="https://ivoryarvena.vercel.app/about/">
+    <meta property="og:type" content="website">
 
     <!-- Google Fonts -->
 
@@ -44,7 +50,7 @@
 
     <link
         rel="stylesheet"
-        href="{% static 'style.css' %}?v=20260908-logo2">
+        href="{% static 'style.css' %}?v=20260915-navcup2">
 
 
     <style>
@@ -360,7 +366,7 @@
 
             <p class="about-description">
 
-                Ivory Design Studio creates timeless
+                Ivory Arvena Interior &amp; Design creates timeless
                 interiors where architecture, material,
                 light and emotion come together.
 
@@ -384,7 +390,7 @@
 
     <img
         src="{{ company.image.url }}"
-        alt="Ivory Design Studio"
+        alt="Ivory Arvena Interior &amp; Design"
         class="about-company-image">
 
 </section>

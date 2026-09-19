@@ -1,12 +1,23 @@
 /* A calm studio wall inspired by the supplied light-and-shadow reference. */
 .ivory-hero { background:#132322; }
 .ivory-hero-bg {
-    background:#132322 url("images/ivory-hero-wall-light.webp") center center / cover no-repeat;
+    background:#dfe3e4 url("images/video-poster.jpg") center center / cover no-repeat;
     transform:none;
     animation:none;
 }
+.ivory-hero-video {
+    position:absolute;
+    inset:0;
+    z-index:1;
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    object-position:center;
+    background:#132322;
+}
 .ivory-hero-overlay {
-    background:linear-gradient(90deg,rgba(6,18,18,.58) 0%,rgba(6,18,18,.30) 43%,rgba(6,18,18,.06) 100%);
+    z-index:2;
+    background:linear-gradient(90deg,rgba(6,18,18,.68) 0%,rgba(6,18,18,.42) 46%,rgba(6,18,18,.16) 100%);
 }
 .home-page .ivory-nav-links a,
 .home-page .ivory-logo { color:#f7f2e8 !important; }
@@ -15,15 +26,15 @@
 .hero-drawing { position: absolute; inset: 0; z-index: 2; pointer-events: none; }
 .house-sketch {
     position:absolute;
-    right:1%;
+    right:-1%;
     top:auto;
     bottom:8.5vh;
-    width:clamp(540px,52vw,650px);
+    width:clamp(650px,62vw,820px);
     height:auto;
     aspect-ratio:820 / 640;
     color:#393a32;
     overflow:visible;
-    transform:scale(.94);
+    transform:translate(10%,-15%) scale(1.04);
     transform-origin:center bottom;
 }
 .sketch-guides { opacity: .14; }
@@ -46,9 +57,21 @@
 }
 @media (min-width: 901px) and (max-width: 1499px) {
 }
+/* Windows laptops commonly expose a wide but short browser viewport because of
+   display scaling and browser chrome. Size the drawing from viewport height in
+   that case so Chromium does not push it into the navigation or clip its edge. */
+@media (min-width: 768px) and (max-height: 800px) {
+    .house-sketch {
+        right:1%;
+        bottom:1.5vh;
+        width:min(52vw, calc(72vh * 1.28125));
+        transform:translateX(3%);
+        transform-origin:center bottom;
+    }
+}
 @media (max-width: 900px) {
     .ivory-hero-content { width: 58%; padding-left: 7%; }
-    .house-sketch { right:-6%;width:57%; }
+    .house-sketch { right:-8%;width:68%; }
     .ivory-buttons { flex-wrap: wrap; }
 }
 @media (max-width: 600px) {
@@ -58,34 +81,32 @@
     .ivory-subtitle { margin-top: 22px; max-width: 310px; }
     .ivory-buttons { margin-top: 26px; gap: 10px; }
     .ivory-btn { padding: 13px 15px; }
-    .house-sketch { top:550px;bottom:auto;right:1%;width:94%;height:260px;aspect-ratio:auto;color:#e5ddce; }
+    .house-sketch { top:520px;bottom:auto;right:-5%;width:110%;height:330px;aspect-ratio:auto;color:#e5ddce; }
     .sketch-guides { opacity: .12; }
     .ivory-hero-bg { background-position:62% center; }
+    .ivory-hero-video { object-position:center; }
     .ivory-hero-overlay { background:linear-gradient(180deg,rgba(6,18,18,.24),rgba(6,18,18,.42)); }
 }
 @media (prefers-reduced-motion: reduce) {
+    .ivory-hero-video { display:none; }
     .hero-drawing .drawing-strokes { visibility: visible; }
     .hero-drawing [data-draw] { stroke-dashoffset: 0 !important; }
     .drawing-pencil { display: none; }
 }
 
 /* Tiny, friendly decorators remain behind the page's interactive content. */
-.scene-painter { pointer-events: none; }
-.house-paint { opacity: 1; }
 .house-sketch .drawing-strokes { stroke: #eee5d4; }
 @media (max-width: 600px) {
     .house-sketch .drawing-strokes { stroke: #e5ddce; }
 }
 @media (prefers-reduced-motion: reduce) {
-    .scene-painter, .paint-sparkles { display: none; }
 }
 
-.painter-head-view { transition: opacity .25s ease; }
-.painter-head { transition: transform .25s ease; }
-
-.scene-vehicle { pointer-events: none; }
 .scene-ground-shadow { filter:blur(8px);mix-blend-mode:multiply; }
-.scene-vehicle > ellipse:first-child { filter:blur(2.5px);opacity:.30; }
-@media (prefers-reduced-motion: reduce) {
-    .scene-vehicle { display: none; }
+.reference-plan-image {
+    filter:brightness(0) saturate(100%) invert(95%) sepia(9%) saturate(305%) hue-rotate(343deg) brightness(103%) contrast(94%) drop-shadow(0 0 10px rgba(245,241,232,.5));
+    opacity:1;
+}
+@media (max-width: 767px) {
+    .hero-drawing { display:none !important; }
 }

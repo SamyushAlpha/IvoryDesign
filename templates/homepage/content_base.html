@@ -2,20 +2,21 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    {% include 'components/site_icons.html' %}
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Ivory Design Studio{% endblock %}</title>
-    <meta name="description" content="{% block meta_description %}Ivory Design Studio creates thoughtful residential and commercial interiors in Kathmandu, Nepal.{% endblock %}">
-    <link rel="canonical" href="{{ request.build_absolute_uri }}">
-    <meta property="og:site_name" content="Ivory Design Studio">
+    <title>{% block title %}Ivory Arvena Interior &amp; Design{% endblock %}</title>
+    <meta name="description" content="{% block meta_description %}Ivory Arvena Interior &amp; Design creates thoughtful residential and commercial interiors in Kathmandu, Nepal.{% endblock %}">
+    <link rel="canonical" href="https://ivoryarvena.vercel.app{{ request.path }}">
+    <meta property="og:site_name" content="Ivory Arvena">
     <meta property="og:type" content="website">
-    <meta property="og:title" content="{% block og_title %}Ivory Design Studio{% endblock %}">
+    <meta property="og:title" content="{% block og_title %}Ivory Arvena Interior &amp; Design{% endblock %}">
     <meta property="og:description" content="{% block og_description %}Thoughtful interior design shaped around your space and vision.{% endblock %}">
     <meta property="og:url" content="{{ request.build_absolute_uri }}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;1,9..144,400&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="{% static 'style.css' %}?v=20260908-logo2">
+    <link rel="stylesheet" href="{% static 'style.css' %}?v=20260916-arvena2">
     <link rel="stylesheet" href="{% static 'content-pages.css' %}?v=20260905-type1">
 </head>
 <body class="content-page">

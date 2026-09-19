@@ -3,20 +3,29 @@
 <html lang="en">
 
 <head>
+    {% include 'components/site_icons.html' %}
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Ivory Design | Interior Design Studio</title>
-    <meta name="description" content="Ivory Design Studio creates timeless residential and commercial interiors in Kathmandu, Nepal. Explore our projects, services and design team.">
-    <link rel="canonical" href="https://ivory-design.vercel.app/">
+    <title>Ivory Arvena Interior &amp; Design | Interior Designer in Kathmandu, Nepal</title>
+    <meta name="description" content="Ivory Arvena Interior &amp; Design is a Kathmandu interior design and architecture studio creating timeless residential and commercial spaces across Nepal.">
+    <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1">
+    <link rel="canonical" href="https://ivoryarvena.vercel.app/">
     <meta property="og:type" content="website">
-    <meta property="og:site_name" content="Ivory Design Studio">
-    <meta property="og:title" content="Ivory Design | Interior Design Studio in Kathmandu">
-    <meta property="og:description" content="Thoughtful interior architecture and design for homes and businesses in Kathmandu, Nepal.">
-    <meta property="og:url" content="https://ivory-design.vercel.app/">
+    <meta property="og:locale" content="en_NP">
+    <meta property="og:site_name" content="Ivory Arvena">
+    <meta property="og:title" content="Ivory Arvena Interior &amp; Design | Interior Designer in Kathmandu">
+    <meta property="og:description" content="Timeless residential and commercial interior design and architecture in Kathmandu, Nepal.">
+    <meta property="og:url" content="https://ivoryarvena.vercel.app/">
+    <meta property="og:image" content="https://ivoryarvena.vercel.app/static/images/ivory-hero-wall-light.webp">
+    <meta property="og:image:alt" content="Ivory Interior &amp; Design interior architecture showcase">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Ivory Arvena Interior &amp; Design | Kathmandu, Nepal">
+    <meta name="twitter:description" content="Timeless residential and commercial interior design and architecture.">
+    <meta name="twitter:image" content="https://ivoryarvena.vercel.app/static/images/ivory-hero-wall-light.webp">
     <script type="application/ld+json">
-    {"@context":"https://schema.org","@type":"InteriorDesigner","name":"Ivory Design Studio","url":"https://ivory-design.vercel.app/","telephone":"+9779825776806","email":"hello@ivorydesign.com","address":{"@type":"PostalAddress","addressLocality":"Kathmandu","addressCountry":"NP"}}
+    {"@context":"https://schema.org","@graph":[{"@type":"WebSite","@id":"https://ivoryarvena.vercel.app/#website","url":"https://ivoryarvena.vercel.app/","name":"Ivory Arvena Interior & Design","alternateName":["Ivory Arvena","ivoryarvena"],"publisher":{"@id":"https://ivoryarvena.vercel.app/#business"}},{"@type":["InteriorDesigner","LocalBusiness","Organization"],"@id":"https://ivoryarvena.vercel.app/#business","name":"Ivory Arvena Interior & Design","legalName":"Ivory Arvena Interior & Design","alternateName":["Ivory Arvena","ivoryarvena","Ivory Design Studio"],"description":"Interior design and architecture studio creating residential and commercial spaces in Kathmandu and across Nepal.","slogan":"Thoughtfully designed spaces, crafted to feel like home.","url":"https://ivoryarvena.vercel.app/","logo":{"@type":"ImageObject","url":"https://ivoryarvena.vercel.app/static/images/ivoryarvena-email-logo.png"},"image":"https://ivoryarvena.vercel.app/static/images/ivory-hero-wall-light.webp","telephone":"+9779825776806","email":"ivorydesign2083@gmail.com","address":{"@type":"PostalAddress","addressLocality":"Kathmandu","addressCountry":"NP"},"areaServed":{"@type":"Country","name":"Nepal"},"contactPoint":{"@type":"ContactPoint","telephone":"+9779825776806","email":"ivorydesign2083@gmail.com","contactType":"customer service","areaServed":"NP"},"sameAs":["https://www.facebook.com/profile.php?id=61594457698243","https://www.instagram.com/ivoryarvena/"]}]}
     </script>
 
     <!-- =====================================================
@@ -42,10 +51,8 @@
 
     <link
         rel="stylesheet"
-        href="{% static 'style.css' %}?v=20260908-button2">
-    <link rel="stylesheet" href="{% static 'hero-drawing.css' %}?v=20260908-nosignature">
-    <link rel="stylesheet" href="{% static 'chat.css' %}?v=20260905-type1">
-    <link rel="stylesheet" href="{% static 'support-media.css' %}?v=20260903-media2">
+        href="{% static 'style.css' %}?v=20260916-arvena2">
+    <link rel="stylesheet" href="{% static 'hero-drawing.css' %}?v=20260919-videohero">
     
     <style>
 /* =========================================================
@@ -311,23 +318,6 @@ body.popup-open {
          CUSTOM JAVASCRIPT
     ====================================================== -->
 
-    <script src="{% static 'chat-transport.js' %}" defer></script>
-    <script src="{% static 'support-media.js' %}?v=20260903-media2" defer></script>
-    <script
-        src="{% static 'chat.js' %}?v=20260905-unread1"
-        defer>
-    </script>
-
-
-    <!-- =====================================================
-         FAVICON
-    ====================================================== -->
-
-    <link
-        rel="icon"
-        type="image/png"
-        href="{% static 'images/b.svg' %}"
-    >
 
 
     <!-- =====================================================
@@ -362,17 +352,24 @@ body.popup-open {
 
     <!-- BACKGROUND -->
 
-    <div class="ivory-hero-bg"></div>
+    <div class="ivory-hero-bg" aria-hidden="true"></div>
+    <video
+        class="ivory-hero-video"
+        autoplay
+        muted
+        loop
+        playsinline
+        preload="auto"
+        poster="{% static 'images/video-poster.jpg' %}"
+        aria-hidden="true"
+        tabindex="-1">
+        <source src="{% static 'images/video.mp4' %}" type="video/mp4">
+    </video>
 
 
     <!-- OVERLAY -->
 
     <div class="ivory-hero-overlay"></div>
-
-    {% include 'components/hero_drawing.html' %}
-    <noscript><style>.hero-drawing .drawing-strokes { visibility: visible; }</style></noscript>
-
-
 
     <!-- =====================================================
          HERO CONTENT
@@ -505,52 +502,6 @@ body.popup-open {
 >
 
     <div class="works-sticky">
-
-    <div class="works-header">
-
-
-        <div>
-
-
-            <span class="section-eyebrow">
-
-                SELECTED WORKS
-
-            </span>
-
-
-            <h2>
-
-                Spaces with<br>
-
-                <em>
-                    intention.
-                </em>
-
-            </h2>
-
-
-        </div>
-
-
-
-        <p>
-
-            A collection of interiors designed around
-            material, light, proportion and the people
-            who inhabit them.
-
-        </p>
-
-
-    </div>
-
-
-
-    <!-- =====================================================
-         PROJECT SHOWCASE
-    ====================================================== -->
-
     <div class="works-viewport">
     <div class="works-grid">
 
@@ -559,8 +510,8 @@ body.popup-open {
 
 
         <a
-            href="{% url 'projects' %}"
-            class="work-card {% if forloop.first %}work-large{% endif %}"
+            href="{% url 'project_detail' project.pk %}"
+            class="work-card"
         >
 
 
@@ -583,29 +534,9 @@ body.popup-open {
                 <div>
 
 
-                    <span>
-
-                        {{ forloop.counter|stringformat:"02d" }}
-
-                    </span>
-
-
-                    <h3>
-
-                        {{ project.name }}
-
-                    </h3>
-
-
-                    <p>
-
-                        {{ project.location }}
-
-                        ·
-
-                        {{ project.category }}
-
-                    </p>
+                    <span>{{ forloop.counter|stringformat:"02d" }} · {{ project.location|default:"Kathmandu" }}</span>
+                    <h3>{% if project.category %}{{ project.category.name }}{% else %}{{ project.name }}{% endif %}</h3>
+                    <p>{{ project.name }}{% if project.year %} · {{ project.year }}{% endif %}</p>
 
 
                 </div>
@@ -636,29 +567,15 @@ body.popup-open {
 
 
     <div class="works-footer">
-
-
-        <span>
-
-            {{ featured_projects|length|stringformat:"02d" }}
-
-            — SELECTED PROJECTS
-
-        </span>
-
-
-
-        <a href="/projects/">
-
-            VIEW ALL PROJECTS
-
-            <span>
-                ↗
-            </span>
-
-        </a>
-
-
+        <div class="works-footer__identity">
+            <span>IVORY ARVENA · SELECTED WORKS</span>
+            <span><i></i>KATHMANDU · NEPAL</span>
+        </div>
+        <div class="works-footer__scroll">SCROLL TO EXPLORE <i></i></div>
+        <div class="works-footer__links">
+            <a href="/projects/">VIEW ALL PROJECTS <span>↗</span></a>
+            <span>© 2026</span>
+        </div>
     </div>
     </div>
 
@@ -758,8 +675,6 @@ body.popup-open {
 <!-- =========================================================
      MAIN CONTENT
 ========================================================= -->
-
-{% include 'components/chatbox.html' %}
 
 <!-- =========================================================
      IVORY POPUP ADVERTISEMENT
@@ -873,15 +788,7 @@ document.addEventListener(
             );
 
 
-        const ivoryWords = [
-
-            "IVORY",
-
-            "IVORY DESIGN",
-
-            "IVORY INTERIOR"
-
-        ];
+        const ivoryWords = ["IVORY ARVENA"];
 
 
         let wordIndex = 0;

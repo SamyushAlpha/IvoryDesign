@@ -4,6 +4,8 @@ venv/
 backups/
 private_support/
 tests/
+tools/
+output/
 **/__pycache__/
 *.py[cod]
 .env
