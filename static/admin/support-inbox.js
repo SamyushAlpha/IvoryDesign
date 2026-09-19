@@ -66,7 +66,7 @@
 
     async function loadList() {
         try {
-            const data = await getJson(`/admin/support/api/conversations/?status=${encodeURIComponent(filter)}`);
+            const data = await getJson(`/my-lo/support/api/conversations/?status=${encodeURIComponent(filter)}`);
             renderConversationList(data.conversations);
         } catch (error) {
             const notice = textNode("p", "support-inbox__error", error.message);
@@ -99,7 +99,7 @@
         selectedId = id;
         if (!quiet) actionStatus.textContent = "Loading conversation…";
         try {
-            const data = await getJson(`/admin/support/api/${id}/`);
+            const data = await getJson(`/my-lo/support/api/${id}/`);
             empty.hidden = true;
             activeDetail.hidden = false;
             document.getElementById("support-visitor-name").textContent = data.conversation.visitor_name || "Anonymous visitor";
@@ -119,8 +119,8 @@
         root.querySelectorAll('.support-inbox__actions button, #support-reply-form button[type="submit"]').forEach(b => b.disabled = true);
         actionStatus.textContent = "Saving…";
         try {
-            if (path === "reply") await window.IvorySupportMedia.send(`/admin/support/api/${selectedId}/reply/`, payload.message, payload.client_message_id, media.file, csrf, actionStatus);
-            else await getJson(`/admin/support/api/${selectedId}/${path}/`, {
+            if (path === "reply") await window.IvorySupportMedia.send(`/my-lo/support/api/${selectedId}/reply/`, payload.message, payload.client_message_id, media.file, csrf, actionStatus);
+            else await getJson(`/my-lo/support/api/${selectedId}/${path}/`, {
                 method: "POST",
                 headers: { "X-CSRFToken": csrf, ...(payload ? { "Content-Type": "application/json" } : {}) },
                 body: payload ? JSON.stringify(payload) : undefined,
