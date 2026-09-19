@@ -55,7 +55,10 @@ def send_contact_confirmation(enquiry):
     email.attach_alternative(
         render_to_string("emails/contact_confirmation.html", context), "text/html"
     )
-    logo_path = settings.BASE_DIR / "static" / "images" / "ivoryarvena-email-logo.png"
+    # Static files are served separately on Vercel and are intentionally excluded
+    # from the Django function bundle. Keep the mail asset beside the application
+    # code so it is available when the serverless function builds the message.
+    logo_path = settings.BASE_DIR / "Ivory" / "email_assets" / "ivoryarvena-email-logo.png"
     logo = MIMEImage(logo_path.read_bytes(), _subtype="png")
     logo.add_header("Content-ID", logo_content_id)
     logo.add_header("Content-Disposition", "inline", filename="ivory-arvena-logo.png")

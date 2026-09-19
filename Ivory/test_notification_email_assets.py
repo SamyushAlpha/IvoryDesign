@@ -12,6 +12,12 @@ from .emails import send_contact_confirmation
     IVORY_GMAIL_ADDRESS="ivory-company@example.com",
 )
 class ConfirmationLogoTests(SimpleTestCase):
+    def test_email_logo_is_packaged_with_the_application(self):
+        logo_path = settings.BASE_DIR / "Ivory" / "email_assets" / "ivoryarvena-email-logo.png"
+
+        self.assertTrue(logo_path.is_file())
+        self.assertGreater(logo_path.stat().st_size, 1000)
+
     def test_logo_is_embedded_inline_and_referenced_by_content_id(self):
         enquiry = type("Enquiry", (), {"name": "Asha", "email": "visitor@example.com"})()
 
