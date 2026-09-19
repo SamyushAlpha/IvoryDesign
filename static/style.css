@@ -3613,5 +3613,91 @@ input:is([type="button"],[type="submit"],[type="reset"],[type="checkbox"],[type=
     .ivory-works-section:not([data-horizontal-works]) .work-overlay { padding:0 20px 42px; }
     .ivory-works-section:not([data-horizontal-works]) .work-overlay h3 { font-size:clamp(42px,13vw,66px); white-space:normal; }
     .ivory-works-section:not([data-horizontal-works]) .works-footer { min-height:150px; padding:24px 20px; grid-template-columns:1fr auto; }
-    .ivory-works-section:not([data-horizontal-works]) .works-footer__scroll { display:none; }
+.ivory-works-section:not([data-horizontal-works]) .works-footer__scroll { display:none; }
+}
+
+/* Homepage client band, inspired by the compact institutional logo rail. */
+.ivory-clients-section {
+    min-height: 100vh;
+    padding: clamp(90px, 13vh, 150px) 0 54px;
+    background: #fff;
+    color: #16233b;
+    justify-content: center;
+}
+.ivory-clients-section > .clients-intro {
+    width: min(900px, 86%);
+    margin: 0 auto clamp(64px, 10vh, 110px);
+    text-align: center;
+}
+.clients-kicker {
+    display: block;
+    margin-bottom: 18px;
+    color: #8b94a5;
+    font: 500 10px/1.3 "DM Sans", sans-serif;
+    letter-spacing: .24em;
+}
+.ivory-clients-section .clients-intro h2 {
+    max-width: 720px;
+    margin: 0 auto;
+    color: #16233b;
+    font: 400 clamp(28px, 3.2vw, 48px)/1.12 "DM Sans", sans-serif;
+    letter-spacing: -.035em;
+}
+.ivory-clients-section > .clients-marquee {
+    width: 100%;
+    margin: 0 0 54px;
+    padding: 34px 0;
+    border-top: 1px solid #edf0f4;
+    border-bottom: 1px solid #edf0f4;
+    background: #fff;
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+    mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+}
+.ivory-clients-section .clients-track {
+    gap: 0;
+    animation: clientMarqueeLeft 32s linear infinite;
+}
+.ivory-clients-section .clients-group {
+    gap: clamp(46px, 6vw, 92px);
+    padding-right: clamp(46px, 6vw, 92px);
+}
+.ivory-clients-section .client-logo {
+    width: 144px;
+    height: 56px;
+    flex: 0 0 144px;
+    padding: 6px 0;
+    border-radius: 0;
+    opacity: .78;
+    box-shadow: none;
+    transform: none;
+    transition: opacity .25s ease;
+}
+.ivory-clients-section .client-logo img {
+    width: auto;
+    height: 44px;
+    max-width: 144px;
+    max-height: 44px;
+    object-fit: contain;
+    filter: none;
+}
+.ivory-clients-section .client-logo:hover {
+    opacity: 1;
+    transform: none;
+    box-shadow: none;
+}
+.ivory-clients-section > .clients-bottom {
+    width: min(1200px, 86%);
+    margin: auto auto 0;
+    padding-top: 18px;
+    border-color: #e5e8ed;
+    color: #8b94a5;
+}
+@media (max-width: 760px) {
+    .ivory-clients-section { min-height: 72vh; padding: 78px 0 34px; }
+    .ivory-clients-section > .clients-intro { margin-bottom: 54px; }
+    .ivory-clients-section .clients-intro h2 { font-size: clamp(27px, 8vw, 38px); }
+    .ivory-clients-section > .clients-marquee { padding: 26px 0; margin-bottom: 38px; }
+    .ivory-clients-section .clients-group { gap: 40px; padding-right: 40px; }
+    .ivory-clients-section .client-logo { width: 118px; height: 52px; flex-basis: 118px; }
+    .ivory-clients-section .client-logo img { height: 40px; max-width: 118px; max-height: 40px; }
 }
