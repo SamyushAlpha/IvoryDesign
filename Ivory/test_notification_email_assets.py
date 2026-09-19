@@ -12,27 +12,21 @@ from .emails import send_contact_confirmation
     IVORY_GMAIL_ADDRESS="ivory-company@example.com",
 )
 class ConfirmationLogoTests(SimpleTestCase):
-    def test_email_logo_is_packaged_with_the_application(self):
-        logo_path = settings.BASE_DIR / "Ivory" / "email_assets" / "ivoryarvena-email-logo.png"
-
-        self.assertTrue(logo_path.is_file())
-        self.assertGreater(logo_path.stat().st_size, 1000)
-
-    def test_logo_is_embedded_inline_and_referenced_by_content_id(self):
+    def test_logo_is_hosted_and_email_has_no_attachment(self):
         enquiry = type("Enquiry", (), {"name": "Asha", "email": "visitor@example.com"})()
 
         self.assertEqual(send_contact_confirmation(enquiry), 1)
         message = mail.outbox[0].message(policy=policy.default)
         parts = list(message.walk())
         html = next(part for part in parts if part.get_content_type() == "text/html")
-        logo = next(part for part in parts if part.get_content_type() == "image/png")
 
-        self.assertEqual(message.get_content_subtype(), "related")
-        self.assertEqual(logo.get_content_disposition(), "inline")
-        self.assertEqual(logo.get_filename(), "ivory-arvena-logo.png")
-        self.assertIn("ivory-arvena-logo", logo["Content-ID"])
-        self.assertIn(f"cid:{logo['Content-ID'][1:-1]}", html.get_content())
-        self.assertGreater(len(logo.get_payload(decode=True)), 1000)
+        self.assertEqual(message.get_content_subtype(), "alternative")
+        self.assertIn(
+            "https://ivoryarvena.vercel.app/static/images/ivoryarvena-email-logo.png",
+            html.get_content(),
+        )
+        self.assertFalse(any(part.get_content_maintype() == "image" for part in parts))
+        self.assertEqual(mail.outbox[0].attachments, [])
 
 
 class AdminNotificationScriptTests(SimpleTestCase):
