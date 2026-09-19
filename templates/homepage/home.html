@@ -51,7 +51,7 @@
 
     <link
         rel="stylesheet"
-        href="{% static 'style.css' %}?v=20260919-clientrail1">
+        href="{% static 'style.css' %}?v=20260916-arvena2">
     <link rel="stylesheet" href="{% static 'hero-drawing.css' %}?v=20260919-videohero">
     
     <style>
@@ -596,8 +596,33 @@ body.popup-open {
     <div class="clients-intro">
 
 
-        <span class="clients-kicker">TRUSTED COLLABORATIONS</span>
-        <h2>Designed with people who value thoughtful spaces.</h2>
+        <span class="section-eyebrow dark">
+
+            OUR CLIENTS
+
+        </span>
+
+
+
+        <h2>
+
+            Designed for<br>
+
+            <em>
+                those who dream.
+            </em>
+
+        </h2>
+
+
+
+        <p>
+
+            We collaborate with people and brands who
+            believe that a space should feel as good
+            as it looks.
+
+        </p>
 
 
     </div>
@@ -612,12 +637,12 @@ body.popup-open {
     <div class="clients-track">
         <div class="clients-group">
             {% for client in clients %}
-            <div class="client-logo"><img src="{{ client.logo.url }}" alt="{{ client.name }}" width="144" height="44" loading="lazy"></div>
+            <div class="client-logo"><img src="{{ client.logo.url }}" alt="{{ client.name }}" width="160" height="80"></div>
             {% endfor %}
         </div>
         <div class="clients-group" aria-hidden="true">
             {% for client in clients %}
-            <div class="client-logo"><img src="{{ client.logo.url }}" alt="" width="144" height="44" loading="lazy"></div>
+            <div class="client-logo"><img src="{{ client.logo.url }}" alt="" width="160" height="80"></div>
             {% endfor %}
         </div>
     </div>
