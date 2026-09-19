@@ -1,8 +1,9 @@
 Hello{% if name %} {{ name }}{% endif %},
 
-Thank you for contacting Ivory Design. Your form has been submitted successfully, and our team will get in touch with you soon.
+Thank you for contacting Ivory Arvena. Your form has been submitted successfully, and our team will get in touch with you soon.
 
 Regards,
-Ivory Design Team
+Ivory Arvena Team
+https://ivoryarvena.vercel.app/
 
-This email address was provided through Ivory Design's contact form. If you did not submit an enquiry, you can ignore this confirmation.
+This email address was provided through Ivory Arvena's contact form. If you did not submit an enquiry, you can ignore this confirmation.
