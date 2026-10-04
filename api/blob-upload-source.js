@@ -18,12 +18,16 @@ export default async function handler(request, response) {
         const safeName = pathname.split('/').pop().replace(/[^a-zA-Z0-9._-]/g, '-');
         const isPdf = pathname.startsWith('team/portfolio/pdfs/') && safeName.toLowerCase().endsWith('.pdf');
         const isProjectImage = pathname.startsWith('projects/covers/') || pathname.startsWith('projects/gallery/');
-        if (!isPdf && !isProjectImage) throw new Error('Upload path is not allowed');
+        const isHomepageImage = pathname.startsWith('homepage/hero/images/');
+        const isHomepageVideo = pathname.startsWith('homepage/hero/videos/');
+        if (!isPdf && !isProjectImage && !isHomepageImage && !isHomepageVideo) throw new Error('Upload path is not allowed');
         return {
-          allowedContentTypes: isPdf ? ['application/pdf'] : [
+          allowedContentTypes: isPdf ? ['application/pdf'] : isHomepageVideo ? [
+            'video/mp4', 'video/webm',
+          ] : [
             'image/jpeg', 'image/png', 'image/webp', 'image/gif', 'image/avif',
           ],
-          maximumSizeInBytes: 50 * 1024 * 1024,
+          maximumSizeInBytes: isHomepageVideo ? 200 * 1024 * 1024 : 50 * 1024 * 1024,
           addRandomSuffix: true,
         };
       },

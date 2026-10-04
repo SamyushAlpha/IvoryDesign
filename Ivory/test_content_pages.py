@@ -7,7 +7,7 @@ from django.contrib.auth import get_user_model
 from django.test import TestCase
 from django.urls import reverse
 
-from .models import ActiveVisitor, Client, Project, ProjectCategory, ProjectImage, Service, SiteStatistics, TeamMember, TeamPortfolio
+from .models import ActiveVisitor, Client, HomepageHero, Project, ProjectCategory, ProjectImage, Service, SiteStatistics, TeamMember, TeamPortfolio
 
 
 class ContentPagesTests(TestCase):
@@ -108,11 +108,56 @@ class ContentPagesTests(TestCase):
 
     def test_empty_pages_render(self):
         self.assertContains(self.client.get(reverse("services")), "service details will be available soon")
-        self.assertEqual(self.client.get(reverse("home")).status_code, 200)
+        homepage = self.client.get(reverse("home"))
+        self.assertEqual(homepage.status_code, 200)
+        self.assertContains(homepage, "/static/images/video.mp4")
         member = TeamMember.objects.create(name="New member", designation="Designer", photo="team/new.jpg")
         response = self.client.get(reverse("team_portfolio", args=[member.pk]))
         self.assertContains(response, "Portfolio projects will be shared soon")
         self.assertNotContains(response, "Visit website")
+
+    def test_homepage_hero_background_can_switch_between_image_and_video(self):
+        image_url = "https://example.public.blob.vercel-storage.com/homepage/hero/images/room.webp"
+        video_url = "https://example.public.blob.vercel-storage.com/homepage/hero/videos/studio.mp4"
+        hero = HomepageHero.objects.create(
+            background_type=HomepageHero.BackgroundType.IMAGE,
+            background_image=image_url,
+        )
+        image_response = self.client.get(reverse("home"))
+        self.assertContains(image_response, f"background-image: url('{image_url}')")
+        self.assertNotContains(image_response, 'class="ivory-hero-video"')
+
+        hero.background_type = HomepageHero.BackgroundType.VIDEO
+        hero.background_video = video_url
+        hero.save()
+        video_response = self.client.get(reverse("home"))
+        self.assertContains(video_response, f'<source src="{video_url}">')
+        self.assertContains(video_response, 'class="ivory-hero-video"')
+
+    def test_homepage_hero_admin_edits_the_single_background_setting(self):
+        user = get_user_model().objects.create_superuser(
+            username="homepage-editor", password="test-only-password"
+        )
+        self.client.force_login(user)
+        changelist_url = reverse("admin:Ivory_homepagehero_changelist")
+        change_url = reverse("admin:Ivory_homepagehero_change", args=(1,))
+        dashboard = self.client.get(reverse("admin:index"))
+        self.assertContains(dashboard, "Homepage background")
+        self.assertContains(dashboard, changelist_url)
+        response = self.client.get(changelist_url)
+        self.assertRedirects(response, change_url)
+        self.assertContains(self.client.get(change_url), 'name="background_image_upload"')
+        image_url = "https://example.public.blob.vercel-storage.com/homepage/hero/images/admin.webp"
+        response = self.client.post(change_url, {
+            "background_type": HomepageHero.BackgroundType.IMAGE,
+            "background_image": image_url,
+            "background_video": "",
+            "_save": "Save",
+        })
+        self.assertEqual(response.status_code, 302)
+        hero = HomepageHero.objects.get(pk=1)
+        self.assertEqual(hero.background_type, HomepageHero.BackgroundType.IMAGE)
+        self.assertEqual(hero.background_image, image_url)
 
     def test_admin_can_publish_and_edit_service_and_portfolio(self):
         user = get_user_model().objects.create_superuser(username="editor", password="test-only-password")

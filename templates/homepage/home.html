@@ -352,7 +352,11 @@ body.popup-open {
 
     <!-- BACKGROUND -->
 
-    <div class="ivory-hero-bg" aria-hidden="true"></div>
+    <div
+        class="ivory-hero-bg"
+        aria-hidden="true"
+        {% if homepage_hero.background_image %}style="background-image: url('{{ homepage_hero.background_image }}');"{% endif %}></div>
+    {% if not homepage_hero or homepage_hero.background_type == "video" %}
     <video
         class="ivory-hero-video"
         autoplay
@@ -360,11 +364,16 @@ body.popup-open {
         loop
         playsinline
         preload="auto"
-        poster="{% static 'images/video-poster.jpg' %}"
+        poster="{% if homepage_hero.background_image %}{{ homepage_hero.background_image }}{% else %}{% static 'images/video-poster.jpg' %}{% endif %}"
         aria-hidden="true"
         tabindex="-1">
+        {% if homepage_hero.background_video %}
+        <source src="{{ homepage_hero.background_video }}">
+        {% else %}
         <source src="{% static 'images/video.mp4' %}" type="video/mp4">
+        {% endif %}
     </video>
+    {% endif %}
 
 
     <!-- OVERLAY -->

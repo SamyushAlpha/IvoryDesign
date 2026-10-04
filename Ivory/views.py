@@ -17,7 +17,7 @@ from django.urls import reverse
 from django.contrib import messages
 from django.views.decorators.cache import never_cache
 from django.views.decorators.http import require_GET
-from .models import Client, ContactMessage, Project, ProjectCategory, AboutCompany, TeamMember, RoomEstimate
+from .models import Client, ContactMessage, Project, ProjectCategory, AboutCompany, TeamMember, RoomEstimate, HomepageHero
 from .models import PopupAd, Service
 from .models import ActiveVisitor, SiteStatistics
 from .emails import send_contact_confirmation
@@ -123,6 +123,7 @@ def home(request):
     )
 
     clients = Client.objects.filter(is_active=True).order_by("order", "pk")
+    homepage_hero = HomepageHero.objects.filter(pk=1).first()
 
     return render(
         request,
@@ -131,6 +132,7 @@ def home(request):
             "featured_projects": featured_projects,
             "popups": popups,
             "clients": clients,
+            "homepage_hero": homepage_hero,
         }
     )
 

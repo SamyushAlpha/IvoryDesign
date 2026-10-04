@@ -38,6 +38,32 @@ class SiteStatistics(models.Model):
         return "Website visits"
 
 
+class HomepageHero(models.Model):
+    class BackgroundType(models.TextChoices):
+        IMAGE = "image", "Image"
+        VIDEO = "video", "Video"
+
+    background_type = models.CharField(
+        max_length=5,
+        choices=BackgroundType.choices,
+        default=BackgroundType.VIDEO,
+    )
+    background_image = models.URLField(max_length=500, blank=True)
+    background_video = models.URLField(max_length=500, blank=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = "Homepage hero background"
+        verbose_name_plural = "Homepage hero background"
+
+    def save(self, *args, **kwargs):
+        self.pk = 1
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return "Homepage hero background"
+
+
 class ActiveVisitor(models.Model):
     visitor_hash = models.CharField(max_length=64, unique=True)
     first_seen = models.DateTimeField(auto_now_add=True)

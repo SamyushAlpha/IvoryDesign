@@ -17,7 +17,7 @@ from unfold.forms import AdminPasswordChangeForm, UserChangeForm, UserCreationFo
 from .models import (
     ActiveVisitor, CustomFAQ, Project, ProjectImage, Service, SiteStatistics,
     TeamPortfolio, InvoiceCounter, RoomEstimate, SalaryAdvance, SalaryPayment,
-    SalaryRecord, TeamMember, ClientProjectAccount, ClientProjectPayment,
+    SalaryRecord, TeamMember, ClientProjectAccount, ClientProjectPayment, HomepageHero,
     AttendanceRecord, monthly_attendance_salary,
 )
 from .payroll import client_payment_invoice_response, salary_invoice_response
@@ -255,6 +255,49 @@ class DirectProjectGalleryImageForm(DirectProjectImageForm):
     class Meta:
         model = ProjectImage
         fields = "__all__"
+
+
+class HomepageHeroAdminForm(forms.ModelForm):
+    background_image_upload = forms.ImageField(
+        required=False,
+        label="Upload background image",
+        help_text="Choose a replacement image. It uploads directly to public media storage.",
+        widget=forms.ClearableFileInput(attrs={"accept": "image/*"}),
+    )
+    background_video_upload = forms.FileField(
+        required=False,
+        label="Upload background video",
+        help_text="MP4 or WebM video, up to 200 MB. It uploads directly to public media storage.",
+        widget=forms.ClearableFileInput(attrs={"accept": "video/mp4,video/webm,.mp4,.webm"}),
+    )
+
+    class Meta:
+        model = HomepageHero
+        fields = "__all__"
+        widgets = {
+            "background_image": forms.HiddenInput(),
+            "background_video": forms.HiddenInput(),
+        }
+
+    def clean(self):
+        cleaned = super().clean()
+        background_type = cleaned.get("background_type")
+        if background_type == HomepageHero.BackgroundType.IMAGE:
+            field_name, upload_name = "background_image", "background_image_upload"
+        else:
+            field_name, upload_name = "background_video", "background_video_upload"
+
+        current_url = self.data.get(self.add_prefix(field_name), "").strip()
+        if not current_url:
+            if cleaned.get(upload_name):
+                self.add_error(upload_name, "The upload did not finish. Please choose the file again.")
+            else:
+                self.add_error(upload_name, "Choose a file for the selected background type.")
+
+        video = cleaned.get("background_video_upload")
+        if video and not video.name.lower().endswith((".mp4", ".webm")):
+            self.add_error("background_video_upload", "Choose an MP4 or WebM video.")
+        return cleaned
 
 
 class SalaryRecordAdminForm(forms.ModelForm):
@@ -621,6 +664,34 @@ class SiteStatisticsAdmin(ModelAdmin):
 
     class Media:
         js = ("site-metrics.js",)
+
+
+@admin.register(HomepageHero)
+class HomepageHeroAdmin(ModelAdmin):
+    form = HomepageHeroAdminForm
+    fields = (
+        "background_type", "background_image", "background_image_upload",
+        "background_video", "background_video_upload", "updated_at",
+    )
+    readonly_fields = ("updated_at",)
+
+    def changelist_view(self, request, extra_context=None):
+        hero = HomepageHero.objects.filter(pk=1).first()
+        if hero and self.has_change_permission(request, hero):
+            return redirect(reverse("admin:Ivory_homepagehero_change", args=(hero.pk,)))
+        if not hero and self.has_change_permission(request):
+            hero, _ = HomepageHero.objects.get_or_create(pk=1)
+            return redirect(reverse("admin:Ivory_homepagehero_change", args=(hero.pk,)))
+        return super().changelist_view(request, extra_context)
+
+    def has_add_permission(self, request):
+        return not HomepageHero.objects.filter(pk=1).exists()
+
+    def has_delete_permission(self, request, obj=None):
+        return False
+
+    class Media:
+        js = ("admin/homepage-hero-upload.js",)
 
 
 @admin.register(ActiveVisitor)

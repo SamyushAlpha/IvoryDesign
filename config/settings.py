@@ -626,6 +626,7 @@ UNFOLD = {
                     {"title": "Project categories", "icon": "category", "link": "/my-lo/Ivory/projectcategory/"},
                     {"title": "Services", "icon": "design_services", "link": "/my-lo/Ivory/service/"},
                     {"title": "About company", "icon": "business", "link": "/my-lo/Ivory/aboutcompany/"},
+                    {"title": "Homepage background", "icon": "wallpaper", "link": "/my-lo/Ivory/homepagehero/"},
                     {"title": "Client logos", "icon": "handshake", "link": "/my-lo/Ivory/client/"},
                     {"title": "Popup advertisements", "icon": "campaign", "link": "/my-lo/Ivory/popupad/"},
                     {"title": "Contact messages", "icon": "mail", "link": "/my-lo/Ivory/contactmessage/"},
