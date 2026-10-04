@@ -50,7 +50,7 @@
 
     <link
         rel="stylesheet"
-        href="{% static 'style.css' %}?v=20260915-navcup2">
+        href="{% static 'style.css' %}?v=20261004-aboutnav1">
 
 
     <style>
@@ -213,6 +213,17 @@
             gap: 35px;
         }
 
+        .team-group + .team-group { margin-top: 85px; }
+
+        .team-group-title {
+            margin: 0 0 30px;
+            padding-bottom: 14px;
+            border-bottom: 1px solid #d1c9bc;
+            font-family: "Fraunces", serif;
+            font-size: clamp(28px, 3vw, 42px);
+            font-weight: 400;
+        }
+
 
         .team-card {
             overflow: hidden;
@@ -335,7 +346,7 @@
      ABOUT HERO
 ====================================================== -->
 
-<section class="about-hero">
+<section class="about-hero" id="company">
 
     <div class="about-hero-content">
 
@@ -483,12 +494,11 @@
 
 
 
-    <!-- TEAM GRID -->
-
-    <div class="team-grid">
-
-
-        {% for member in team_members %}
+    {% for group in team_groups %}
+    <section class="team-group" aria-labelledby="team-group-{{ group.key }}">
+        <h3 class="team-group-title" id="team-group-{{ group.key }}">{{ group.label }}</h3>
+        <div class="team-grid">
+        {% for member in group.members %}
 
         <a class="team-card" href="{% url 'team_portfolio' member.pk %}" style="color: inherit; text-decoration: none;">
 
@@ -538,19 +548,12 @@
 
                 <p>View portfolio &rarr;</p>
         </a>
-
-        {% empty %}
-
-
-        <p>
-            Our team information will be available soon.
-        </p>
-
-
         {% endfor %}
-
-
-    </div>
+        </div>
+    </section>
+    {% empty %}
+    <p>Our team information will be available soon.</p>
+    {% endfor %}
 
 </section>
 

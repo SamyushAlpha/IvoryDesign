@@ -1,0 +1,397 @@
+:root {
+  --ivory-gold: #d2b85f;
+  --ivory-ink: #10211f;
+}
+
+/* Keep the brand mark crisp inside Unfold's compact sidebar header. */
+#nav-sidebar img,
+header img {
+  object-fit: contain;
+}
+
+#nav-sidebar-inner > div:first-child img {
+  width: 42px;
+  height: 42px;
+  padding: 3px;
+  border-radius: 9px;
+  background: rgb(210 184 95 / 14%);
+}
+
+#site-name {
+  font-size: 15px;
+  letter-spacing: .045em;
+}
+
+.ivory-dashboard {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding: 8px 0 28px;
+}
+
+.ivory-dashboard__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 28px;
+  border: 1px solid rgb(55 65 81);
+  border-radius: 12px;
+  background: linear-gradient(135deg, rgb(17 24 39 / 84%), rgb(210 184 95 / 8%));
+}
+
+.ivory-dashboard__eyebrow {
+  color: var(--ivory-gold);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .18em;
+}
+
+.ivory-dashboard__header h1 {
+  margin: 7px 0 4px;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(24px, 3vw, 34px);
+  font-weight: 400;
+  letter-spacing: -.025em;
+}
+
+.ivory-dashboard__header p {
+  color: rgb(156 163 175);
+  font-size: 14px;
+}
+
+.ivory-live-support {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 12px 17px;
+  border-radius: 9px;
+  background: var(--ivory-gold);
+  color: var(--ivory-ink) !important;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.ivory-metric-grid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.ivory-metric-card {
+  display: flex;
+  flex-direction: column;
+  min-height: 170px;
+  padding: 20px;
+  border: 1px solid rgb(55 65 81);
+  border-radius: 11px;
+  background: rgb(17 24 39 / 55%);
+  transition: border-color .18s ease, transform .18s ease;
+}
+
+a.ivory-metric-card:hover {
+  border-color: rgb(210 184 95 / 70%);
+  transform: translateY(-2px);
+}
+
+.ivory-metric-card__icon {
+  align-self: flex-start;
+  padding: 8px;
+  border-radius: 8px;
+  background: rgb(210 184 95 / 12%);
+  color: var(--ivory-gold);
+}
+
+.ivory-metric-card__label {
+  margin-top: 18px;
+  color: rgb(156 163 175);
+  font-size: 13px;
+}
+
+.ivory-metric-card strong {
+  margin-top: 3px;
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: -.03em;
+}
+
+.ivory-metric-card small {
+  margin-top: auto;
+  color: rgb(156 163 175);
+  font-size: 12px;
+}
+
+.ivory-dashboard__columns {
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) minmax(300px, .6fr);
+  gap: 16px;
+}
+
+.ivory-dashboard-panel {
+  padding: 22px;
+  border: 1px solid rgb(55 65 81);
+  border-radius: 11px;
+  background: rgb(17 24 39 / 55%);
+}
+
+.ivory-dashboard-panel__heading h2 {
+  margin-top: 5px;
+  font-size: 19px;
+  font-weight: 700;
+}
+
+.ivory-quick-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.ivory-quick-grid a,
+.ivory-attention-row {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  min-height: 58px;
+  padding: 12px 14px;
+  border: 1px solid rgb(75 85 99);
+  border-radius: 9px;
+  transition: background .18s ease, border-color .18s ease;
+}
+
+.ivory-quick-grid a:hover,
+.ivory-attention-row:hover {
+  border-color: rgb(210 184 95 / 60%);
+  background: rgb(210 184 95 / 7%);
+}
+
+.ivory-quick-grid a strong { flex: 1; }
+.ivory-quick-grid .material-symbols-outlined:first-child,
+.ivory-attention-row > .material-symbols-outlined:first-child { color: var(--ivory-gold); }
+
+.ivory-attention-row { margin-top: 18px; }
+.ivory-attention-row > span:nth-child(2) { display: flex; flex: 1; flex-direction: column; gap: 3px; }
+.ivory-attention-row small { color: rgb(156 163 175); font-size: 12px; }
+
+html:not(.dark) .ivory-dashboard__header,
+html:not(.dark) .ivory-metric-card,
+html:not(.dark) .ivory-dashboard-panel {
+  border-color: rgb(229 231 235);
+  background: #fff;
+  box-shadow: 0 8px 28px rgb(15 23 42 / 5%);
+}
+
+html:not(.dark) .ivory-dashboard__header {
+  background: linear-gradient(135deg, #fff, rgb(210 184 95 / 9%));
+}
+
+html:not(.dark) .ivory-dashboard__header p,
+html:not(.dark) .ivory-metric-card__label,
+html:not(.dark) .ivory-metric-card small,
+html:not(.dark) .ivory-attention-row small { color: rgb(100 116 139); }
+
+html:not(.dark) .ivory-quick-grid a,
+html:not(.dark) .ivory-attention-row { border-color: rgb(229 231 235); }
+
+/* The permission chooser is a core owner workflow, so give it real working space. */
+body.model-user .selector,
+body.model-group .selector {
+  display: grid;
+  grid-template-columns: minmax(320px, 1fr) 64px minmax(320px, 1fr);
+  align-items: stretch;
+  gap: 18px;
+  width: 100%;
+  max-width: 1120px;
+}
+
+body.model-user .selector-available,
+body.model-user .selector-chosen,
+body.model-group .selector-available,
+body.model-group .selector-chosen {
+  float: none;
+  width: auto;
+  min-width: 0;
+  padding: 16px;
+  border: 1px solid rgb(55 65 81);
+  border-radius: 10px;
+  background: rgb(17 24 39 / 55%);
+}
+
+html:not(.dark) body.model-user .selector-available,
+html:not(.dark) body.model-user .selector-chosen,
+html:not(.dark) body.model-group .selector-available,
+html:not(.dark) body.model-group .selector-chosen {
+  border-color: rgb(209 213 219);
+  background: rgb(249 250 251);
+}
+
+body.model-user .selector h2,
+body.model-group .selector h2 {
+  margin: 0 0 10px;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+body.model-user .selector-filter,
+body.model-group .selector-filter {
+  margin-bottom: 12px;
+}
+
+body.model-user .selector-filter input,
+body.model-group .selector-filter input {
+  width: calc(100% - 32px);
+  min-height: 42px;
+  padding: 8px 10px;
+  border: 1px solid rgb(75 85 99);
+  border-radius: 7px;
+  background: rgb(3 7 18 / 50%);
+}
+
+html:not(.dark) body.model-user .selector-filter input,
+html:not(.dark) body.model-group .selector-filter input {
+  border-color: rgb(209 213 219);
+  background: #fff;
+  color: rgb(31 41 55);
+}
+
+body.model-user .selector select,
+body.model-group .selector select {
+  width: 100%;
+  height: 430px;
+  min-height: 430px;
+  padding: 8px;
+  border: 1px solid rgb(75 85 99);
+  border-radius: 8px;
+  background: rgb(3 7 18 / 65%);
+  font-size: 14px;
+  line-height: 1.55;
+}
+
+html:not(.dark) body.model-user .selector select,
+html:not(.dark) body.model-group .selector select {
+  border-color: rgb(209 213 219);
+  background: #fff;
+  color: rgb(31 41 55);
+}
+
+body.model-user .selector select option,
+body.model-group .selector select option {
+  padding: 7px 9px;
+}
+
+body.model-user .selector-chooser,
+body.model-group .selector-chooser {
+  align-self: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 12px;
+  width: 64px;
+  margin: 0;
+  padding: 10px;
+  border: 1px solid rgb(55 65 81);
+  border-radius: 10px;
+  background: rgb(17 24 39 / 55%);
+}
+
+html:not(.dark) body.model-user .selector-chooser,
+html:not(.dark) body.model-group .selector-chooser {
+  border-color: rgb(209 213 219);
+  background: rgb(249 250 251);
+}
+
+body.model-user .selector-chooser a,
+body.model-group .selector-chooser a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  border: 1px solid rgb(210 184 95 / 55%);
+  border-radius: 8px;
+  background-color: rgb(210 184 95 / 10%);
+  background-position: center;
+}
+
+html:not(.dark) body.model-user .selector-chooser a,
+html:not(.dark) body.model-group .selector-chooser a {
+  border-color: rgb(161 136 59 / 55%);
+  background-color: rgb(210 184 95 / 16%);
+}
+
+body.model-user .selector-chooseall,
+body.model-user .selector-clearall,
+body.model-group .selector-chooseall,
+body.model-group .selector-clearall {
+  display: inline-block;
+  margin-top: 10px;
+  padding: 7px 10px;
+  border: 1px solid rgb(75 85 99);
+  border-radius: 7px;
+}
+
+/* Shared custom workflow elements used by attendance, payroll and client accounts. */
+.salary-member {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.salary-member small {
+  color: rgb(156 163 175);
+  font-size: 12px;
+}
+
+.salary-status {
+  display: inline-flex;
+  align-items: center;
+  padding: 5px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.salary-status.is-paid { background: #173f2b; color: #9ce1b8; }
+.salary-status.is-partial { background: #493715; color: #f3d389; }
+.salary-status.is-pending { background: #4b2422; color: #f2aaa3; }
+
+html:not(.dark) .salary-status.is-paid { background: #dcf4e5; color: #17643a; }
+html:not(.dark) .salary-status.is-partial { background: #fff0c9; color: #775300; }
+html:not(.dark) .salary-status.is-pending { background: #f8e2df; color: #8a3028; }
+
+.salary-actions {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;
+}
+
+@media (max-width: 1050px) {
+  .ivory-metric-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .ivory-dashboard__columns { grid-template-columns: 1fr; }
+
+  body.model-user .selector,
+  body.model-group .selector {
+    grid-template-columns: 1fr;
+  }
+
+  body.model-user .selector-chooser,
+  body.model-group .selector-chooser {
+    flex-direction: row;
+    width: auto;
+    justify-self: center;
+  }
+
+  body.model-user .selector select,
+  body.model-group .selector select {
+    height: 320px;
+    min-height: 320px;
+  }
+}
+
+@media (max-width: 640px) {
+  .ivory-dashboard__header { align-items: flex-start; flex-direction: column; padding: 22px; }
+  .ivory-metric-grid,
+  .ivory-quick-grid { grid-template-columns: 1fr; }
+}

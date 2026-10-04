@@ -1,0 +1,19 @@
+{% extends "admin/change_form.html" %}
+
+{% block form_top %}
+  {% if add %}
+    <p class="payroll-form-intro"><strong>The first invoice is created when you save.</strong> The advance becomes the first transaction and is deducted from the agreed project amount.</p>
+  {% else %}
+    <p class="payroll-form-intro"><strong>This page keeps the full client payment history.</strong> Use “Add payment &amp; invoice” to record another amount and reduce the remaining balance.</p>
+  {% endif %}
+{% endblock %}
+
+{% block submit_buttons_bottom %}
+  {{ block.super }}
+  {% if not add and original.remaining_amount %}
+  <div class="submit-row payroll-submit-row">
+    <p class="deletelink-box payroll-save-note">Remaining balance: NPR {{ original.remaining_amount|floatformat:2 }}</p>
+    <a class="button default client-payment-link" href="{% url 'admin:client_project_account_pay' original.pk %}">Add payment &amp; invoice</a>
+  </div>
+  {% endif %}
+{% endblock %}

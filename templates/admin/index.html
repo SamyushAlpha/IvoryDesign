@@ -1,0 +1,69 @@
+{% extends "admin/base.html" %}
+{% load i18n %}
+
+{% block title %}Dashboard | {{ site_title }}{% endblock %}
+
+{% block branding %}
+  {% include "unfold/helpers/site_branding.html" %}
+{% endblock %}
+
+{% block content %}
+<div class="ivory-dashboard">
+  <header class="ivory-dashboard__header">
+    <div>
+      <span class="ivory-dashboard__eyebrow">STUDIO OVERVIEW</span>
+      <h1>Welcome back, {{ request.user.first_name|default:request.user.username }}</h1>
+      <p>{{ ivory_today|date:"l, d F Y" }} · Ivory Arvena Interior &amp; Design</p>
+    </div>
+    <a class="ivory-live-support" href="{% url 'support_inbox' %}">
+      <span class="material-symbols-outlined">forum</span>
+      Live Support
+    </a>
+  </header>
+
+  <section class="ivory-metric-grid" aria-label="Business overview">
+    {% for metric in ivory_metrics %}
+      <{% if metric.url %}a href="{{ metric.url }}"{% else %}div{% endif %} class="ivory-metric-card">
+        <span class="material-symbols-outlined ivory-metric-card__icon">{{ metric.icon }}</span>
+        <span class="ivory-metric-card__label">{{ metric.label }}</span>
+        <strong>{{ metric.value }}</strong>
+        <small>{{ metric.detail }}</small>
+      </{% if metric.url %}a{% else %}div{% endif %}>
+    {% endfor %}
+  </section>
+
+  <div class="ivory-dashboard__columns">
+    <section class="ivory-dashboard-panel">
+      <div class="ivory-dashboard-panel__heading">
+        <div>
+          <span class="ivory-dashboard__eyebrow">SHORTCUTS</span>
+          <h2>Quick actions</h2>
+        </div>
+      </div>
+      <div class="ivory-quick-grid">
+        {% for action in ivory_quick_actions %}
+          <a href="{{ action.url }}">
+            <span class="material-symbols-outlined">{{ action.icon }}</span>
+            <strong>{{ action.label }}</strong>
+            <span class="material-symbols-outlined">chevron_right</span>
+          </a>
+        {% endfor %}
+      </div>
+    </section>
+
+    <section class="ivory-dashboard-panel ivory-attention-panel">
+      <div class="ivory-dashboard-panel__heading">
+        <div>
+          <span class="ivory-dashboard__eyebrow">NEEDS ATTENTION</span>
+          <h2>Pending approvals</h2>
+        </div>
+      </div>
+      <a href="{% url 'admin:Ivory_attendancerecord_changelist' %}?approval_status__exact=pending" class="ivory-attention-row">
+        <span class="material-symbols-outlined">event_busy</span>
+        <span><strong>{{ ivory_pending_leave }} leave request{{ ivory_pending_leave|pluralize }}</strong><small>Review full-day and half-day requests</small></span>
+        <span class="material-symbols-outlined">chevron_right</span>
+      </a>
+    </section>
+  </div>
+</div>
+{% endblock %}

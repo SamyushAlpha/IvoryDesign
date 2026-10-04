@@ -1,0 +1,53 @@
+{% extends "admin/base_site.html" %}
+{% load i18n static %}
+
+{% block extrastyle %}
+  {{ block.super }}
+  <link rel="stylesheet" href="{% static 'admin/payroll.css' %}">
+{% endblock %}
+
+{% block breadcrumbs %}
+<div class="breadcrumbs">
+  <a href="{% url 'admin:index' %}">{% translate 'Home' %}</a>
+  &rsaquo; <a href="{% url 'admin:Ivory_clientprojectaccount_changelist' %}">Client project accounts</a>
+  &rsaquo; <a href="{{ change_url }}">{{ account.client_name }}</a>
+  &rsaquo; Add payment &amp; invoice
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="salary-pay-layout">
+  <section class="salary-pay-summary" aria-label="Client account summary">
+    <span class="salary-eyebrow">PROJECT ACCOUNT</span>
+    <h2>{{ account.client_name }}</h2>
+    <p>{{ account.client_location }}</p>
+    <dl>
+      <div><dt>Project date</dt><dd>{{ account.project_started_on|date:"d F Y" }}</dd></div>
+      <div><dt>Agreed amount</dt><dd>NPR {{ account.agreed_amount|floatformat:2 }}</dd></div>
+      <div><dt>Received</dt><dd>NPR {{ account.payment_total|floatformat:2 }}</dd></div>
+      <div class="salary-pending-row"><dt>Remaining balance</dt><dd>NPR {{ account.remaining_amount|floatformat:2 }}</dd></div>
+    </dl>
+  </section>
+
+  <section class="salary-pay-form">
+    <span class="salary-eyebrow">NEW TRANSACTION</span>
+    <h1>Add payment &amp; create invoice</h1>
+    <p>Enter the amount received and its transaction date. Saving reduces the balance and opens a separate PDF invoice.</p>
+    <form method="post" novalidate>
+      {% csrf_token %}
+      {% if form.non_field_errors %}<div class="errornote">{{ form.non_field_errors }}</div>{% endif %}
+      {% for field in form %}
+        <div class="salary-form-row{% if field.errors %} errors{% endif %}">
+          {{ field.label_tag }}
+          {{ field }}
+          {{ field.errors }}
+        </div>
+      {% endfor %}
+      <div class="salary-form-actions">
+        <a href="{{ change_url }}">Cancel</a>
+        <button type="submit" class="default">Save payment &amp; open invoice</button>
+      </div>
+    </form>
+  </section>
+</div>
+{% endblock %}

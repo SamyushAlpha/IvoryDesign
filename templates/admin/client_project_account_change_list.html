@@ -1,0 +1,23 @@
+{% extends "admin/change_list.html" %}
+{% load static %}
+
+{% block extrastyle %}
+  {{ block.super }}
+  <link rel="stylesheet" href="{% static 'admin/payroll.css' %}">
+{% endblock %}
+
+{% block content %}
+<section class="payroll-guide" aria-labelledby="client-ledger-guide-title">
+  <div class="payroll-guide-heading">
+    <span>CLIENT TRANSACTIONS</span>
+    <h2 id="client-ledger-guide-title">Track every project payment in one account</h2>
+    <p>The agreed project amount stays fixed while each advance or partial payment reduces the remaining balance.</p>
+  </div>
+  <ol class="payroll-steps">
+    <li><strong>1. Create the account</strong><span>Add the client, location, project date, agreed amount, and advance.</span></li>
+    <li><strong>2. Add each payment</strong><span>Record every later amount on its actual transaction date.</span></li>
+    <li><strong>3. Open the invoice</strong><span>Every transaction creates a separate numbered PDF receipt.</span></li>
+  </ol>
+</section>
+{{ block.super }}
+{% endblock %}

@@ -1,10 +1,8 @@
 import json
-import time
 import uuid
 
 from django.conf import settings
 from django.contrib.admin.views.decorators import staff_member_required
-from django.core.cache import cache
 from django.core.exceptions import PermissionDenied, ValidationError
 from django.http import JsonResponse, FileResponse
 from django.shortcuts import get_object_or_404, render
@@ -14,6 +12,7 @@ from django.views.decorators.http import require_GET, require_POST
 
 from .models import SupportConversation, SupportAttachment
 from .support_uploads import validate_upload
+from .security import rate_limited
 from .support import (
     active_conversation,
     add_visitor_message,
@@ -93,6 +92,8 @@ def visitor_start(request):
     if not same_origin(request):
         return _error("Please use the Ivory website.", 403)
     key = visitor_key_for_request(request)
+    if rate_limited(request, "support-start", limit=10, window=900):
+        return _error("Too many support sessions. Please wait 15 minutes.", 429)
     conversation = start_conversation(key)
     request.session["ivory_support_conversation"] = str(conversation.public_id)
     return JsonResponse({"conversation": serialize_conversation(conversation),
@@ -100,22 +101,19 @@ def visitor_start(request):
 
 
 def _rate_limit(request, visitor_key):
-    now = int(time.time())
     window = settings.IVORY_SUPPORT_RATE_WINDOW
-    bucket = now // window
-    keys = [
-        f"ivory-support-session:{visitor_key}:{bucket}",
-        f"ivory-support-ip:{request_ip_key(request)}:{bucket}",
+    identities = [
+        ("ivory-support-session", visitor_key),
+        ("ivory-support-ip", request_ip_key(request)),
     ]
-    for key in keys:
-        cache.add(key, 0, timeout=window + 2)
-        try:
-            count = cache.incr(key)
-        except ValueError:
-            cache.add(key, 1, timeout=window + 2)
-            count = 1
-        if count > settings.IVORY_SUPPORT_RATE_LIMIT:
-            return max(1, window - now % window)
+    for scope, identity in identities:
+        if rate_limited(
+            request, scope,
+            limit=settings.IVORY_SUPPORT_RATE_LIMIT,
+            window=window,
+            identity=identity,
+        ):
+            return window
     return None
 
 

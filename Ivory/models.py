@@ -1,4 +1,6 @@
-from decimal import Decimal
+from calendar import monthrange
+from datetime import date
+from decimal import Decimal, ROUND_HALF_UP
 import uuid
 
 from django.conf import settings
@@ -259,8 +261,31 @@ class AboutCompany(models.Model):
 
 class TeamMember(models.Model):
 
+    class Category(models.TextChoices):
+        FOUNDER = "founder", "Founder"
+        BOARD = "board", "Board of Director"
+        ARCHITECTS = "architects", "Architects"
+        ENGINEERS = "engineers", "Engineers"
+        STAFF = "staff", "Staff"
+
+    user = models.OneToOneField(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.SET_NULL,
+        related_name="team_member_profile",
+        null=True,
+        blank=True,
+        help_text="Link the staff login that may view only this member's salary records and advances.",
+    )
+
     name = models.CharField(
         max_length=150
+    )
+
+    category = models.CharField(
+        max_length=20,
+        choices=Category.choices,
+        default=Category.STAFF,
+        help_text="Choose where this member appears on the Our Team page.",
     )
 
     designation = models.CharField(
@@ -274,6 +299,23 @@ class TeamMember(models.Model):
 
     bio = models.TextField(
         blank=True
+    )
+
+    website_url = models.URLField(
+        "Website link",
+        max_length=500,
+        blank=True,
+        help_text="Optional. Add the full website address, for example https://example.com.",
+    )
+
+    monthly_salary = models.DecimalField(
+        "Monthly salary (NPR)",
+        max_digits=12,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        validators=[MinValueValidator(Decimal("0.01"))],
+        help_text="Default salary used automatically when creating this member's monthly salary record.",
     )
 
     order = models.PositiveIntegerField(
@@ -297,6 +339,381 @@ class TeamMember(models.Model):
 
     def __str__(self):
         return f"{self.name} — {self.designation}"
+
+
+class SalaryInvoiceCounter(models.Model):
+    year = models.PositiveSmallIntegerField(unique=True)
+    last_number = models.PositiveIntegerField(default=0)
+
+    class Meta:
+        verbose_name = "Salary invoice counter"
+        verbose_name_plural = "Salary invoice counters"
+
+    def __str__(self):
+        return f"{self.year}: {self.last_number}"
+
+
+class SalaryRecord(models.Model):
+    member = models.ForeignKey(
+        TeamMember,
+        on_delete=models.PROTECT,
+        related_name="salary_records",
+    )
+    salary_month = models.DateField(
+        help_text="Choose any date in the salary month. It will be saved as the first day of that month.",
+    )
+    salary_amount = models.DecimalField(
+        max_digits=12,
+        decimal_places=2,
+        validators=[MinValueValidator(Decimal("0.01"))],
+    )
+    gross_salary = models.DecimalField(max_digits=12, decimal_places=2, null=True, blank=True, editable=False)
+    attendance_working_days = models.PositiveSmallIntegerField(default=0, editable=False)
+    attendance_present_days = models.DecimalField(max_digits=5, decimal_places=1, default=0, editable=False)
+    attendance_worked_hours = models.DecimalField(max_digits=7, decimal_places=2, default=0, editable=False)
+    attendance_leave_units = models.DecimalField(max_digits=5, decimal_places=1, default=0, editable=False)
+    attendance_deduction = models.DecimalField(max_digits=12, decimal_places=2, default=0, editable=False)
+    notes = models.TextField(blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ["-salary_month", "member__name"]
+        constraints = [
+            models.UniqueConstraint(
+                fields=("member", "salary_month"),
+                name="unique_member_salary_month",
+            ),
+        ]
+        verbose_name = "Monthly salary"
+        verbose_name_plural = "Monthly salaries"
+
+    def save(self, *args, **kwargs):
+        if self.salary_month:
+            self.salary_month = self.salary_month.replace(day=1)
+        return super().save(*args, **kwargs)
+
+    @property
+    def advance_total(self):
+        return sum((entry.amount for entry in self.advances.all()), Decimal("0.00"))
+
+    @property
+    def payment_total(self):
+        return sum((entry.amount for entry in self.payments.all()), Decimal("0.00"))
+
+    @property
+    def pending_amount(self):
+        return max(self.salary_amount - self.advance_total - self.payment_total, Decimal("0.00"))
+
+    @property
+    def payment_status(self):
+        if self.pending_amount == 0:
+            return "Paid"
+        if self.advance_total or self.payment_total:
+            return "Partly paid"
+        return "Awaiting payment"
+
+    @property
+    def salary_before_attendance(self):
+        return self.gross_salary if self.gross_salary is not None else self.salary_amount + self.attendance_deduction
+
+    def __str__(self):
+        return f"{self.member.name} — {self.salary_month:%B %Y}"
+
+
+class AttendanceRecord(models.Model):
+    class AttendanceType(models.TextChoices):
+        PRESENT = "present", "Present"
+        HALF_DAY_LEAVE = "half_day_leave", "Half-day leave"
+        FULL_DAY_LEAVE = "full_day_leave", "Full-day leave"
+
+    class ApprovalStatus(models.TextChoices):
+        PENDING = "pending", "Pending approval"
+        APPROVED = "approved", "Approved"
+        REJECTED = "rejected", "Rejected"
+
+    member = models.ForeignKey(TeamMember, on_delete=models.CASCADE, related_name="attendance_records")
+    attendance_date = models.DateField(default=timezone.localdate)
+    attendance_type = models.CharField(max_length=20, choices=AttendanceType.choices, default=AttendanceType.PRESENT)
+    check_in_at = models.DateTimeField("Entry time", null=True, blank=True)
+    check_out_at = models.DateTimeField("Exit time", null=True, blank=True)
+    approval_status = models.CharField(max_length=12, choices=ApprovalStatus.choices, default=ApprovalStatus.PENDING)
+    note = models.CharField(max_length=240, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ["-attendance_date", "member__name"]
+        constraints = [
+            models.UniqueConstraint(fields=("member", "attendance_date"), name="unique_member_attendance_date"),
+        ]
+        verbose_name = "Member attendance"
+        verbose_name_plural = "Member attendance"
+
+    def save(self, *args, **kwargs):
+        if self.attendance_type == self.AttendanceType.PRESENT:
+            self.approval_status = self.ApprovalStatus.APPROVED
+        else:
+            self.check_in_at = None
+            self.check_out_at = None
+        return super().save(*args, **kwargs)
+
+    @property
+    def worked_hours(self):
+        if not self.check_in_at or not self.check_out_at or self.check_out_at <= self.check_in_at:
+            return Decimal("0.00")
+        seconds = Decimal(str((self.check_out_at - self.check_in_at).total_seconds()))
+        return (seconds / Decimal("3600")).quantize(Decimal("0.01"), rounding=ROUND_HALF_UP)
+
+    def __str__(self):
+        return f"{self.member.name} — {self.attendance_date:%d %B %Y}"
+
+
+def monthly_attendance_salary(member, salary_month, gross_salary):
+    """Return a salary snapshot; Saturdays are the weekly non-working day."""
+    last_day = monthrange(salary_month.year, salary_month.month)[1]
+    working_days = sum(
+        1
+        for day in range(1, last_day + 1)
+        if date(salary_month.year, salary_month.month, day).weekday() != 5
+    )
+    records = list(AttendanceRecord.objects.filter(
+        member=member,
+        attendance_date__year=salary_month.year,
+        attendance_date__month=salary_month.month,
+    ))
+    workday_records = [record for record in records if record.attendance_date.weekday() != 5]
+    present_days = Decimal(sum(
+        record.attendance_type == AttendanceRecord.AttendanceType.PRESENT
+        for record in workday_records
+    ))
+    worked_hours = sum((record.worked_hours for record in workday_records), Decimal("0.00"))
+    approved = [
+        record for record in workday_records
+        if record.approval_status == AttendanceRecord.ApprovalStatus.APPROVED
+    ]
+    full_leave = Decimal(sum(
+        record.attendance_type == AttendanceRecord.AttendanceType.FULL_DAY_LEAVE
+        for record in approved
+    ))
+    half_leave = Decimal(sum(
+        record.attendance_type == AttendanceRecord.AttendanceType.HALF_DAY_LEAVE
+        for record in approved
+    ))
+    leave_units = full_leave + (half_leave * Decimal("0.5"))
+    gross = Decimal(gross_salary)
+    deduction = (
+        (gross / Decimal(working_days)) * leave_units
+        if working_days else Decimal("0.00")
+    ).quantize(Decimal("0.01"), rounding=ROUND_HALF_UP)
+    return {
+        "working_days": working_days,
+        "present_days": present_days,
+        "worked_hours": worked_hours,
+        "leave_units": leave_units,
+        "deduction": deduction,
+        "payable_salary": max(gross - deduction, Decimal("0.00")),
+    }
+
+
+class SalaryAdvance(models.Model):
+    member = models.ForeignKey(
+        TeamMember,
+        on_delete=models.PROTECT,
+        related_name="salary_advances",
+    )
+    salary_record = models.ForeignKey(
+        SalaryRecord,
+        on_delete=models.SET_NULL,
+        related_name="advances",
+        null=True,
+        blank=True,
+    )
+    amount = models.DecimalField(
+        max_digits=12,
+        decimal_places=2,
+        validators=[MinValueValidator(Decimal("0.01"))],
+    )
+    given_on = models.DateField(default=timezone.localdate)
+    note = models.CharField(max_length=240, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ["given_on", "pk"]
+        verbose_name = "Salary advance"
+        verbose_name_plural = "Salary advances"
+
+    def save(self, *args, **kwargs):
+        if self.salary_record_id:
+            self.member_id = self.salary_record.member_id
+        return super().save(*args, **kwargs)
+
+    def __str__(self):
+        return f"{self.member.name} — NPR {self.amount} advance"
+
+
+class SalaryPayment(models.Model):
+    public_id = models.UUIDField(default=uuid.uuid4, unique=True, editable=False)
+    salary_record = models.ForeignKey(
+        SalaryRecord,
+        on_delete=models.CASCADE,
+        related_name="payments",
+    )
+    amount = models.DecimalField(
+        max_digits=12,
+        decimal_places=2,
+        validators=[MinValueValidator(Decimal("0.01"))],
+    )
+    paid_on = models.DateField(default=timezone.localdate)
+    note = models.CharField(max_length=240, blank=True)
+    invoice_year = models.PositiveSmallIntegerField(null=True, blank=True, editable=False)
+    invoice_sequence = models.PositiveIntegerField(null=True, blank=True, editable=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ["-paid_on", "-pk"]
+        constraints = [
+            models.UniqueConstraint(
+                fields=("invoice_year", "invoice_sequence"),
+                name="unique_salary_payment_invoice_number",
+            ),
+        ]
+        verbose_name = "Salary invoice"
+        verbose_name_plural = "Salary invoices"
+
+    def save(self, *args, **kwargs):
+        if self._state.adding and self.invoice_sequence is None:
+            with transaction.atomic():
+                year = self.paid_on.year if self.paid_on else timezone.localdate().year
+                counter, _ = SalaryInvoiceCounter.objects.select_for_update().get_or_create(year=year)
+                counter.last_number += 1
+                counter.save(update_fields=("last_number",))
+                self.invoice_year = year
+                self.invoice_sequence = counter.last_number
+                return super().save(*args, **kwargs)
+        return super().save(*args, **kwargs)
+
+    @property
+    def invoice_number(self):
+        if self.invoice_year and self.invoice_sequence:
+            return f"IVY-SAL-{self.invoice_year}-{self.invoice_sequence:05d}"
+        return "IVY-SAL-DRAFT"
+
+    @property
+    def invoice_filename(self):
+        member = "-".join(self.salary_record.member.name.split())
+        month = self.salary_record.salary_month.strftime("%B-%Y")
+        return f"{member}-Salary-{month}.pdf"
+
+    def __str__(self):
+        return f"{self.invoice_number} — {self.salary_record}"
+
+
+class ClientInvoiceCounter(models.Model):
+    year = models.PositiveSmallIntegerField(unique=True)
+    last_number = models.PositiveIntegerField(default=0)
+
+    class Meta:
+        verbose_name = "Client invoice counter"
+        verbose_name_plural = "Client invoice counters"
+
+    def __str__(self):
+        return f"{self.year}: {self.last_number}"
+
+
+class ClientProjectAccount(models.Model):
+    client_name = models.CharField(max_length=200)
+    client_location = models.CharField(max_length=240)
+    project_started_on = models.DateField(default=timezone.localdate)
+    agreed_amount = models.DecimalField(
+        "Project amount (NPR)",
+        max_digits=14,
+        decimal_places=2,
+        validators=[MinValueValidator(Decimal("0.01"))],
+    )
+    notes = models.TextField(blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ["-project_started_on", "client_name"]
+        verbose_name = "Client project account"
+        verbose_name_plural = "Client project accounts"
+
+    @property
+    def payment_total(self):
+        return sum((entry.amount for entry in self.payments.all()), Decimal("0.00"))
+
+    @property
+    def remaining_amount(self):
+        return max(self.agreed_amount - self.payment_total, Decimal("0.00"))
+
+    @property
+    def payment_status(self):
+        if self.remaining_amount == 0:
+            return "Paid"
+        if self.payment_total:
+            return "Partly paid"
+        return "Awaiting payment"
+
+    def __str__(self):
+        return f"{self.client_name} — {self.project_started_on:%d %B %Y}"
+
+
+class ClientProjectPayment(models.Model):
+    public_id = models.UUIDField(default=uuid.uuid4, unique=True, editable=False)
+    account = models.ForeignKey(
+        ClientProjectAccount,
+        on_delete=models.CASCADE,
+        related_name="payments",
+    )
+    amount = models.DecimalField(
+        max_digits=14,
+        decimal_places=2,
+        validators=[MinValueValidator(Decimal("0.01"))],
+    )
+    paid_on = models.DateField(default=timezone.localdate)
+    note = models.CharField(max_length=240, blank=True)
+    invoice_year = models.PositiveSmallIntegerField(null=True, blank=True, editable=False)
+    invoice_sequence = models.PositiveIntegerField(null=True, blank=True, editable=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ["-paid_on", "-pk"]
+        constraints = [
+            models.UniqueConstraint(
+                fields=("invoice_year", "invoice_sequence"),
+                name="unique_client_project_payment_invoice_number",
+            ),
+        ]
+        verbose_name = "Client payment invoice"
+        verbose_name_plural = "Client payment invoices"
+
+    def save(self, *args, **kwargs):
+        if self._state.adding and self.invoice_sequence is None:
+            with transaction.atomic():
+                year = self.paid_on.year if self.paid_on else timezone.localdate().year
+                counter, _ = ClientInvoiceCounter.objects.select_for_update().get_or_create(year=year)
+                counter.last_number += 1
+                counter.save(update_fields=("last_number",))
+                self.invoice_year = year
+                self.invoice_sequence = counter.last_number
+                return super().save(*args, **kwargs)
+        return super().save(*args, **kwargs)
+
+    @property
+    def invoice_number(self):
+        if self.invoice_year and self.invoice_sequence:
+            return f"IVY-CLI-{self.invoice_year}-{self.invoice_sequence:05d}"
+        return "IVY-CLI-DRAFT"
+
+    @property
+    def invoice_filename(self):
+        client = "-".join(self.account.client_name.split())
+        return f"{client}-{self.invoice_number}.pdf"
+
+    def __str__(self):
+        return f"{self.invoice_number} — {self.account.client_name}"
     
 #for popup ads 
 class Service(models.Model):

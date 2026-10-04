@@ -4,7 +4,7 @@ from celery import shared_task
 from django.conf import settings
 from django.utils import timezone
 
-from .models import SupportConversation
+from .models import ActiveVisitor, ContactMessage, RoomEstimate, SecurityThrottle, SupportConversation
 from .support import activate_bot
 
 
@@ -45,3 +45,13 @@ def delete_expired_support_conversations():
         resolved_at__lt=cutoff,
     ).delete()
     return deleted
+
+
+@shared_task(ignore_result=True)
+def delete_expired_customer_data():
+    cutoff = timezone.now() - timedelta(days=settings.IVORY_CUSTOMER_DATA_RETENTION_DAYS)
+    estimates, _ = RoomEstimate.objects.filter(created_at__lt=cutoff).delete()
+    contacts, _ = ContactMessage.objects.filter(created_at__lt=cutoff).delete()
+    visitors, _ = ActiveVisitor.objects.filter(last_seen__lt=timezone.now() - timedelta(days=1)).delete()
+    throttles, _ = SecurityThrottle.objects.filter(window_ends__lt=timezone.now() - timedelta(days=1)).delete()
+    return estimates + contacts + visitors + throttles

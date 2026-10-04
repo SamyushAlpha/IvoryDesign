@@ -14,7 +14,7 @@ from .models import (
 )
 
 logger = logging.getLogger(__name__)
-CONTACT_CHANNELS = "Contact the team at +977 9825776806 or hello@ivorydesign.com, or use the Contact form below."
+CONTACT_CHANNELS = "Contact the team at +977 9825776806 or ivorydesign2083@gmail.com, or use the Contact form below."
 SQ_FT = r"(?:sq\.?\s*(?:ft|feet|foot)\.?|square[\s-]*(?:feet|foot)|ft[²2]|sft)\b"
 AREA = re.compile(r"(?<![\w.,])(?P<number>[+−-]?(?:\d[\d,]*(?:\.\d+)?|\.\d+))\s*" + SQ_FT, re.I)
 AREA_HELP = "For an estimate, enter one positive floor area in square feet, e.g. 1,000 sq ft. I cannot estimate ranges, dimensions, other units, or areas above 1,000,000 sq ft; please request a quote."

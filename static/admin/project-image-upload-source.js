@@ -1,17 +1,25 @@
 import { upload } from '@vercel/blob/client';
 
 function initializeProjectImageUpload() {
-  const form = document.querySelector('form[method="post"]');
+  // Jazzmin includes other POST forms (such as logout) before the object form.
+  // Bind specifically to the Django change form or uploads will never intercept.
+  const form = document.querySelector('#project_form');
   if (!form || form.dataset.projectImageUploadReady) return;
   form.dataset.projectImageUploadReady = 'true';
 
   function pairs() {
     return [...form.querySelectorAll('input[type="file"][name="image_upload"], input[type="file"][name$="-image_upload"]')]
       .map(chooser => {
-        const urlName = chooser.name.replace(/image_upload$/, 'image');
-        return { chooser, urlInput: form.querySelector(`input[name="${CSS.escape(urlName)}"]`) };
-      })
-      .filter(pair => pair.urlInput);
+        const urlName = chooser.name.replace(/image_upload$/, 'image_url');
+        let urlInput = form.querySelector(`input[name="${CSS.escape(urlName)}"]`);
+        if (!urlInput) {
+          urlInput = document.createElement('input');
+          urlInput.type = 'hidden';
+          urlInput.name = urlName;
+          form.appendChild(urlInput);
+        }
+        return { chooser, urlInput };
+      });
   }
 
   let uploaded = false;

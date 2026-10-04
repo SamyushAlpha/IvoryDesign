@@ -3,7 +3,7 @@ from django.contrib.auth.models import Permission
 from django.test import TestCase
 from django.urls import reverse
 
-from .models import Project, ProjectCategory
+from .models import Project, ProjectCategory, TeamMember
 
 
 class StaffAccessTests(TestCase):
@@ -70,6 +70,11 @@ class StaffAccessTests(TestCase):
         self.assertEqual(self.client.get(reverse("admin:auth_group_add")).status_code, 200)
 
         view_project = Permission.objects.get(codename="view_project")
+        member = TeamMember.objects.create(
+            name="Linked staff member",
+            designation="Architect",
+            photo="team/linked.jpg",
+        )
         response = self.client.post(reverse("admin:auth_user_add"), {
             "username": "new-project-viewer",
             "password1": "Cobalt-Lantern-7391",
@@ -77,6 +82,7 @@ class StaffAccessTests(TestCase):
             "is_active": "on",
             "is_staff": "on",
             "user_permissions": [view_project.pk],
+            "team_member": member.pk,
             "_save": "Save",
         })
         self.assertEqual(response.status_code, 302)
@@ -84,3 +90,74 @@ class StaffAccessTests(TestCase):
         self.assertTrue(created.is_staff)
         self.assertTrue(created.has_perm("Ivory.view_project"))
         self.assertFalse(created.has_perm("Ivory.change_project"))
+        member.refresh_from_db()
+        self.assertEqual(member.user, created)
+
+    def test_existing_staff_account_can_be_linked_and_shows_member_photo(self):
+        owner = get_user_model().objects.create_superuser(
+            username="existing-owner",
+            password="strong-owner-password",
+            email="owner@example.com",
+        )
+        member = TeamMember.objects.create(
+            name="Existing account member",
+            designation="Designer",
+            photo="team/existing-member.jpg",
+        )
+        self.client.force_login(owner)
+
+        change_page = self.client.get(reverse("admin:auth_user_change", args=[owner.pk]))
+        self.assertEqual(change_page.status_code, 200)
+        self.assertContains(change_page, 'name="team_member"')
+        self.assertContains(change_page, "Existing account member")
+
+        response = self.client.post(reverse("admin:auth_user_change", args=[owner.pk]), {
+            "username": owner.username,
+            "email": owner.email,
+            "is_active": "on",
+            "is_staff": "on",
+            "is_superuser": "on",
+            "team_member": member.pk,
+            "date_joined_0": owner.date_joined.date().isoformat(),
+            "date_joined_1": owner.date_joined.time().strftime("%H:%M:%S"),
+            "_save": "Save",
+        })
+        self.assertEqual(response.status_code, 302)
+        member.refresh_from_db()
+        self.assertEqual(member.user, owner)
+
+        dashboard = self.client.get(reverse("admin:index"))
+        self.assertEqual(dashboard.status_code, 200)
+        self.assertContains(dashboard, "/media/team/existing-member.jpg")
+
+    def test_live_support_checkbox_grants_existing_member_chat_access(self):
+        owner = get_user_model().objects.create_superuser(
+            username="support-owner",
+            password="strong-owner-password",
+        )
+        member_user = get_user_model().objects.create_user(
+            username="support-member",
+            password="strong-member-password",
+            is_staff=True,
+        )
+        self.client.force_login(owner)
+
+        change_page = self.client.get(reverse("admin:auth_user_change", args=[member_user.pk]))
+        self.assertContains(change_page, "Live Support access")
+
+        response = self.client.post(reverse("admin:auth_user_change", args=[member_user.pk]), {
+            "username": member_user.username,
+            "is_active": "on",
+            "is_staff": "on",
+            "can_use_live_support": "on",
+            "date_joined_0": member_user.date_joined.date().isoformat(),
+            "date_joined_1": member_user.date_joined.time().strftime("%H:%M:%S"),
+            "_save": "Save",
+        })
+        self.assertEqual(response.status_code, 302)
+        member_user.refresh_from_db()
+        self.assertTrue(member_user.has_perm("Ivory.view_supportconversation"))
+        self.assertTrue(member_user.has_perm("Ivory.change_supportconversation"))
+
+        self.client.force_login(member_user)
+        self.assertEqual(self.client.get(reverse("support_inbox")).status_code, 200)

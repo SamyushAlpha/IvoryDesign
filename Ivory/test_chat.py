@@ -26,7 +26,7 @@ class StudioReplyTests(TestCase):
                     self.assertEqual(chat.chat_reply(question), (expected, "faq"))
             reply, source = chat.chat_reply("Where are you located?")
             self.assertEqual(source, "faq")
-            for fact in ("Kathmandu", "+977 9825776806", "hello@ivorydesign.com"):
+            for fact in ("Kathmandu", "+977 9825776806", "ivorydesign2083@gmail.com"):
                 self.assertIn(fact, reply)
             for question in ("How do I start a project?", "What are your prices?", "Book a consultation"):
                 reply, source = chat.chat_reply(question)

@@ -1,0 +1,191 @@
+.payroll-guide {
+  display: grid;
+  grid-template-columns: minmax(250px, .8fr) minmax(460px, 1.2fr);
+  gap: 28px;
+  margin: 0 0 24px;
+  padding: 26px;
+  border: 1px solid rgba(183, 154, 90, .45);
+  border-radius: 8px;
+  background: linear-gradient(135deg, rgba(183, 154, 90, .14), rgba(19, 35, 33, .04));
+}
+
+.payroll-guide-heading > span,
+.salary-eyebrow { color: #b79a5a; font-size: 11px; font-weight: 700; letter-spacing: .18em; }
+.payroll-guide-heading h2 { margin: 8px 0; color: inherit; font-size: 22px; }
+.payroll-guide-heading p { margin: 0; color: inherit; opacity: .78; line-height: 1.55; }
+
+.payroll-steps {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.payroll-steps li {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 16px;
+  border: 1px solid rgba(183, 154, 90, .28);
+  border-radius: 6px;
+  background: rgba(255, 255, 255, .055);
+}
+
+.payroll-steps strong { color: #d2b66f; font-size: 13px; }
+.payroll-steps span { font-size: 12px; line-height: 1.45; opacity: .78; }
+.salary-member { display: flex; flex-direction: column; gap: 2px; }
+.salary-member small { color: #8b9692; font-size: 11px; }
+
+.salary-status {
+  display: inline-flex;
+  align-items: center;
+  padding: 5px 10px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .04em;
+  white-space: nowrap;
+}
+
+.salary-status.is-paid { background: #dff3e7; color: #146437; }
+.salary-status.is-partial { background: #fff0ce; color: #7b5400; }
+.salary-status.is-pending { background: #f5e4e2; color: #8b3028; }
+
+.salary-actions { display: inline-flex; align-items: center; gap: 9px; white-space: nowrap; }
+.salary-actions .button {
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  margin: 0 !important;
+  padding: 6px 10px !important;
+  border: 1px solid rgba(183, 154, 90, .5) !important;
+  border-radius: 4px !important;
+}
+
+.salary-actions .button.salary-pay {
+  background: #b79a5a !important;
+  color: #132321 !important;
+  border-color: #b79a5a !important;
+  font-weight: 700;
+}
+
+.payroll-submit-row { display: flex; align-items: center; justify-content: flex-end; gap: 16px; }
+.payroll-save-note { margin: 0 auto 0 0 !important; color: inherit !important; opacity: .72; }
+.client-payment-link { display: inline-flex; align-items: center; padding: 10px 16px !important; }
+
+#id_advances_to_deduct {
+  display: grid;
+  gap: 10px;
+  padding: 14px;
+  border: 1px solid rgba(183, 154, 90, .35);
+  border-radius: 6px;
+}
+
+.payroll-advance-choice {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 0;
+  padding: 12px 14px;
+  border-radius: 5px;
+  background: rgba(183, 154, 90, .08);
+  cursor: pointer;
+}
+
+.payroll-advance-choice input { width: 18px; height: 18px; margin: 0; }
+.payroll-advance-choice span { font-weight: 600; }
+
+.salary-pay-layout {
+  display: grid;
+  grid-template-columns: minmax(260px, .75fr) minmax(420px, 1.25fr);
+  gap: 24px;
+  max-width: 980px;
+}
+
+.salary-pay-summary,
+.salary-pay-form {
+  padding: 30px;
+  border: 1px solid #dfe4e2;
+  border-radius: 8px;
+  background: #fff;
+  color: #132321;
+  box-shadow: 0 10px 30px rgba(19, 35, 33, .06);
+}
+
+.salary-pay-summary h2,
+.salary-pay-form h1 { margin: 12px 0 5px; color: #132321; }
+.salary-pay-summary > p,
+.salary-pay-form > p { margin-top: 0; color: #6d7774; }
+.salary-pay-summary dl { margin: 30px 0 0; }
+.salary-pay-summary dl div { display: flex; justify-content: space-between; gap: 20px; padding: 13px 0; border-bottom: 1px solid #e6e9e8; }
+.salary-pay-summary dt { color: #6d7774; }
+.salary-pay-summary dd { margin: 0; color: #132321; font-weight: 700; }
+.salary-pay-summary .salary-pending-row { margin-top: 8px; padding: 16px; border-bottom: 0; background: #edf2f0; }
+.salary-form-row { margin-top: 22px; }
+.salary-form-row label { display: block; margin-bottom: 7px; color: #273734; font-weight: 600; }
+.salary-form-row input,
+.salary-form-row textarea { box-sizing: border-box; width: 100%; max-width: none; padding: 11px 12px; border: 1px solid #cbd2cf; border-radius: 5px; background: #fff; color: #132321; }
+.salary-form-row input:focus,
+.salary-form-row textarea:focus { border-color: #967a3e; outline: 0; box-shadow: 0 0 0 2px rgba(150, 122, 62, .14); }
+.salary-form-row .errorlist { margin: 6px 0 0; padding-left: 18px; color: #9b3026; }
+
+.salary-form-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 18px;
+  margin-top: 28px;
+  padding-top: 22px;
+  border-top: 1px solid #e6e9e8;
+}
+
+.salary-form-actions a { color: #596562; }
+.salary-form-actions button { padding: 12px 18px; border: 0; border-radius: 4px; background: #132321 !important; color: #fff !important; font-weight: 700; cursor: pointer; }
+
+@media (max-width: 1000px) {
+  .payroll-guide { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 800px) {
+  .payroll-steps,
+  .salary-pay-layout { grid-template-columns: 1fr; }
+  .salary-pay-summary,
+  .salary-pay-form { padding: 22px; }
+  .salary-actions { align-items: stretch; flex-direction: column; }
+}
+.attendance-clock {
+  align-items: center;
+  background: linear-gradient(135deg, #172321, #243532);
+  border: 1px solid rgba(210, 184, 95, .35);
+  border-radius: 12px;
+  color: #f7f2e8;
+  display: flex;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 24px;
+  padding: 22px 24px;
+}
+.attendance-clock__eyebrow { color: #d2b85f; font-size: 11px; font-weight: 800; letter-spacing: .16em; }
+.attendance-clock h2 { color: #fff; font-size: 22px; font-weight: 700; margin: 5px 0 3px; }
+.attendance-clock p { color: #cbd5d1; margin: 0; }
+.attendance-clock__actions form { margin: 0; }
+.attendance-clock__actions button,
+.attendance-clock__complete {
+  background: #d2b85f;
+  border: 0;
+  border-radius: 9px;
+  color: #172321;
+  cursor: pointer;
+  display: inline-flex;
+  font-weight: 800;
+  padding: 12px 22px;
+  white-space: nowrap;
+}
+.attendance-clock__actions button.is-exit { background: #f7f2e8; }
+.attendance-clock__complete { background: #dff5e8; color: #17643a; }
+html:not(.dark) .attendance-clock { background: linear-gradient(135deg, #fbfaf5, #f3efe1); color: #172321; }
+html:not(.dark) .attendance-clock h2 { color: #172321; }
+html:not(.dark) .attendance-clock p { color: #596763; }
+@media (max-width: 640px) { .attendance-clock { align-items: flex-start; flex-direction: column; } }

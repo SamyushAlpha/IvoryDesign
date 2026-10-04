@@ -382,6 +382,16 @@ Without Docker, export the same three environment variables before running Djang
 Django itself does not automatically load `.env`. Restart Django after changing
 them. Set the mode back to `console` for non-delivering local previews.
 
+### WhatsApp form confirmation
+
+Create and approve a WhatsApp Business template named `ivory_form_submitted` in
+Meta Business Manager. Its body should contain one name variable, for example:
+`Hello {{1}}, your form has been submitted successfully to Ivory Design. We will
+get in touch with you soon.` Add `WHATSAPP_PHONE_NUMBER_ID` and a permanent
+`WHATSAPP_ACCESS_TOKEN` to the Vercel Production environment, then redeploy.
+The other WhatsApp values in `.env.example` can keep their defaults. WhatsApp
+delivery remains disabled until both credentials are configured.
+
 The form is saved first, exactly as before. Email is attempted synchronously after
 the save; a delivery/asset error is logged with the enquiry ID and exception type,
 without credentials or form contents. It does not delete the saved enquiry or

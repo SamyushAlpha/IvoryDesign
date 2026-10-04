@@ -1,0 +1,15 @@
+{% extends "admin/change_form.html" %}
+
+{% block form_top %}
+  <p class="payroll-form-intro"><strong>This starts as an unpaid balance.</strong> Attendance is calculated when this is saved. Approved full-day and half-day leave reduces the salary; Saturdays are excluded. Then record payments to create invoices.</p>
+{% endblock %}
+
+{% block submit_buttons_bottom %}
+  {{ block.super }}
+  {% if add or original.pending_amount %}
+  <div class="submit-row payroll-submit-row">
+    <p class="deletelink-box payroll-save-note">Use this when the salary is being paid now.</p>
+    <input type="submit" value="Save & pay balance" name="_save_and_pay" class="default">
+  </div>
+  {% endif %}
+{% endblock %}

@@ -1,0 +1,23 @@
+{% extends "admin/change_list.html" %}
+{% load static %}
+
+{% block extrastyle %}
+  {{ block.super }}
+  <link rel="stylesheet" href="{% static 'admin/payroll.css' %}">
+{% endblock %}
+
+{% block content %}
+<section class="payroll-guide" aria-labelledby="payroll-guide-title">
+  <div class="payroll-guide-heading">
+    <span>PAYROLL WORKFLOW</span>
+    <h2 id="payroll-guide-title">One place to manage each month’s salary</h2>
+    <p>A monthly salary starts as money owed after approved full-day and half-day leave deductions are calculated.</p>
+  </div>
+  <ol class="payroll-steps">
+    <li><strong>1. Review attendance</strong><span>Approve leave requests, then add the team member’s monthly salary.</span></li>
+    <li><strong>2. Choose advances</strong><span>Create advances separately, then select which ones to deduct in the monthly salary’s Salary advances tab.</span></li>
+    <li><strong>3. Pay &amp; create invoice</strong><span>The approved leave deduction appears in the salary record and PDF invoice.</span></li>
+  </ol>
+</section>
+{{ block.super }}
+{% endblock %}

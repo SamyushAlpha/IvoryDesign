@@ -16,6 +16,7 @@ from pathlib import Path
 
 from django.core.exceptions import ImproperlyConfigured, ValidationError
 from django.core.validators import validate_email
+from django.templatetags.static import static
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -49,7 +50,10 @@ CSRF_TRUSTED_ORIGINS = [item.strip() for item in os.environ.get("DJANGO_CSRF_TRU
 
 INSTALLED_APPS = [
     'daphne',
-    'jazzmin',
+    'unfold',
+    'unfold.contrib.filters',
+    'unfold.contrib.forms',
+    'unfold.contrib.inlines',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -545,6 +549,131 @@ JAZZMIN_UI_TWEAKS = {
     },
 
     "actions_sticky_top": True,
+}
+
+
+# ==========================================================
+# UNFOLD ADMIN
+# ==========================================================
+
+UNFOLD = {
+    "SITE_TITLE": "Ivory Interior & Design Admin",
+    "SITE_HEADER": "IVORY ARVENA",
+    "SITE_SUBHEADER": "Interior & Design",
+    "SITE_URL": "/",
+    "SITE_SYMBOL": "architecture",
+    "SITE_ICON": lambda request: static("images/ivory-arvena-favicon-v2.png"),
+    "SITE_FAVICONS": [
+        {
+            "rel": "icon",
+            "sizes": "32x32",
+            "type": "image/png",
+            "href": lambda request: static("images/ivory-arvena-favicon-v2.png"),
+        },
+    ],
+    "BORDER_RADIUS": "8px",
+    "SHOW_HISTORY": True,
+    "SHOW_VIEW_ON_SITE": True,
+    "SHOW_BACK_BUTTON": True,
+    "DASHBOARD_CALLBACK": "Ivory.admin_dashboard.dashboard_callback",
+    "SIDEBAR": {
+        "show_search": True,
+        "show_all_applications": False,
+        "navigation": [
+            {
+                "title": "Overview",
+                "separator": True,
+                "items": [
+                    {"title": "Dashboard", "icon": "dashboard", "link": "/my-lo/"},
+                    {
+                        "title": "Live Support",
+                        "icon": "forum",
+                        "link": "/my-lo/support/",
+                        "permission": lambda request: request.user.has_perm("Ivory.view_supportconversation"),
+                    },
+                    {"title": "View website", "icon": "language", "link": "/"},
+                ],
+            },
+            {
+                "title": "Clients & Finance",
+                "separator": True,
+                "collapsible": True,
+                "items": [
+                    {"title": "Client project accounts", "icon": "account_balance_wallet", "link": "/my-lo/Ivory/clientprojectaccount/"},
+                    {"title": "Client payment invoices", "icon": "receipt_long", "link": "/my-lo/Ivory/clientprojectpayment/"},
+                    {"title": "Monthly salaries", "icon": "payments", "link": "/my-lo/Ivory/salaryrecord/"},
+                    {"title": "Salary advances", "icon": "request_quote", "link": "/my-lo/Ivory/salaryadvance/"},
+                    {"title": "Salary invoices", "icon": "description", "link": "/my-lo/Ivory/salarypayment/"},
+                    {"title": "Room estimates", "icon": "calculate", "link": "/my-lo/Ivory/roomestimate/"},
+                ],
+            },
+            {
+                "title": "Team",
+                "separator": True,
+                "collapsible": True,
+                "items": [
+                    {"title": "Member attendance", "icon": "how_to_reg", "link": "/my-lo/Ivory/attendancerecord/"},
+                    {"title": "Team members", "icon": "groups", "link": "/my-lo/Ivory/teammember/"},
+                    {"title": "Team portfolios", "icon": "badge", "link": "/my-lo/Ivory/teamportfolio/"},
+                ],
+            },
+            {
+                "title": "Website content",
+                "separator": True,
+                "collapsible": True,
+                "items": [
+                    {"title": "Projects", "icon": "architecture", "link": "/my-lo/Ivory/project/"},
+                    {"title": "Project categories", "icon": "category", "link": "/my-lo/Ivory/projectcategory/"},
+                    {"title": "Services", "icon": "design_services", "link": "/my-lo/Ivory/service/"},
+                    {"title": "About company", "icon": "business", "link": "/my-lo/Ivory/aboutcompany/"},
+                    {"title": "Client logos", "icon": "handshake", "link": "/my-lo/Ivory/client/"},
+                    {"title": "Popup advertisements", "icon": "campaign", "link": "/my-lo/Ivory/popupad/"},
+                    {"title": "Contact messages", "icon": "mail", "link": "/my-lo/Ivory/contactmessage/"},
+                ],
+            },
+            {
+                "title": "Support settings",
+                "separator": True,
+                "collapsible": True,
+                "items": [
+                    {"title": "Support conversations", "icon": "chat", "link": "/my-lo/Ivory/supportconversation/"},
+                    {"title": "Custom chat FAQs", "icon": "quiz", "link": "/my-lo/Ivory/customfaq/"},
+                    {"title": "Chat business information", "icon": "info", "link": "/my-lo/Ivory/businessinformation/"},
+                ],
+            },
+            {
+                "title": "Administration",
+                "separator": True,
+                "collapsible": True,
+                "items": [
+                    {"title": "Users", "icon": "person", "link": "/my-lo/auth/user/", "permission": lambda request: request.user.is_superuser},
+                    {"title": "Access roles", "icon": "admin_panel_settings", "link": "/my-lo/auth/group/", "permission": lambda request: request.user.is_superuser},
+                    {"title": "Website statistics", "icon": "analytics", "link": "/my-lo/Ivory/sitestatistics/"},
+                ],
+            },
+        ],
+    },
+    "STYLES": [
+        lambda request: static("admin/unfold-admin.css"),
+    ],
+    "SCRIPTS": [
+        lambda request: static("admin/support-notifications.js"),
+    ],
+    "COLORS": {
+        "primary": {
+            "50": "oklch(97.9% 0.016 91.5)",
+            "100": "oklch(95.3% 0.036 91.5)",
+            "200": "oklch(90.2% 0.071 91.5)",
+            "300": "oklch(82.7% 0.105 91.5)",
+            "400": "oklch(73.8% 0.116 91.5)",
+            "500": "oklch(66.8% 0.105 91.5)",
+            "600": "oklch(57.5% 0.089 91.5)",
+            "700": "oklch(48.2% 0.071 91.5)",
+            "800": "oklch(41.1% 0.057 91.5)",
+            "900": "oklch(35.9% 0.047 91.5)",
+            "950": "oklch(22.5% 0.028 91.5)",
+        },
+    },
 }
 
 

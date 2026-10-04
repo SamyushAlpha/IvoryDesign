@@ -1,0 +1,8 @@
+{% extends "admin/change_list.html" %}
+
+{% block object-tools-items %}
+  {{ block.super }}
+  {% if request.user.is_superuser %}
+    <li><a href="{{ reset_invoice_url }}" class="deletelink">Reset invoice numbering</a></li>
+  {% endif %}
+{% endblock %}

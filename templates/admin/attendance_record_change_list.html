@@ -1,0 +1,39 @@
+{% extends "admin/change_list.html" %}
+{% load static %}
+
+{% block extrastyle %}
+  {{ block.super }}
+  <link rel="stylesheet" href="{% static 'admin/payroll.css' %}">
+{% endblock %}
+
+{% block content %}
+{% if clock_member %}
+  <section class="attendance-clock" aria-labelledby="attendance-clock-title">
+    <div>
+      <span class="attendance-clock__eyebrow">TODAY'S ATTENDANCE</span>
+      <h2 id="attendance-clock-title">{{ clock_member.name }}</h2>
+      {% if today_attendance.attendance_type == "present" %}
+        <p>
+          Entry: <strong>{% if today_attendance.check_in_at %}{{ today_attendance.check_in_at|date:"g:i A" }}{% else %}Not recorded{% endif %}</strong>
+          · Exit: <strong>{% if today_attendance.check_out_at %}{{ today_attendance.check_out_at|date:"g:i A" }}{% else %}Not recorded{% endif %}</strong>
+          {% if today_attendance.check_out_at %}· Worked: <strong>{{ today_attendance.worked_hours }} hours</strong>{% endif %}
+        </p>
+      {% elif today_attendance %}
+        <p>{{ today_attendance.get_attendance_type_display }} is recorded for today.</p>
+      {% else %}
+        <p>Record your entry when you arrive and your exit when you finish work.</p>
+      {% endif %}
+    </div>
+    <div class="attendance-clock__actions">
+      {% if not today_attendance or today_attendance.attendance_type == "present" and not today_attendance.check_in_at %}
+        <form method="post" action="{% url 'admin:attendance_check_in' %}">{% csrf_token %}<button type="submit">Check in</button></form>
+      {% elif today_attendance.attendance_type == "present" and not today_attendance.check_out_at %}
+        <form method="post" action="{% url 'admin:attendance_check_out' %}">{% csrf_token %}<button type="submit" class="is-exit">Check out</button></form>
+      {% elif today_attendance.attendance_type == "present" %}
+        <span class="attendance-clock__complete">Day complete</span>
+      {% endif %}
+    </div>
+  </section>
+{% endif %}
+{{ block.super }}
+{% endblock %}

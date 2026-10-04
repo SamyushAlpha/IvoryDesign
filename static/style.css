@@ -225,6 +225,43 @@ body.popup-open {
     gap: 42px;
 }
 
+.ivory-about-menu {
+    position: relative;
+}
+
+.ivory-about-menu__items {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: 40;
+    display: grid;
+    min-width: 190px;
+    padding: 8px 0;
+    background: transparent;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(6px);
+    transition: opacity .2s ease, transform .2s ease, visibility .2s;
+}
+
+.ivory-about-menu:hover .ivory-about-menu__items,
+.ivory-about-menu:focus-within .ivory-about-menu__items {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.ivory-about-menu__items a {
+    display: block;
+    padding: 12px 16px !important;
+    white-space: nowrap;
+}
+
+.ivory-about-menu__items a:hover,
+.ivory-about-menu__items a:focus-visible {
+    background: rgba(255, 255, 255, .12);
+}
+
 .ivory-contact-cluster {
     display: inline-flex;
     align-items: center;
@@ -421,6 +458,12 @@ body.popup-open {
     font-size: 11px;
 
     letter-spacing: 0.20em;
+}
+
+.ivory-mobile-about-menu__items a {
+    padding-left: 20px;
+    font-size: 10px;
+    opacity: .82;
 }
 
 
@@ -3369,6 +3412,9 @@ body.popup-open {
 .ivory-nav-links a { padding:9px 13px; border-radius:999px; transition:color .25s ease,background-color .25s ease,transform .25s ease,opacity .25s ease; }
 .ivory-nav-links a::after { display:none; }
 .ivory-nav-links a:hover { background:rgba(255,255,255,.14); transform:translateY(-2px); }
+.ivory-nav-links .ivory-about-menu__items a { border-radius:0; background-image:none; transform:none; }
+.ivory-nav-links .ivory-about-menu__items a:hover,
+.ivory-nav-links .ivory-about-menu__items a:focus-visible { background:rgba(255,255,255,.12); transform:none; }
 .work-card { border-radius:clamp(18px,2vw,32px); transform:translateZ(0); transition:transform .45s cubic-bezier(.2,.8,.2,1),box-shadow .45s ease; }
 .work-card:nth-child(even) { border-radius:clamp(36px,5vw,76px) clamp(18px,2vw,32px) clamp(36px,5vw,76px) clamp(18px,2vw,32px); }
 .work-card:hover { transform:translateY(-8px) rotate(.35deg); box-shadow:0 24px 55px rgba(30,26,20,.18); }

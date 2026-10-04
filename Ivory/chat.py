@@ -3,14 +3,13 @@
 import json
 import logging
 import re
-import secrets
 import time
 
 from django.conf import settings
-from django.core.cache import cache
 from django.core.exceptions import RequestDataTooBig
 from django.http import JsonResponse, StreamingHttpResponse
 from django.views.decorators.cache import never_cache
+from .security import rate_limited
 from django.views.decorators.csrf import csrf_protect
 
 from .business_faq import business_reply
@@ -24,8 +23,8 @@ MAX_REPLY_LENGTH = 1800
 MAX_STREAM_SECONDS = 30
 
 CONTACT = (
-    "Contact Ivory Design Studio at +977 9825776806 or "
-    "hello@ivorydesign.com. Use the Contact form below to tell the team about your space."
+    "Contact Ivory Arvena Interior & Design at +977 9825776806 or "
+    "ivorydesign2083@gmail.com. Use the Contact form below to tell the team about your space."
 )
 CONSULTATION = (
     "For a quote or consultation, use the Contact form below with your name, email, "
@@ -34,7 +33,7 @@ CONSULTATION = (
     "and timelines. This chat cannot book appointments."
 )
 SERVICES = (
-    "Ivory Design Studio focuses on interior architecture, interior design, and art. "
+    "Ivory Arvena Interior & Design focuses on interior architecture, interior design, and art. "
     "The studio describes its work as timeless spaces where form meets feeling. "
     "For the exact scope available for your project, contact the team below."
 )
@@ -43,7 +42,7 @@ PORTFOLIO = (
     "also showcases selected projects. Contact the studio to discuss work relevant to your space."
 )
 ABOUT = (
-    "Ivory Design Studio brings together "
+    "Ivory Arvena Interior & Design brings together "
     "architecture, materials, light, and emotion in its interiors. Visit About or "
     "Projects to learn more, or use the Contact form below."
 )
@@ -57,7 +56,7 @@ UNAVAILABLE = (
     "services, portfolio, and contact details. Please use the Contact form below "
     "for advice, quotes, or a consultation with the Ivory Design team."
 )
-INSTRUCTIONS = """You are Ivory Design Studio's website assistant, not a general chatbot.
+INSTRUCTIONS = """You are Ivory Arvena Interior & Design's website assistant, not a general chatbot.
 Answer only questions about the studio or relevant interior-design guidance.
 Use only the studio facts below for claims about Ivory. General design suggestions
 must be labelled as general guidance, not studio commitments. Admit uncertainty.
@@ -252,23 +251,10 @@ def ask(request):
     if not message or len(message) > MAX_MESSAGE_LENGTH or any(ord(c) < 32 and c not in "\n\t\r" for c in message):
         return _json(f"Please enter a question between 1 and {MAX_MESSAGE_LENGTH} characters.", status=400)
 
-    # Only an opaque rate-limit token is stored in the session, never messages.
-    token = request.session.get("ivory_chat_token")
-    if not token:
-        token = secrets.token_urlsafe(24)
-        request.session["ivory_chat_token"] = token
-    now = int(time.time())
-    key = f"ivory-chat:{token}:{now // RATE_WINDOW}"
-    cache.add(key, 0, timeout=RATE_WINDOW)
-    try:
-        count = cache.incr(key)
-    except ValueError:  # Cache expiry between add and incr.
-        cache.add(key, 1, timeout=RATE_WINDOW)
-        count = 1
-    if count > RATE_LIMIT:
-        retry_after = RATE_WINDOW - now % RATE_WINDOW
+    # A database-backed limiter remains shared across serverless instances.
+    if rate_limited(request, "chat", limit=RATE_LIMIT, window=RATE_WINDOW):
         response = _json("Please pause for a minute before asking another question. You can still use the Contact form.", status=429)
-        response["Retry-After"] = str(retry_after)
+        response["Retry-After"] = str(RATE_WINDOW)
         return response
     if "text/event-stream" in request.headers.get("Accept", ""):
         local = local_reply(message)

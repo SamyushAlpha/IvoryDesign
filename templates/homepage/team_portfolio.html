@@ -8,6 +8,11 @@
         <p class="content-eyebrow">{{ member.designation }}</p>
         <h1>{{ member.name }}</h1>
         <div class="content-copy">{{ member.bio|linebreaks }}</div>
+        {% if member.website_url %}
+        <a class="member-website-link" href="{{ member.website_url }}" target="_blank" rel="noopener noreferrer">
+            Visit website <span aria-hidden="true">↗</span>
+        </a>
+        {% endif %}
     </div>
 </header>
 <h2 class="portfolio-heading">Selected <em>work.</em></h2>

@@ -11,6 +11,27 @@ from .models import ActiveVisitor, Client, Project, ProjectCategory, ProjectImag
 
 
 class ContentPagesTests(TestCase):
+    def test_navigation_and_team_page_use_member_categories(self):
+        TeamMember.objects.create(
+            name="Founder Person",
+            category=TeamMember.Category.FOUNDER,
+            designation="Founder",
+            photo="team/founder.jpg",
+        )
+        TeamMember.objects.create(
+            name="Engineer Person",
+            category=TeamMember.Category.ENGINEERS,
+            designation="Civil Engineer",
+            photo="team/engineer.jpg",
+        )
+
+        response = self.client.get(reverse("about"))
+
+        self.assertContains(response, "OUR TEAM")
+        self.assertContains(response, "Founder")
+        self.assertContains(response, "Engineers")
+        self.assertLess(response.content.index(b"Founder Person"), response.content.index(b"Engineer Person"))
+
     def test_website_metrics_count_each_browser_session_once(self):
         first = self.client.get(reverse("website_metrics")).json()
         repeated = self.client.get(reverse("website_metrics")).json()
@@ -55,7 +76,10 @@ class ContentPagesTests(TestCase):
         self.assertLess(response.content.index(b"First service"), response.content.index(b"Later service"))
 
     def test_portfolio_is_scoped_to_active_member_and_entries(self):
-        member = TeamMember.objects.create(name="Asha", designation="Designer", photo="team/asha.jpg")
+        member = TeamMember.objects.create(
+            name="Asha", designation="Designer", photo="team/asha.jpg",
+            website_url="https://asha.example.com/",
+        )
         other = TeamMember.objects.create(name="Other", designation="Designer", photo="team/other.jpg")
         TeamPortfolio.objects.create(member=member, title="Asha project", image="team/work.jpg")
         TeamPortfolio.objects.create(member=member, title="Draft project", image="team/draft.jpg", is_active=False)
@@ -65,6 +89,9 @@ class ContentPagesTests(TestCase):
         self.assertContains(response, "Asha project")
         self.assertNotContains(response, "Draft project")
         self.assertNotContains(response, "Other project")
+        self.assertContains(response, "Visit website")
+        self.assertContains(response, 'href="https://asha.example.com/"')
+        self.assertContains(response, 'rel="noopener noreferrer"')
         self.assertContains(self.client.get(reverse("about")), f'href="{url}"')
         member.is_active = False
         member.save()
@@ -83,7 +110,9 @@ class ContentPagesTests(TestCase):
         self.assertContains(self.client.get(reverse("services")), "service details will be available soon")
         self.assertEqual(self.client.get(reverse("home")).status_code, 200)
         member = TeamMember.objects.create(name="New member", designation="Designer", photo="team/new.jpg")
-        self.assertContains(self.client.get(reverse("team_portfolio", args=[member.pk])), "Portfolio projects will be shared soon")
+        response = self.client.get(reverse("team_portfolio", args=[member.pk]))
+        self.assertContains(response, "Portfolio projects will be shared soon")
+        self.assertNotContains(response, "Visit website")
 
     def test_admin_can_publish_and_edit_service_and_portfolio(self):
         user = get_user_model().objects.create_superuser(username="editor", password="test-only-password")
@@ -94,7 +123,9 @@ class ContentPagesTests(TestCase):
         self.assertEqual(response.status_code, 302)
         self.assertTrue(Service.objects.filter(title="Admin service", is_active=True).exists())
         member = TeamMember.objects.create(name="Editor member", designation="Designer", photo="team/editor.jpg")
-        self.assertContains(self.client.get(reverse("admin:Ivory_teammember_change", args=[member.pk])), 'portfolio-TOTAL_FORMS')
+        member_admin = self.client.get(reverse("admin:Ivory_teammember_change", args=[member.pk]))
+        self.assertContains(member_admin, 'portfolio-TOTAL_FORMS')
+        self.assertContains(member_admin, 'name="website_url"')
         self.assertEqual(self.client.get(reverse("admin:Ivory_teamportfolio_add")).status_code, 200)
 
     def test_admin_uploads_portfolio_image_under_team_member(self):
@@ -105,7 +136,8 @@ class ContentPagesTests(TestCase):
         Image.new("RGB", (8, 8), "white").save(image, format="PNG")
         with TemporaryDirectory() as media_root, self.settings(MEDIA_ROOT=media_root):
             response = self.client.post(reverse("admin:Ivory_teammember_change", args=[member.pk]), {
-                "name": member.name, "designation": member.designation, "order": 0, "is_active": "on",
+                "name": member.name, "category": member.category,
+                "designation": member.designation, "order": 0, "is_active": "on",
                 "portfolio-TOTAL_FORMS": 1, "portfolio-INITIAL_FORMS": 0,
                 "portfolio-MIN_NUM_FORMS": 0, "portfolio-MAX_NUM_FORMS": 1000,
                 "portfolio-0-member": member.pk, "portfolio-0-title": "Uploaded work",
@@ -125,7 +157,7 @@ class ContentPagesTests(TestCase):
 
     def test_blob_upload_authorization_requires_staff(self):
         self.assertEqual(self.client.get(reverse("staff_blob_upload_authorize")).status_code, 403)
-        user = get_user_model().objects.create_user(username="staff", password="test-only-password", is_staff=True)
+        user = get_user_model().objects.create_superuser(username="staff", password="test-only-password")
         self.client.force_login(user)
         self.assertJSONEqual(self.client.get(reverse("staff_blob_upload_authorize")).content, {"authorized": True})
 
@@ -137,16 +169,17 @@ class ContentPagesTests(TestCase):
         category = ProjectCategory.objects.create(name="Homes", slug="homes")
         add_page = self.client.get(reverse("admin:Ivory_project_add"))
         self.assertContains(add_page, 'name="image_upload"')
+        self.assertNotContains(add_page, 'name="image"')
         self.assertContains(add_page, 'admin/project-image-upload.js')
 
         cover_url = "https://example.public.blob.vercel-storage.com/projects/covers/home.jpg"
         gallery_url = "https://example.public.blob.vercel-storage.com/projects/gallery/lounge.jpg"
         response = self.client.post(reverse("admin:Ivory_project_add"), {
             "name": "Blob Home", "category": category.pk, "description": "A home",
-            "image": cover_url, "location": "Kathmandu", "year": 2026,
+            "image_url": cover_url, "location": "Kathmandu", "year": 2026,
             "featured": "on", "gallery-TOTAL_FORMS": 1,
             "gallery-INITIAL_FORMS": 0, "gallery-MIN_NUM_FORMS": 0,
-            "gallery-MAX_NUM_FORMS": 1000, "gallery-0-image": gallery_url,
+            "gallery-MAX_NUM_FORMS": 1000, "gallery-0-image_url": gallery_url,
             "gallery-0-caption": "Lounge", "gallery-0-description": "Warm interior",
             "gallery-0-order": 0, "_save": "Save",
         })

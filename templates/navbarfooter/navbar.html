@@ -33,9 +33,15 @@
 
     <div class="ivory-nav-links">
 
-        <a href="/about/">
-            ABOUT
-        </a>
+        <div class="ivory-about-menu">
+            <a class="ivory-about-menu__trigger" href="/about/#company" aria-haspopup="true">
+                ABOUT US
+            </a>
+            <div class="ivory-about-menu__items">
+                <a href="/about/#company">ABOUT COMPANY</a>
+                <a href="/about/#team">OUR TEAM</a>
+            </div>
+        </div>
 
         <a href="/projects/">
             PROJECTS
@@ -102,9 +108,13 @@
     id="ivory-mobile-menu"
     class="ivory-mobile-menu">
 
-    <a href="/about/">
-        ABOUT
-    </a>
+    <div class="ivory-mobile-about-menu">
+        <a href="/about/#company">ABOUT US</a>
+        <div class="ivory-mobile-about-menu__items">
+            <a href="/about/#company">ABOUT COMPANY</a>
+            <a href="/about/#team">OUR TEAM</a>
+        </div>
+    </div>
 
     <a href="/projects/">
         PROJECTS

@@ -570,13 +570,21 @@ def about(request):
 
     company = AboutCompany.objects.first()
 
-    team_members = TeamMember.objects.filter(
-        is_active=True
-    )
+    team_members = list(TeamMember.objects.filter(is_active=True))
+    team_groups = [
+        {
+            "key": key,
+            "label": label,
+            "members": [member for member in team_members if member.category == key],
+        }
+        for key, label in TeamMember.Category.choices
+        if any(member.category == key for member in team_members)
+    ]
 
     context = {
         "company": company,
         "team_members": team_members,
+        "team_groups": team_groups,
     }
 
     return render(

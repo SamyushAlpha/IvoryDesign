@@ -5,7 +5,7 @@ export default async function handler(request, response) {
   const body = typeof request.body === 'string' ? JSON.parse(request.body) : request.body;
   if (body?.type === 'blob.generate-client-token') {
     const origin = `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL || request.headers.host}`;
-    const authorization = await fetch(`${origin}/admin/blob-upload-authorize/`, {
+    const authorization = await fetch(`${origin}/my-lo/blob-upload-authorize/`, {
       headers: { cookie: request.headers.cookie || '' },
     });
     if (!authorization.ok) return response.status(403).json({ error: 'Staff login required' });
